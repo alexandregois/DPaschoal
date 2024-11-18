@@ -1,0 +1,223 @@
+<ng-template #loading>
+  <mat-progress-bar
+    color="primary"
+    mode="indeterminate"
+    aria-label="Carregando carrinho"
+  >
+  </mat-progress-bar>
+</ng-template>
+
+<ng-container *ngIf="isSuccessSubmitOrder; else defaultBlock">
+  <div class="kdp-carrinho-vazio">
+    <h1>Pedido realizado com sucesso!</h1>
+    <a
+      mat-flat-button
+      color="primary"
+      routerLink="/"
+    >
+      Ir para as compras
+    </a>
+  </div>
+</ng-container>
+<ng-template #defaultBlock>
+  <ng-container *ngIf="!isLoading; else loading">
+    <ng-template #carrinhoVazio>
+      <div class="kdp-carrinho-vazio">
+        <h1>Seu carrinho está vazio</h1>
+        <a
+          mat-flat-button
+          color="primary"
+          routerLink="/"
+        >
+          Ir para as compras
+        </a>
+      </div>
+    </ng-template>
+
+    <ng-container *ngIf="cartList && cartList.length > 0; else carrinhoVazio">
+      <mat-stepper
+        labelPosition="bottom"
+        linear
+        (selectionChange)="sendShippingLoadEvent($event)"
+      >
+        <mat-step
+          label="Pagamento"
+          #Pagamento
+          [completed]="isCartDefined && isPaymentDefined"
+        >
+          <app-pagamento
+            (total)="loadTotal($event)"
+            (impostos)="loadImpostos($event)"
+            (totalItems)="loadTotalItems($event)"
+            (updateOrderItemList)="updateOrderItemList($event)"
+            (isMotorcycleLock)="updateMotorcycleLock($event)"
+            (carrinhoVazio)="atualizarCarrinho($event)"
+            (valorFaltante)="validarContinuar($event)"
+            [parcelas]="parcelas"
+          ></app-pagamento>
+          <app-table-resumo-pedido
+            [itensUnicos]="
+              cart && cart.cartItems ? cart.cartItems.length : undefined
+            "
+            [totalItens]="totalItems"
+            [total]="total"
+            [frete]="frete"
+            [impostos]="impostos"
+            [despesasAcessorias]="despesasAcessorias"
+            [parcelas]="parcelas"
+          >
+          </app-table-resumo-pedido>
+          <nav *ngIf="cart">
+            <button
+              class="kdp-limpar-carrinho"
+              mat-button
+              color="primary"
+              (click)="deleteAllCartItems(cart.id)"
+            >
+              Limpar carrinho
+            </button>
+            <a
+              mat-button
+              color="primary"
+              routerLink="/"
+            >
+              Adicionar mais produtos
+            </a>
+            <button
+              mat-flat-button
+              color="primary"
+              matStepperNext
+              (click)="goForwardController()"
+            >
+              Continuar
+            </button>
+          </nav>
+        </mat-step>
+        <mat-step
+          label="Frete"
+          #Frete
+          [completed]="isShippingDefined"
+        >
+          <app-frete
+            [total]="total"
+            [impostos]="impostos"
+            [isMotorcycleLock]="isMotorcycleLock"
+          ></app-frete>
+          <app-table-resumo-pedido
+            [itensUnicos]="
+              cart && cart.cartItems ? cart.cartItems.length : undefined
+            "
+            [totalItens]="totalItems"
+            [total]="total"
+            [frete]="frete"
+            [impostos]="impostos"
+            [despesasAcessorias]="despesasAcessorias"
+          >
+          </app-table-resumo-pedido>
+          <nav>
+            <button
+              mat-stroked-button
+              color="primary"
+              matStepperPrevious
+            >
+              Voltar
+            </button>
+            <button
+              mat-flat-button
+              color="primary"
+              matStepperNext
+              [disabled]="!isShippingDefined"
+            >
+              Continuar
+            </button>
+          </nav>
+        </mat-step>
+        <mat-step
+          label="Finalizar"
+          #Finalizar
+        >
+          <app-finalizar
+            *ngIf="
+              paymentTypeDescription?.toLowerCase()?.includes('cartão') &&
+              !isGridView
+            "
+            style="grid-template-columns: 1fr 1fr"
+          ></app-finalizar>
+          <app-finalizar
+            *ngIf="
+              paymentTypeDescription?.toLowerCase()?.includes('cartão') &&
+              isGridView
+            "
+            style="grid-template-columns: 1fr 1fr 1fr; display: flow"
+          ></app-finalizar>
+          <app-finalizar
+            *ngIf="!paymentTypeDescription?.toLowerCase()?.includes('cartão')"
+            style="grid-template-columns: 1fr 1fr 1fr"
+          ></app-finalizar>
+          <app-table-resumo-pedido
+            [itensUnicos]="
+              cart && cart.cartItems ? cart.cartItems.length : undefined
+            "
+            [totalItens]="totalItems"
+            [total]="total"
+            [frete]="frete"
+            [impostos]="impostos"
+            [despesasAcessorias]="despesasAcessorias"
+            [isStepFinalizar]="stepFinalizar"
+            (atualizandoPrice)="isReloadingPrice = $event"
+            [parcelas]="parcelas"
+          >
+          </app-table-resumo-pedido>
+          <mat-progress-bar
+            *ngIf="isSubmittingOrder || isReloadingPrice"
+            color="primary"
+            mode="indeterminate"
+          >
+          </mat-progress-bar>
+          <nav>
+            <button
+              mat-stroked-button
+              color="primary"
+              matStepperPrevious
+              [disabled]="isSubmittingOrder"
+            >
+              Voltar
+            </button>
+            <button
+              mat-flat-button
+              color="primary"
+              matStepperNext
+              [disabled]="isReloadingPrice || isSubmittingOrder"
+              (click)="submitOrder()"
+              *ngIf="!showPaymentButton"
+            >
+              {{
+                isReloadingPrice
+                  ? 'Calculando...'
+                  : isSubmittingOrder
+                  ? 'Enviando pedido...'
+                  : 'Finalizar'
+              }}
+            </button>
+            <button
+              *ngIf="showPaymentButton"
+              (click)="submitOrder()"
+              mat-flat-button
+              color="primary"
+              [disabled]="!isCardFormValid"
+            >
+              {{
+                isReloadingPrice
+                  ? 'Calculando...'
+                  : isSubmittingOrder
+                  ? 'Enviando pedido...'
+                  : 'Finalizar'
+              }}
+            </button>
+          </nav>
+        </mat-step>
+      </mat-stepper>
+      <div id="shopping-cart-offer-beon-placeholder"></div>
+    </ng-container>
+  </ng-container>
+</ng-template>

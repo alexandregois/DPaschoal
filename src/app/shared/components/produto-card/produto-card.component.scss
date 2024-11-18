@@ -1,0 +1,87 @@
+@use '/src/scss/colors';
+
+:host {
+  display: flex;
+}
+
+mat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  &:not([class*='mat-elevation-z']) {
+    box-shadow: none;
+  }
+
+  &:hover {
+    box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%),
+      0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+  }
+}
+
+h2 {
+  margin: 0;
+  height: 67px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+  a {
+    color: colors.$foreground;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+  }
+}
+
+figure {
+  margin: 0;
+}
+
+.tag_favorito,
+.valor_quantidade {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.valor {
+  strong {
+    display: block;
+    margin: 0;
+    min-height: 32px;
+  }
+}
+
+.mat-h2 {
+  margin: 0px;
+  color: colors.$primary;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+footer {
+  grid-area: acoes;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  button {
+    flex: 1 1 auto;
+  }
+
+  button:first-child {
+    flex: 1 1 100%;
+  }
+}

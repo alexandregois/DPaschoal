@@ -1,0 +1,23 @@
+<app-limite-de-credito></app-limite-de-credito>
+<fieldset>
+  <legend class="mat-h4">Minhas finanças</legend>
+  <p>
+    Não é possível imprimir boletos com vencimento acima de 60 dias. Clique no
+    botão Negocie para negociar seu débito
+  </p>
+</fieldset>
+
+<mat-tab-group
+  selectedIndex="0"
+  (selectedTabChange)="changeFinancialTab($event)"
+>
+  <mat-tab label="Em aberto">
+    <app-tab-em-aberto></app-tab-em-aberto>
+  </mat-tab>
+  <mat-tab
+    [disabled]="!isActive"
+    label="Pagos"
+  >
+    <app-tab-pagos *ngIf="tabIndex === 1"></app-tab-pagos>
+  </mat-tab>
+</mat-tab-group>

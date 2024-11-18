@@ -1,0 +1,83 @@
+@use '/src/scss/colors';
+
+mat-card > h2 {
+  color: colors.$primary;
+}
+
+dl {
+  padding-left: 1rem;
+}
+
+dt.mat-h4 {
+  color: colors.$primary;
+  margin: 0;
+}
+
+dd {
+  margin-inline-start: 0;
+  margin: 0 0 1rem;
+}
+
+mat-card {
+  & + & {
+    margin-top: 1rem;
+  }
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.kdp-frete {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  display: inline-grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  width: 100%;
+  max-width: 500px;
+  gap: 0.5rem;
+  grid-template-areas:
+    'kdp-radio kdp-descricao kdp-frete-valor'
+    'kdp-radio kdp-frete-prazo kdp-frete-valor'
+    'kdp-frete-valorminimo kdp-frete-valorminimo kdp-frete-valorminimo';
+}
+
+.kdp-radio {
+  grid-area: kdp-radio;
+  align-self: center;
+}
+
+.kdp-descricao {
+  grid-area: kdp-descricao;
+}
+
+.kdp-frete-valor {
+  grid-area: kdp-frete-valor;
+  text-align: right;
+  font-weight: bold;
+  align-self: center;
+}
+
+.green {
+  color: green;
+}
+
+.kdp-frete-prazo {
+  grid-area: kdp-frete-prazo;
+  font-weight: bold;
+}
+
+.kdp-frete-valorminimo {
+  grid-area: kdp-frete-valorminimo;
+  text-align: right;
+
+  mat-chip {
+    font-size: 0.6rem;
+  }
+}
+
+mat-card > mat-divider {
+  position: relative;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}

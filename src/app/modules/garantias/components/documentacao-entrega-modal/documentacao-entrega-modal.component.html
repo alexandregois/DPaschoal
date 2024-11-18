@@ -1,0 +1,64 @@
+<button
+  mat-icon-button
+  mat-dialog-close
+  aria-label="Fechar"
+>
+  <mat-icon>close</mat-icon>
+</button>
+<h1 mat-dialog-title>Documentação para entrega do produto</h1>
+<mat-divider></mat-divider>
+<section mat-dialog-content>
+  <div
+    class="item_produto"
+    *ngFor="let item of data"
+  >
+    <figure>
+      <img
+        app-img
+        loading="lazy"
+        width="80"
+        height="80"
+        [src]="
+          environment.superkImageUrlPrefix +
+          item.product?.fabricante +
+          '_' +
+          item.product?.codigo +
+          '.jpg'
+        "
+        alt="Sem Imagem"
+      />
+    </figure>
+
+    <header>
+      <h2 class="mat-h4">
+        {{ item.product?.descricao | uppercase }}
+      </h2>
+    </header>
+
+    <div class="documentos">
+      <div
+        *ngFor="let doc of item.documents"
+        [attr.data-index]="item.documentsJson.valueKind"
+      >
+        <span
+          *ngIf="
+            doc.text !==
+            'Sem documento de fornecedor para o centro e material informados!'
+          "
+        >
+          <mat-icon>check_box</mat-icon>
+          {{ doc.count }}. {{ doc.text }}
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+<mat-dialog-actions align="end">
+  <button
+    mat-flat-button
+    color="primary"
+    mat-dialog-close
+  >
+    Voltar
+  </button>
+</mat-dialog-actions>

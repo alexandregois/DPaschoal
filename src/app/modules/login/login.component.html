@@ -1,0 +1,89 @@
+<mat-card class="mat-elevation-z6">
+  <header>
+    <h1 [attr.aria-label]="appTitle">
+      <a routerLink="/">
+        <mat-icon svgIcon="logo"></mat-icon>
+      </a>
+    </h1>
+    <h2>Seja bem-vindo a {{ appTitle }}!</h2>
+    <h3>{{ appSubText }}</h3>
+  </header>
+  <ng-container *ngIf="isLoading; else loginSection">
+    <mat-progress-bar
+      color="primary"
+      mode="indeterminate"
+    ></mat-progress-bar>
+  </ng-container>
+  <ng-template #loginSection>
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <mat-form-field appearance="standard">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          formControlName="userPrincipalName"
+          name="email"
+          required
+        />
+        <mat-error>Insira um e-mail válido</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label>Senha</mat-label>
+        <input
+          matInput
+          formControlName="password"
+          name="password"
+          [type]="showPassword ? 'text' : 'password'"
+          required
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          (click)="togglePasswordVisibility()"
+          [attr.aria-label]="passwordToggleLabel"
+          [attr.aria-pressed]="showPassword"
+        >
+          <mat-icon>
+            {{ showPassword ? 'visibility' : 'visibility_off' }}
+          </mat-icon>
+        </button>
+        <mat-error>Insira uma senha</mat-error>
+      </mat-form-field>
+      <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        >Entrar</button
+      >
+      <button
+        mat-stroked-button
+        [matMenuTriggerFor]="menu"
+        color="primary"
+        type="button"
+      >
+        Criar conta
+      </button>
+      <mat-menu #menu="matMenu">
+        <a
+          mat-menu-item
+          routerLink="/cadastro"
+        >
+          Para sua empresa
+        </a>
+        <a
+          mat-menu-item
+          href="https://www.dpaschoal.com.br/"
+          target="_blank"
+        >
+          Para você (CPF)
+        </a>
+      </mat-menu>
+      <footer>
+        <a routerLink="/recuperar-senha"> Esqueceu a senha? Clique aqui </a>
+      </footer>
+    </form>
+  </ng-template>
+</mat-card>

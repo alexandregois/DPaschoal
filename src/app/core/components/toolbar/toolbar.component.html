@@ -1,0 +1,72 @@
+<mat-toolbar color="primary">
+  <h1>
+    <a
+      routerLink="/"
+      aria-label="Ir para página inicial"
+    >
+      <mat-icon
+        svgIcon="logo"
+        aria-hidden="true"
+      ></mat-icon>
+    </a>
+  </h1>
+  <ng-container *ngIf="isAuth$ | async; else authBusca">
+    <app-search-filter class="app-search"></app-search-filter>
+  </ng-container>
+  <ng-template #authBusca>
+    <div
+      role="search"
+      id="beon-search"
+    ></div>
+  </ng-template>
+
+  <nav>
+    <ng-container *ngIf="isAuth$ | async">
+      <app-toolbar-notification-icon></app-toolbar-notification-icon>
+      <app-toolbar-cart-icon></app-toolbar-cart-icon>
+    </ng-container>
+    <ng-container *ngIf="(isSmallScreen$ | async) === false">
+      <ng-container *ngIf="isAuth$ | async; else authLink">
+        <button
+          mat-icon-button
+          aria-label="Menu"
+          (click)="openDrawer()"
+        >
+          <mat-icon>menu</mat-icon>
+        </button>
+      </ng-container>
+      <ng-template #authLink>
+        <a
+          mat-raised-button
+          routerLink="/login"
+        >
+          Entrar
+        </a>
+      </ng-template>
+    </ng-container>
+    <ng-container *ngIf="(isSmallScreen$ | async) === true">
+      <ng-container *ngIf="isAuth$ | async; else authLink">
+        <button
+          [ngStyle]="{
+            color: portal === 'DPK' ? '#0060a8' : '#7e0f0f'
+          }"
+          mat-icon-button
+          aria-label="Menu"
+          (click)="openDrawer()"
+        >
+          <mat-icon>menu</mat-icon>
+        </button>
+      </ng-container>
+      <ng-template #authLink>
+        <mat-chip
+          color="primary"
+          selected
+          routerLink="/login"
+        >
+          <mat-icon>login</mat-icon>
+          Entrar
+        </mat-chip>
+      </ng-template>
+    </ng-container>
+  </nav>
+</mat-toolbar>

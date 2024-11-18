@@ -1,0 +1,36 @@
+content {
+  display: grid;
+  gap: 1rem;
+  grid-template-areas: 'icone descricao' 'data_hora descricao';
+  grid-template-columns: 1fr 6fr;
+}
+
+.icone {
+  grid-area: icone;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+
+  mat-icon {
+    font-size: 40px;
+    height: 40px;
+    width: 40px;
+  }
+}
+
+.descricao {
+  grid-area: descricao;
+  padding-right: 10px;
+  text-align: justify;
+}
+
+.data_hora {
+  grid-area: data_hora;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+
+.clickable {
+  cursor: pointer;
+}

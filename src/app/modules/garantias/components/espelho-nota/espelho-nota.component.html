@@ -1,0 +1,383 @@
+<content
+  id="notaEspelho"
+  *ngIf="conteudo && impostos"
+>
+  <div class="linha_um">
+    <div class="col_a_um">
+      <label><i class="subcol_a_um_a">IDENTIFICAÇÃO DO EMITENTE</i></label>
+      <div class="subcol_a_um_b">
+        <strong> {{ dadosCnpj?.name }} - {{ dadosCnpj?.size }} </strong>
+        <span mat-h1> {{ dadosCnpj?.address?.street }} </span>
+        <span mat-h1> {{ dadosCnpj?.address?.number }} </span>
+        <span mat-h1>
+          {{ dadosCnpj?.address?.district }} -
+          {{ dadosCnpj?.address?.postalCode }}
+        </span>
+        <span mat-h1>
+          {{ dadosCnpj?.address?.city?.name }} - {{ dadosCnpj?.address?.state }}
+        </span>
+        <span mat-h1>
+          Fone/Fax: {{ dadosCnpj.phones[0].ddd }}
+          {{ dadosCnpj.phones[0].number }}
+        </span>
+        <span mat-h1> </span>
+      </div>
+    </div>
+    <div class="col_b_um">
+      <div class="subcol_b_um_a">
+        <strong>DANFE</strong>
+        <span mat-h2>Documento Auxiliar da Nota Fiscal Eletrônica</span>
+      </div>
+      <div class="subcol_b_um_b">
+        <span class="entrada"> 0 - ENTRADA </span>
+        <span class="saida"> 1 - SAÍDA </span>
+        <div class="numero"><strong>1</strong></div>
+      </div>
+      <div class="subcol_b_um_c">
+        <strong>N°. </strong>
+        <strong>Série </strong>
+        <span><i>Folha 1/1</i></span>
+      </div>
+    </div>
+    <div class="col_c_um"></div>
+    <div class="col_d_um"><label>CHAVE DE ACESSO</label></div>
+    <div class="col_e_um">
+      <span>Consulta de autenticidade no portal nacional da NF-e</span>
+      <span>
+        www.nfe.fazenda.gov.br/portal ou no dite da Sefaz Autorizadora
+      </span>
+    </div>
+    <div class="col_f_um">
+      <label> NATUREZA DA OPERAÇÃO</label>
+      <strong>
+        {{ conteudo.items[0].cfopCode }} - DEVOLUÇÃO EM GARANTIA
+      </strong>
+    </div>
+    <div class="col_g_um"><label>PROTOCOLO DE AUTORIZAÇÃO DE USO</label></div>
+  </div>
+  <div class="linha_dois">
+    <div class="col_a_dois">
+      <label>INSCRIÇÃO ESTADUAL</label>
+      <strong> {{ dadosCnpj.federalTaxNumber }} </strong>
+    </div>
+    <div class="col_b_dois">
+      <label>INSCRIÇÃO MUNICIPAL</label>
+      <strong> </strong>
+    </div>
+    <div class="col_c_dois">
+      <label>INSCRIÇÃO ESTADUAL DO SUBST. TRIBUT.</label>
+      <strong></strong>
+    </div>
+    <div class="col_d_dois">
+      <label>CNPJ </label>
+      <strong>{{ cnpjCustomer }}</strong>
+    </div>
+  </div>
+  <div class="intervalo">
+    <strong>DESTINATÁRIO / REMETENTE</strong>
+  </div>
+  <div class="linha_tres">
+    <div class="col_a_tres">
+      <label>NOME / RAZÃO SOCIAL</label>
+      <strong> {{ centro?.cdName }} </strong>
+    </div>
+    <div class="col_b_tres">
+      <label>CNPJ / CPF</label>
+      <strong> {{ conteudo.document }} </strong>
+    </div>
+    <div class="col_c_tres">
+      <label>DATA DA EMISSÃO</label>
+      <span> {{ conteudo.invoiceDate | date : 'shortDate' : 'GMT' }}</span>
+    </div>
+  </div>
+  <div class="linha_quatro">
+    <div class="col_a_quatro">
+      <label>ENDEREÇO</label>
+      <strong> {{ centro?.streetAndNumber }} </strong>
+    </div>
+    <div class="col_b_quatro">
+      <label>BAIRRO / DISTRITO</label>
+      <strong> {{ centro.neighborhood }} </strong>
+    </div>
+    <div class="col_c_quatro">
+      <label>CEP</label>
+      <strong> {{ centro.zipCode }} </strong>
+    </div>
+    <div class="col_d_quatro">
+      <label>DATA DA SAÍDA/ENTRADA</label>
+    </div>
+  </div>
+  <div class="linha_cinco">
+    <div class="col_a_cinco">
+      <label>MUNICÍPIO</label>
+      <strong> {{ centro.local }} </strong>
+    </div>
+    <div class="col_b_cinco">
+      <label>UF</label>
+      <strong> </strong>
+    </div>
+    <div class="col_c_cinco">
+      <label>FONE / FAX</label>
+      <strong> </strong>
+    </div>
+    <div class="col_d_cinco">
+      <label>INSCRIÇÃO ESTADUAL</label>
+      <strong> </strong>
+    </div>
+    <div class="col_e_cinco">
+      <label>HORA DA SAÍDA/ENTRADA</label>
+    </div>
+  </div>
+
+  <div class="intervalo">
+    <strong>CÁLCULO DO IMPOSTO</strong>
+  </div>
+  <div class="linha_sete">
+    <div class="col_sete">
+      <label class="menor">BASE DE CÁLC. DO ICMS</label>
+      <strong>{{ impostos.icmsBase | currency }}</strong>
+    </div>
+    <div class="col_sete">
+      <label>VALOR DO ICMS</label>
+      <strong>{{ impostos.icmsTax | currency }}</strong>
+    </div>
+    <div class="col_sete">
+      <label class="menor">BASE DE CÁLC. ICMS S.T.</label>
+      <strong> {{ impostos.icmsTaxSituation | currency }} </strong>
+    </div>
+    <div class="col_sete">
+      <label class="menor">VALOR DO ICMS SUBST.</label>
+      <strong> {{ impostos.icmsRate | currency }} </strong>
+    </div>
+    <div class="col_sete">
+      <label>V. IMP. IMPORTAÇÃO</label>
+      <strong></strong>
+    </div>
+    <div class="col_sete">
+      <label>V. ICMS UF REMET.</label>
+      <strong></strong>
+    </div>
+    <div class="col_sete">
+      <label>V. FCP UF DEST.</label>
+      <strong></strong>
+    </div>
+    <div class="col_sete">
+      <label>VALOR DO PIS</label>
+      <strong></strong>
+    </div>
+    <div class="col_sete">
+      <label>V. TOTAL PRODUTOS</label>
+      <strong>{{ conteudo.items[0].liquidValue | currency }}</strong>
+    </div>
+    <div class="col_sete">
+      <label>VALOR DO FRETE</label>
+      <strong> </strong>
+    </div>
+    <div class="col_sete">
+      <label>VALOR DO SECURO</label>
+      <strong> </strong>
+    </div>
+    <div class="col_sete">
+      <label>DESCONTO</label>
+      <strong></strong>
+    </div>
+    <div class="col_sete">
+      <label>OUTRAS DESPESAS</label>
+      <strong></strong>
+    </div>
+    <div class="col_sete">
+      <label>VALOR TOTAL IPI</label>
+      <strong>{{ impostos.ipiTax | currency }}</strong>
+    </div>
+    <div class="col_sete">
+      <label>V. ICMS UF DEST.</label>
+      <strong></strong>
+    </div>
+    <div class="col_sete">
+      <label>V. TOT. TRIB.</label>
+      <strong></strong>
+    </div>
+    <div class="col_sete">
+      <label>VALOR DA COFINS</label>
+      <strong></strong>
+    </div>
+    <div class="col_sete">
+      <label>V. TOTAL DA NOTA</label>
+      <strong> {{ conteudo.invoiceUnitPrice | currency }} </strong>
+    </div>
+  </div>
+  <div class="intervalo">
+    <strong>TRANSPORTADOR / VOLUMES TRANSPORTADOS</strong>
+  </div>
+  <div class="linha_oito">
+    <div class="col_a_oito">
+      <label>NOME / RAZÃO SOCIAL</label>
+    </div>
+    <div class="col_b_oito">
+      <label>FRETE</label>
+      <strong></strong>
+    </div>
+    <div class="col_c_oito">
+      <label>CÓDIGO ANTT</label>
+    </div>
+    <div class="col_d_oito">
+      <label>PLACA DO VEÍCULO</label>
+    </div>
+    <div class="col_e_oito">
+      <label>UF</label>
+    </div>
+    <div class="col_f_oito">
+      <label>CNPJ / CPF</label>
+    </div>
+  </div>
+  <div class="linha_nove">
+    <div class="col_a_nove">
+      <label>ENDEREÇO</label>
+    </div>
+    <div class="col_b_nove">
+      <label>MUNICÍPIO</label>
+    </div>
+    <div class="col_c_nove">
+      <label>UF</label>
+    </div>
+    <div class="col_d_nove">
+      <label>INSCRIÇÃO ESTADUAL</label>
+    </div>
+  </div>
+  <div class="linha_dez">
+    <div class="col_a_dez">
+      <label>QUANTIDADE</label>
+    </div>
+    <div class="col_b_dez">
+      <label>ESPÉCIE</label>
+    </div>
+    <div class="col_c_dez">
+      <label>MARCA</label>
+    </div>
+    <div class="col_d_dez">
+      <label>NUMERAÇÃO</label>
+    </div>
+    <div class="col_e_dez">
+      <label>PESO BRUTO</label>
+    </div>
+    <div class="col_f_dez">
+      <label>PESO LÍQUIDO</label>
+    </div>
+  </div>
+  <div class="intervalo">
+    <strong>DADOS DOS PRODUTOS / SERVIÇOS</strong>
+  </div>
+  <div class="linha_onze">
+    <table>
+      <tr>
+        <td
+          class="th"
+          width="104px"
+        >
+          CÓDIGO PRODUTO
+        </td>
+        <td
+          class="th"
+          width="270px"
+        >
+          DESCRIÇÃO DO PRODUTO / SERVIÇO
+        </td>
+        <td
+          class="th"
+          width="62px"
+        >
+          NCM/SH
+        </td>
+        <td
+          class="th"
+          width="52px"
+        >
+          O/CSOSN
+        </td>
+        <td
+          class="th"
+          width="36px"
+        >
+          CFOP
+        </td>
+        <td
+          class="th"
+          width="34px"
+        >
+          UN
+        </td>
+        <td
+          class="th"
+          width="85px"
+        >
+          QUANT
+        </td>
+        <td
+          class="th"
+          width="60px"
+        >
+          VALOR UNIT
+        </td>
+        <td
+          class="th"
+          width="60px"
+        >
+          VALOR TOTAL
+        </td>
+        <td
+          class="th"
+          width="50px"
+        >
+          VALOR DESC
+        </td>
+        <td
+          class="th"
+          width="60px"
+        >
+          B.CÁLC ICMS
+        </td>
+        <td
+          class="th"
+          width="60px"
+        >
+          VALOR ICMS
+        </td>
+        <td
+          class="th"
+          width="45px"
+        >
+          VALOR IPI
+        </td>
+        <td
+          class="th"
+          width="38px"
+        >
+          ALÍQ. ICMS
+        </td>
+        <td
+          class="th"
+          width="38px"
+        >
+          ALÍQ. IPI
+        </td>
+      </tr>
+      <tr *ngFor="let prod of conteudo.items">
+        <td class="center v-top">{{ +prod.numMaterial }}</td>
+        <td class="left v-top"> </td>
+        <td class="center v-top">{{ prod.controlCode }}</td>
+        <td class="center v-top"></td>
+        <td class="center v-top">{{ prod.cfopCode }}</td>
+        <td class="center v-top">{{ prod.basicUnitMeasurement }}</td>
+        <td class="right v-top">{{ prod.quantity }}</td>
+        <td class="right v-top">{{ prod.unityValue }}</td>
+        <td class="right v-top">{{ prod.liquidValue | currency }}</td>
+        <td class="right v-top"></td>
+        <td class="right v-top">{{ prod.icmsBase }}</td>
+        <td class="right v-top">{{ prod.icmsTax }} </td>
+        <td class="right v-top">{{ prod.ipiTax }}</td>
+        <td class="center v-top">{{ prod.icmsRate }}</td>
+        <td class="center v-top">{{ prod.ipiRate }}</td>
+      </tr>
+    </table>
+  </div>
+</content>

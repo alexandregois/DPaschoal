@@ -1,0 +1,39 @@
+<button
+  mat-icon-button
+  mat-dialog-close
+  aria-label="Fechar"
+>
+  <mat-icon>close</mat-icon>
+</button>
+<h1 mat-dialog-title>PIX</h1>
+<section mat-dialog-content>
+  <ng-container *ngIf="isLoading; else pagamentoComPixSection">
+    <mat-progress-bar
+      color="primary"
+      mode="indeterminate"
+    ></mat-progress-bar>
+  </ng-container>
+  <ng-template #pagamentoComPixSection>
+    <div>
+      <legend class="mat-h2">Pagamento com QR Code</legend>
+      <img
+        [src]="imageQrCode"
+        alt="qrCode"
+      />
+    </div>
+    <div>
+      <legend class="mat-h2">Pagamento com número</legend>
+      {{ paymentCode }}
+    </div>
+  </ng-template>
+</section>
+<mat-dialog-actions align="end">
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="copiar()"
+    cdkFocusInitial
+  >
+    Copiar
+  </button>
+</mat-dialog-actions>

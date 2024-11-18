@@ -1,0 +1,36 @@
+@use '/src/scss/colors';
+mat-form-field {
+  width: 100%;
+}
+
+mat-option .mat-caption {
+  display: block;
+  font-size: 0.8em;
+  margin-top: -1.4em;
+  color: colors.$primary;
+}
+
+:host ::ng-deep {
+  .mat-form-field-subscript-wrapper {
+    position: relative;
+  }
+}
+
+mat-card {
+  > mat-divider {
+    margin-bottom: 1rem;
+    position: relative;
+  }
+}
+
+mat-progress-bar {
+  margin: 1rem 0;
+}
+
+mat-progress-spinner {
+  margin-bottom: 1rem;
+}
+
+mat-hint {
+  white-space: pre-wrap;
+}

@@ -1,0 +1,7 @@
+@use '/src/scss/colors';
+
+:host {
+  color: colors.$status-accent;
+  font-weight: bold;
+  font-size: 18px;
+}

@@ -1,0 +1,69 @@
+@use '/src/scss/helpers';
+@use '/src/scss/angular-material-theme' as theme;
+@use '/src/scss/colors';
+
+:host {
+  display: block;
+  min-height: 100vh;
+  @media screen and (max-width: 959px) {
+    // espaçamento extra usado pelo componente navbar
+    min-height: calc(100vh - 48px);
+    padding-bottom: 48px;
+  }
+}
+
+mat-drawer-container {
+  min-height: 100vh;
+}
+
+main.wrapper {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  @media #{helpers.$mat-gt-xs} {
+    padding: 1rem;
+  }
+}
+
+header {
+  margin-bottom: 1rem;
+
+  @media #{helpers.$mat-xs} {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+h1 {
+  font-weight: 500;
+  color: colors.$primary;
+  margin-bottom: 0.25rem;
+}
+
+section.mat-card {
+  border-radius: 0;
+  padding: 1rem;
+
+  @media #{helpers.$mat-gt-xs} {
+    border-radius: 0.5rem;
+  }
+  @media #{helpers.$mat-gt-sm} {
+    padding: 5vw;
+  }
+  @media #{helpers.$mat-gt-md} {
+    padding: 5vw 10vw;
+  }
+}
+
+::ng-deep .mat-snack-bar-container.dpk-snackbar {
+  background-color: #0060a8;
+  color: #fff;
+}
+
+::ng-deep .mat-snack-bar-container.kdp-snackbar {
+  background-color: #7e0f0f;
+  color: #fff;
+}
+
+::ng-deep .mat-snack-bar-container .mat-simple-snackbar-action {
+  color: #ffc53d;
+}

@@ -1,0 +1,22 @@
+@use '/src/scss/colors' as color;
+
+[mat-dialog-close] {
+  float: right;
+  margin-top: -0.25rem;
+  margin-left: 1rem;
+}
+
+h1 {
+  color: color.$primary;
+  white-space: nowrap;
+}
+
+section {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+mat-button-toggle-group {
+  margin-bottom: 1rem;
+}

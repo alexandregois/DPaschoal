@@ -1,0 +1,59 @@
+<button
+  mat-icon-button
+  mat-dialog-close
+  aria-label="Fechar"
+>
+  <mat-icon>close</mat-icon>
+</button>
+<h2 mat-dialog-title>Veja como emitir a Nota fiscal</h2>
+<mat-divider></mat-divider>
+<mat-dialog-content class="mat-typography">
+  <div class="subtitulo">
+    <span>Espelho de NFe</span>
+    <button
+      mat-stroked-button
+      color="primary"
+      (click)="isPrinting = !isPrinting"
+    >
+      <mat-icon>share</mat-icon>
+      Compartilhar
+    </button>
+    <button
+      mat-stroked-button
+      color="primary"
+      mat-dialog-close
+    >
+      <mat-icon>description</mat-icon>
+      Exportar texto
+    </button>
+  </div>
+  <mat-divider></mat-divider>
+  <ng-template #loading>
+    <mat-progress-bar
+      color="primary"
+      mode="indeterminate"
+      aria-label="Carregando"
+    >
+    </mat-progress-bar>
+  </ng-template>
+  <ng-container *ngIf="!loadingMirror; else loading">
+    <app-espelho-nota
+      [printed]="isPrinting"
+      [conteudo]="dadosNota"
+      [impostos]="notaTotal"
+      [cnpjCustomer]="cnpjCustomer"
+      [dadosCnpj]="dadosCnpj"
+      [centros]="centros"
+      [centro]="centro"
+    ></app-espelho-nota>
+  </ng-container>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button
+    mat-flat-button
+    color="primary"
+    mat-dialog-close
+  >
+    Voltar
+  </button>
+</mat-dialog-actions>

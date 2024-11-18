@@ -1,0 +1,63 @@
+@use '/src/scss/angular-material-theme' as theme;
+@use '/src/scss/colors';
+
+mat-card-title,
+dt {
+  color: colors.$primary;
+  font-weight: bold;
+}
+
+section {
+  display: grid;
+  gap: 1rem;
+  align-items: stretch;
+  grid-template-areas:
+    'endereco'
+    'transporte'
+    'forma_pagamento';
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'endereco transporte'
+      'endereco forma_pagamento';
+  }
+  > mat-card {
+    background-color: theme.$dark-focused;
+    height: fit-content;
+    > p {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+.endereco {
+  grid-area: endereco;
+}
+
+dd {
+  margin-left: 0;
+}
+
+address {
+  padding-left: 1rem;
+  font-style: normal;
+}
+
+.transporte {
+  grid-area: transporte;
+}
+
+.transporte_conteudo {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+.flex_column {
+  display: flex;
+  flex-direction: column;
+}
+
+.forma_pagamento {
+  grid-area: forma_pagamento;
+}

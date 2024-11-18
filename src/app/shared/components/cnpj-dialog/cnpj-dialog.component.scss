@@ -1,0 +1,20 @@
+[mat-dialog-content] {
+  margin: 0 -12px;
+  padding: 0;
+}
+
+.close {
+  text-align: right;
+}
+
+[mat-dialog-close] {
+  margin-top: -0.25rem;
+  margin-left: 1rem;
+}
+
+mat-icon[svgicon='logo'] {
+  vertical-align: middle;
+  margin-bottom: 1rem;
+  width: 100px;
+  height: 35px;
+}

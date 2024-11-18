@@ -1,0 +1,31 @@
+<section>
+  <ul
+    class="slides-list"
+    *ngIf="similares"
+  >
+    <li *ngFor="let similar of similares">
+      <app-produto-card
+        [idProduct]="similar.productId"
+        [Product]="similar"
+        [isLogged]="isLogged"
+        [isVisibleFavorite]="isVisibleFavorite"
+      ></app-produto-card>
+    </li>
+  </ul>
+  <button
+    *ngIf="similares && similares.length > 1"
+    mat-icon-button
+    aria-label="Produto anterior"
+    (click)="anterior()"
+  >
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  <button
+    *ngIf="similares && similares.length > 1"
+    mat-icon-button
+    aria-label="Próximo produto"
+    (click)="proxima()"
+  >
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+</section>

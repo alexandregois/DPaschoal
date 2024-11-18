@@ -1,0 +1,14 @@
+@use '/src/scss/angular-material-theme' as theme;
+@use '/src/scss/colors';
+
+:host {
+  display: grid;
+  gap: 1rem;
+  @media (min-width: 768px) {
+    grid-template-rows: 1fr;
+    // grid-template-columns: 1fr 1fr;
+  }
+}
+.form-position {
+  grid-column: 1 / -1 !important;
+}

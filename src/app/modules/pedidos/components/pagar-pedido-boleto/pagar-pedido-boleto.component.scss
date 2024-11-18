@@ -1,0 +1,14 @@
+@use '/src/scss/colors';
+[mat-dialog-close] {
+  float: right;
+  margin-top: -0.25rem;
+  margin-left: 1rem;
+}
+
+h1 {
+  color: colors.$primary;
+}
+
+div {
+  text-align: center;
+}

@@ -1,0 +1,10 @@
+<app-recuperar-senha-header
+  [title]="title"
+  [subtitle]="subtitle"
+>
+</app-recuperar-senha-header>
+<app-input-code-form
+  [email]="email"
+  [numOfDigits]="numOfDigits"
+  (newItemEvent)="inputCodeFormOutputListener($event)"
+></app-input-code-form>

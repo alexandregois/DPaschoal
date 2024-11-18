@@ -1,0 +1,204 @@
+<ng-template #loading>
+  <mat-progress-bar
+    color="primary"
+    mode="indeterminate"
+  ></mat-progress-bar>
+</ng-template>
+
+<ng-container *ngIf="isSuccessSubmitCredit; else defaultBlock">
+  <div class="sucesso-analise-enviada">
+    <h1>Análise enviada com sucesso.</h1>
+    <a
+      mat-flat-button
+      color="primary"
+      routerLink="/"
+    >
+      Ir para as compras
+    </a>
+  </div>
+</ng-container>
+<ng-template #defaultBlock>
+  <ng-container *ngIf="!isLoading; else loading">
+    <app-limite-de-credito
+      class="kdp-ref-comerciais-credito"
+    ></app-limite-de-credito>
+    <form
+      [formGroup]="form"
+      (ngSubmit)="enviar()"
+    >
+      <fieldset class="kdp-ref-comerciais">
+        <legend class="mat-h4">Referências comerciais</legend>
+        <ng-container formArrayName="refsComerciais">
+          <ng-container
+            *ngFor="
+              let refComercialForm of refsComerciais.controls;
+              let i = index
+            "
+          >
+            <mat-divider *ngIf="i > 0"></mat-divider>
+            <div
+              [formGroupName]="i"
+              class="kdp-ref-comerciais-form"
+            >
+              <mat-form-field appearance="outline">
+                <mat-label>Razão social</mat-label>
+                <input
+                  matInput
+                  formControlName="razaoSocial"
+                />
+                <mat-error>Campo obrigatorio</mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Telefone</mat-label>
+                <input
+                  matInput
+                  formControlName="telefone"
+                  [inputMask]="phoneInputMask"
+                />
+                <mat-error>Campo obrigatorio</mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Observação</mat-label>
+                <input
+                  matInput
+                  formControlName="obs"
+                />
+                <mat-error>Campo obrigatorio</mat-error>
+              </mat-form-field>
+              <ng-container *ngIf="i > 0; else btnAdd">
+                <button
+                  type="button"
+                  mat-mini-fab
+                  color="primary"
+                  aria-label="Remover referência comercial"
+                  class="kdp-btn-action"
+                  (click)="removeRefsComerciais(i)"
+                >
+                  <mat-icon>remove</mat-icon>
+                </button>
+              </ng-container>
+              <ng-template #btnAdd>
+                <button
+                  type="button"
+                  mat-mini-fab
+                  color="primary"
+                  aria-label="Adicionar referência comercial"
+                  class="kdp-btn-action"
+                  [disabled]="iForms >= MAX_FORMS"
+                  (click)="addRefsComerciais()"
+                >
+                  <mat-icon>add</mat-icon>
+                </button>
+              </ng-template>
+            </div>
+          </ng-container>
+        </ng-container>
+      </fieldset>
+
+      <fieldset class="kdp-ref-bancarias">
+        <legend class="mat-h4">Referências bancárias</legend>
+        <div class="kdp-ref-bancarias-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Banco</mat-label>
+            <input
+              matInput
+              formControlName="banco"
+            />
+            <mat-error>Campo obrigatorio</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Agência</mat-label>
+            <input
+              matInput
+              formControlName="agencia"
+              mask="00099999999"
+            />
+            <mat-error>Campo obrigatorio</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Conta corrente</mat-label>
+            <input
+              matInput
+              formControlName="contaCorrente"
+              mask="00099999999"
+            />
+            <mat-error>Campo obrigatorio</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Nome do contato</mat-label>
+            <input
+              matInput
+              formControlName="nomeContato"
+            />
+            <mat-error>Campo obrigatorio</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Telefone</mat-label>
+            <input
+              matInput
+              formControlName="telefone"
+              [inputMask]="phoneInputMask"
+            />
+            <mat-error>Campo obrigatorio</mat-error>
+          </mat-form-field>
+        </div>
+      </fieldset>
+      <fieldset class="kdp-documentos">
+        <legend class="mat-h4">Documentos obrigatórios</legend>
+        <div>
+          Anexar contrato social atualizado *
+          <app-input-file
+            (change)="onFileChange($event, 'contratoSocial')"
+          ></app-input-file>
+          <mat-error
+            class="mat-small"
+            *ngIf="
+              form.controls['contratoSocial'].hasError('required') &&
+              form.get('contratoSocial')?.touched
+            "
+          >
+            Anexe o contrato social atualizado
+          </mat-error>
+        </div>
+        <div>
+          Anexar CNH do sócio (frente) *
+          <app-input-file
+            (change)="onFileChange($event, 'cnhFrente')"
+          ></app-input-file>
+          <mat-error
+            class="mat-small"
+            *ngIf="
+              form.controls['cnhFrente'].hasError('required') &&
+              form.get('cnhFrente')?.touched
+            "
+          >
+            Anexe o CNH do sócio (frente)
+          </mat-error>
+        </div>
+        <div>
+          Anexar CNH do sócio (verso) *
+          <app-input-file
+            (change)="onFileChange($event, 'cnhVerson')"
+          ></app-input-file>
+          <mat-error
+            class="mat-small"
+            *ngIf="
+              form.controls['cnhVerson'].hasError('required') &&
+              form.get('cnhVerson')?.touched
+            "
+          >
+            Anexe o CNH do sócio (verso)
+          </mat-error>
+        </div>
+      </fieldset>
+      <div class="kdp-botoes">
+        <button
+          type="submit"
+          mat-raised-button
+          color="primary"
+          >Enviar</button
+        >
+      </div>
+    </form>
+  </ng-container>
+</ng-template>

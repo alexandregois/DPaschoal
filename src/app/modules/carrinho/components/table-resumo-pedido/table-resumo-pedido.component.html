@@ -1,0 +1,51 @@
+<table>
+  <tbody>
+    <tr *ngIf="total && itensUnicos">
+      <th scope="row">
+        Total:
+        <ng-container *ngIf="itensUnicos !== undefined">
+          ({{ itensUnicos || 'Nenhum' }}
+          {{ itensUnicos! > 1 ? 'produtos' : 'produto' }})
+        </ng-container>
+      </th>
+      <td>{{ total | currency }}</td>
+    </tr>
+    <tr *ngIf="impostos !== undefined">
+      <th scope="row">Impostos:</th>
+      <td>{{ impostos | currency }}</td>
+    </tr>
+    <tr *ngIf="frete !== undefined">
+      <th scope="row">Frete:</th>
+      <td>{{ frete === 0 ? 'Grátis' : (frete | currency) }}</td>
+    </tr>
+    <tr *ngIf="despesasAcessorias !== undefined">
+      <th scope="row">Despesas acessórias:</th>
+      <td>{{ despesasAcessorias | currency }}</td>
+    </tr>
+  </tbody>
+  <tfoot *ngIf="total">
+    <tr>
+      <th scope="row">
+        Total
+        <ng-container *ngIf="totalItens !== undefined">
+          ({{ totalItens }}
+          {{ totalItens > 1 ? 'itens' : 'item' }})</ng-container
+        >:
+      </th>
+      <td>
+        {{
+          total + (impostos || 0) + (frete || 0) + (despesasAcessorias || 0)
+            | currency
+        }}
+      </td>
+    </tr>
+    <tr *ngIf="parcelas > 1">
+      <th
+        id="ValorParcela"
+        scope="row"
+        >Valor por Parcela:</th
+      >
+      <td>{{ getValorPorParcela() | currency }}</td>
+    </tr>
+  </tfoot>
+</table>

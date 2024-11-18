@@ -1,0 +1,84 @@
+<app-recuperar-senha-header
+  [title]="title"
+  [subtitle]="subtitle"
+>
+</app-recuperar-senha-header>
+<ng-container *ngIf="isLoading; else recuperarSenhaAlteracaoSection">
+  <mat-progress-bar
+    color="primary"
+    mode="indeterminate"
+  ></mat-progress-bar>
+</ng-container>
+
+<ng-template #recuperarSenhaAlteracaoSection>
+  <form
+    [formGroup]="recuperarSenhaAlteracaoForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <mat-form-field appearance="standard">
+      <mat-label>Nova Senha</mat-label>
+      <input
+        matInput
+        formControlName="password"
+        class="form-control"
+        [type]="isPasswordVisible ? 'text' : 'password'"
+        autocomplete="off"
+        minlength="8"
+        required
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        type="button"
+        (click)="isPasswordVisible = !isPasswordVisible"
+        [attr.aria-label]="
+          isPasswordVisible ? 'Ocultar senha' : 'Mostrar senha'
+        "
+        [attr.aria-pressed]="isPasswordVisible"
+      >
+        <mat-icon>
+          {{ isPasswordVisible ? 'visibility' : 'visibility_off' }}
+        </mat-icon>
+      </button>
+      <mat-error>A senha deve seguir os requisitos mínimos exigidos.</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="standard">
+      <mat-label>Confirmar nova Senha</mat-label>
+      <input
+        matInput
+        formControlName="confirmPassword"
+        [type]="isPasswordVisible ? 'text' : 'password'"
+        autocomplete="off"
+        minlength="8"
+        required
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        type="button"
+        (click)="isPasswordVisible = !isPasswordVisible"
+        [attr.aria-label]="
+          isPasswordVisible ? 'Ocultar senha' : 'Mostrar senha'
+        "
+        [attr.aria-pressed]="isPasswordVisible"
+      >
+        <mat-icon>
+          {{ isPasswordVisible ? 'visibility_off' : 'visibility' }}
+        </mat-icon>
+      </button>
+      <mat-error> A confirmação de senha deve ser igual a senha. </mat-error>
+    </mat-form-field>
+    <p class="mat-small">
+      <strong> A senha deve conter no mínimo: </strong><br />
+      8 caracteres, 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere
+      especial.
+    </p>
+    <button
+      mat-flat-button
+      color="primary"
+      type="submit"
+    >
+      Redefinir senha
+    </button>
+  </form>
+</ng-template>

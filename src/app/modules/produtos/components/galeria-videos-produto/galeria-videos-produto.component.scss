@@ -1,0 +1,30 @@
+section {
+  display: grid;
+  grid-template-columns: 1fr 7fr 1fr;
+  grid-template-areas: 'btn_anterior slide btn_proxima';
+  align-items: center;
+  width: 346px;
+}
+
+button[aria-label='Video anterior'] {
+  grid-area: btn_anterior;
+}
+
+button[aria-label='Próximo video'] {
+  grid-area: btn_proxima;
+}
+
+.slider {
+  grid-area: slide;
+  overflow: hidden;
+
+  list-style-type: none;
+  margin: 5px 0;
+  padding: 0;
+  gap: 1rem;
+
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  width: 100%;
+}

@@ -1,0 +1,31 @@
+@use '/src/scss/colors';
+
+footer {
+  box-shadow: 0 -5px 9px 0 rgb(172 171 171 / 30%);
+  padding: 1rem 1rem;
+  position: fixed;
+  bottom: 50px;
+  background-color: white;
+  display: block;
+  text-align: center;
+  box-sizing: border-box;
+  left: 0;
+  right: 0;
+
+  @media (min-width: 959px) {
+    bottom: 0px;
+  }
+}
+
+div {
+  display: flex;
+  justify-content: space-evenly;
+  justify-items: center;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+a {
+  color: colors.$primary;
+}

@@ -1,0 +1,14 @@
+@use '/src/scss/colors' as color;
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+:host ::ng-deep {
+  .mat-tab-nav-bar,
+  .mat-tab-header {
+    border: 0;
+  }
+}

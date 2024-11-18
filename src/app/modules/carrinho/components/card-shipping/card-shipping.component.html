@@ -1,0 +1,55 @@
+<mat-card>
+  <h2 class="mat-h4">
+    <span>
+      <mat-icon>local_shipping</mat-icon>
+      Transportadora
+    </span>
+  </h2>
+
+  <ng-container *ngIf="isLoading; else shippingBlock">
+    <mat-progress-bar
+      color="primary"
+      mode="indeterminate"
+    ></mat-progress-bar>
+  </ng-container>
+  <ng-template #shippingBlock>
+    <p>
+      Centro de distribuição:
+      <mat-chip-list>
+        <mat-chip
+          color="primary"
+          selected
+        >
+          <mat-icon>villa</mat-icon>
+          {{ getCustomerWarehouseByHubId(cart?.hubId)?.description }}
+        </mat-chip>
+      </mat-chip-list>
+    </p>
+
+    <mat-divider></mat-divider>
+    <ng-container *ngIf="shipping; else noShippingBlock">
+      <dl>
+        <dt>
+          <span>{{ shipping.name }}</span>
+          <strong *ngIf="shipping.deliveryType !== 'R'"
+            >até {{ shipping.deliveryTime }} dias úteis</strong
+          >
+        </dt>
+        <dd>
+          {{ shipping.shippingCost | currency }}
+        </dd>
+      </dl>
+      <div>
+        <p
+          *ngIf="shipping.deliveryType !== 'R'"
+          class="mat-small"
+        >
+          *Para frete grátis, mínimo {{ shipping.minimumInvoicing | currency }}.
+        </p>
+      </div>
+    </ng-container>
+    <ng-template #noShippingBlock>
+      Nenhuma forma de entrega selecionada
+    </ng-template>
+  </ng-template>
+</mat-card>

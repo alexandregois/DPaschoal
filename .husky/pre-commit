@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+# git diff --diff-filter=RABUMCTX --name-only --cached  > ./.git/.git-diff-commit
+# npm run prettier-husky -- $(tr '\n' ' ' < ./.git/.git-diff-commit)
+npm run lint-husky
+npm run test-husky
+exit

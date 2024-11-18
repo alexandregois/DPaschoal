@@ -1,0 +1,6 @@
+@use '/src/scss/mixins';
+
+.mat-icon-button {
+  $icon-size: 36px;
+  @include mixins.mat-icon-button-size($icon-size);
+}

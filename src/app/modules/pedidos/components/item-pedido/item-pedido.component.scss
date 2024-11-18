@@ -1,0 +1,42 @@
+@use '/src/scss/colors';
+dl {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 50px 2fr 1fr 1fr;
+  grid-template-areas: 'imagem contador' 'imagem descricao' 'imagem estoque' 'imagem valor_item';
+  @media (min-width: 768px) {
+    grid-template-columns: 100px 2fr 1fr 1fr;
+    grid-template-areas: 'contador  descricao estoque valor_item' 'imagem descricao estoque valor_item' 'imagem descricao . .';
+  }
+  & + & {
+    margin-top: 1rem;
+  }
+}
+
+dd {
+  margin-left: 0;
+}
+
+.contador {
+  grid-area: contador;
+  > mat-chip {
+    min-height: fit-content;
+  }
+}
+
+.imagem {
+  grid-area: imagem;
+}
+
+.descricao {
+  grid-area: descricao;
+}
+
+.estoque {
+  grid-area: estoque;
+}
+
+.valor_item {
+  grid-area: valor_item;
+  color: colors.$primary;
+}

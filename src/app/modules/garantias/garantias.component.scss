@@ -1,0 +1,61 @@
+@use '/src/scss/colors';
+
+.sem-garantia {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.filtros {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .busca {
+    width: 70%;
+  }
+
+  .filtro {
+    width: 25%;
+  }
+}
+
+.acao {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 2rem;
+
+  [mat-flat-button] {
+    width: 15rem;
+  }
+}
+
+[mat-table] {
+  width: 100%;
+  text-align: center;
+}
+
+th[mat-header-cell] {
+  text-align: center;
+  color: black;
+}
+
+.bg-default .mat-badge-content {
+  color: #0000008a;
+  background-color: #0000008a;
+}
+
+.bg-danger .mat-badge-content {
+  color: #7e0f0f;
+  background-color: #7e0f0f;
+}
+
+.bg-success .mat-badge-content {
+  color: #4caf50;
+  background-color: #4caf50;
+}
+
+.bg-warning .mat-badge-content {
+  color: #f8bc1b;
+  background-color: #f8bc1b;
+}

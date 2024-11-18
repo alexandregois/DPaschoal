@@ -1,0 +1,149 @@
+<mat-card *ngIf="produto">
+  <figure>
+    <a
+      [routerLink]="['/produtos', produto.product?.id, routeProdutoDescription]"
+    >
+      <img
+        app-img
+        loading="lazy"
+        width="500"
+        height="500"
+        [src]="environment.superkImageUrlPrefix + imagem?.thumbnailImage"
+        [alt]="imagem?.name"
+      />
+    </a>
+  </figure>
+  <div
+    class="tag_favorito"
+    *ngIf="isAuth$ | async"
+  >
+    <span>
+      <ng-container *ngIf="isLoadingWarehouse$ | async; else isLoadedWarehouse">
+        <mat-progress-spinner
+          color="primary"
+          mode="indeterminate"
+          diameter="24"
+        >
+        </mat-progress-spinner>
+      </ng-container>
+      <ng-template #isLoadedWarehouse>
+        <mat-chip
+          color="primary"
+          class="mat-chip-selected"
+          role="term"
+        >
+          {{ (warehouse$ | async)?.description }}
+        </mat-chip>
+      </ng-template>
+    </span>
+    <app-favorito-button
+      *ngIf="isVisibleFavorite"
+      [sapCode]="produto.product?.sapCodeNumber"
+      [idProduct]="idProduct"
+    ></app-favorito-button>
+  </div>
+  <header>
+    <h2 class="mat-h4">
+      <a
+        [routerLink]="[
+          '/produtos',
+          produto.product?.id,
+          routeProdutoDescription
+        ]"
+      >
+        {{ produto.product?.description | uppercase }}
+      </a>
+    </h2>
+  </header>
+  <div
+    class="valor_quantidade"
+    *ngIf="isAuth$ | async"
+  >
+    <div class="valor">
+      <ng-container *ngIf="isLoadingPrice; else priceLoadedBlock">
+        <mat-progress-spinner
+          color="primary"
+          mode="indeterminate"
+          diameter="32"
+        >
+        </mat-progress-spinner>
+      </ng-container>
+      <ng-template #priceLoadedBlock>
+        <strong class="mat-h2">
+          {{ valorTotal !== 0 ? (valorTotal | currency) : '' }}
+        </strong>
+        <small class="mat-small">
+          {{
+            isDisponivel
+              ? price?.stock + 'un. no estoque'
+              : 'Produto Indisponível'
+          }}
+        </small>
+      </ng-template>
+    </div>
+    <app-quantidade-form-field
+      *ngIf="isDisponivel"
+      [value]="qtd"
+      [limit]="maxQtd"
+      [minimum]="minQtd"
+      (update)="atualizarValorProduto($event)"
+    ></app-quantidade-form-field>
+  </div>
+
+  <ul class="conteudo">
+    <li>Fabricante: {{ produto.product?.manufacturer }}</li>
+    <li>Cód. de Fábrica: {{ produto.product?.code }}</li>
+    <li>Cód. do Produto: {{ produto.product?.sapCode }}</li>
+  </ul>
+
+  <footer>
+    <ng-container *ngIf="isAuth$ | async">
+      <ng-container *ngIf="price?.stock; else blockAviseMe">
+        <button
+          mat-raised-button
+          color="accent"
+          [disabled]="!valorTotal || isAddingCart"
+          (click)="adicionarAoCarrinho()"
+        >
+          <mat-icon>shopping_cart</mat-icon>
+          <b>{{ isAddingCart ? 'Adicionando...' : 'Adicionar ao carrinho' }}</b>
+        </button>
+      </ng-container>
+      <ng-template #blockAviseMe>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="aviseMe()"
+        >
+          Avise-me quando chegar
+        </button>
+      </ng-template>
+    </ng-container>
+    <button
+      [ngStyle]="{ 'border-color': portal === 'DPK' ? '#0060a8' : '#7e0f0f' }"
+      mat-stroked-button
+      color="primary"
+      (click)="verSimilares()"
+    >
+      Produtos similares
+    </button>
+    <ng-container *ngIf="isAuth$ | async; else verPrecoButton">
+      <button
+        mat-button
+        color="primary"
+        (click)="maisEstoques()"
+      >
+        Ver + estoques
+      </button>
+    </ng-container>
+    <ng-template #verPrecoButton>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="verPreco()"
+      >
+        Ver preço
+      </button>
+    </ng-template>
+  </footer>
+</mat-card>

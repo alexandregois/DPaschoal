@@ -1,0 +1,29 @@
+<section *ngIf="videos && videos.length > 0">
+  <ul class="slider">
+    <li *ngFor="let video of videos">
+      <iframe
+        width="260"
+        height="145"
+        [src]="videoURL(video.url)"
+        allowfullscreen
+      >
+      </iframe>
+    </li>
+  </ul>
+  <button
+    *ngIf="videos && videos.length > 1"
+    mat-icon-button
+    aria-label="Vídeo anterior"
+    (click)="anterior()"
+  >
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  <button
+    *ngIf="videos && videos.length > 1"
+    mat-icon-button
+    aria-label="Próximo vídeo"
+    (click)="proximo()"
+  >
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+</section>

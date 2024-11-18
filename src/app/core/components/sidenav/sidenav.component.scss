@@ -1,0 +1,19 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0 0.5rem 0.5rem;
+  align-items: center;
+  overflow: visible;
+}
+
+mat-icon {
+  margin-right: 0.5rem;
+}
+
+[mat-list-item-title] {
+  margin: 0;
+}
+
+[mat-list-item-line] {
+  margin: -0.5rem 0 0 -1rem;
+}

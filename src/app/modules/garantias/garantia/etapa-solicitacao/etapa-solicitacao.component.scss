@@ -1,0 +1,84 @@
+@use '/src/scss/angular-material-theme' as theme;
+@use '/src/scss/colors';
+
+.form_selecao {
+  display: grid;
+}
+
+.cor_primary {
+  color: colors.$primary;
+}
+
+.resultado_busca {
+  padding: 16px 0px;
+
+  .produtos_busca {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 262px));
+
+    @media (min-width: 960px) {
+      padding: 16px 0px;
+    }
+  }
+}
+
+.itens_selecionados h2,
+.selecao_quantidade h2,
+.itens_selecionados_revisao h2 {
+  color: #00000099;
+}
+
+.selecao_quantidade {
+  mat-card {
+    padding: 16px 20px;
+  }
+
+  nav {
+    display: grid;
+    gap: 1rem;
+    grid-template-areas: 'voltar add solicitar';
+    grid-template-columns: 3fr 1fr 1fr;
+    margin-top: 1rem;
+  }
+
+  .voltar {
+    grid-area: voltar;
+    justify-self: start;
+  }
+}
+
+.itens_selecionados {
+  margin-top: 2rem;
+
+  nav {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding: 10px 0px;
+  }
+}
+
+.itens_selecionados_revisao {
+  .titulos {
+    display: flex;
+    padding: 10px 80px 0px 20px;
+    justify-content: space-between;
+  }
+
+  mat-card {
+    padding: 16px 24px;
+    margin-bottom: 2rem;
+  }
+
+  nav {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding: 10px 0px;
+
+    button {
+      width: 270px;
+    }
+  }
+}

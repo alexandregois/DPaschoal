@@ -1,0 +1,27 @@
+<app-recuperar-senha-header
+  [title]="title"
+  [subtitle]="subtitle"
+>
+</app-recuperar-senha-header>
+<form
+  [formGroup]="recuperarSenhaCnpjForm"
+  (ngSubmit)="onSubmit()"
+>
+  <mat-form-field appearance="standard">
+    <mat-label>Email</mat-label>
+    <input
+      matInput
+      formControlName="email"
+      type="email"
+      autocomplete="off"
+      required
+    />
+    <mat-error>Insira um e-mail válido</mat-error>
+  </mat-form-field>
+  <button
+    mat-flat-button
+    color="primary"
+    type="submit"
+    >Enviar</button
+  >
+</form>

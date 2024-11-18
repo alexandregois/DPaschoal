@@ -1,0 +1,208 @@
+<ng-container *ngIf="isBusca">
+  <mat-card
+    id="camposSolicitacao"
+    #camposSolicitacao
+  >
+    <form
+      [formGroup]="formGroup"
+      id="formSelecao"
+      class="form_selecao"
+    >
+      <mat-form-field appearance="outline">
+        <mat-label>Escolha o Centro de Distribuição</mat-label>
+        <mat-select
+          id="center"
+          formControlName="center"
+          required
+          placeholder="Selecione o Centro de distribuição de origem"
+        >
+          <mat-option
+            *ngFor="let cd of centros.etCentro"
+            [value]="cd"
+          >
+            {{ cd.local }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field
+        class="busca"
+        appearance="outline"
+      >
+        <mat-label>Qual produto deseja garantia?</mat-label>
+        <input
+          id="termoBusca"
+          formControlName="termoBusca"
+          type="text"
+          matInput
+          placeholder="Digite o código do produto DPK, fábrica ou descrição do produto"
+        />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </form>
+  </mat-card>
+
+  <ng-container *ngIf="isResultadoBusca">
+    <div
+      class="resultado_busca"
+      #resultadoBusca
+    >
+      <h2 class="cor_primary">Resultado da busca</h2>
+      <ng-template #loadingBusca>
+        <mat-progress-bar
+          color="primary"
+          mode="indeterminate"
+          aria-label="Carregando Busca"
+        >
+        </mat-progress-bar>
+      </ng-template>
+
+      <ng-container *ngIf="!isBuscando; else loadingBusca">
+        <ng-container *ngIf="listaProdutosBusca.length > 0; else semResultado">
+          <span
+            >{{
+              (listaProdutosBusca.length > 1
+                ? listaProdutosBusca.length + ' Resultados'
+                : '1 Resultado') + ' para sua busca'
+            }}
+          </span>
+          <div class="produtos_busca">
+            <app-produto-busca-card
+              *ngFor="let produto of listaProdutosBusca"
+              [produto]="produto"
+              (selecionado)="selecionarProduto($event, true)"
+            ></app-produto-busca-card>
+          </div>
+        </ng-container>
+        <ng-template #semResultado>
+          <label><b>Não encontramos resultados para sua pesquisa</b></label>
+        </ng-template>
+      </ng-container>
+    </div>
+  </ng-container>
+</ng-container>
+
+<div
+  class="selecao_quantidade"
+  #selecaoQuantidade
+  *ngIf="isSelecaoQuantidade"
+>
+  <mat-card>
+    <h2>Selecione a quantidade</h2>
+    <app-produto-quantidade-card
+      [produto]="selectedProduct"
+      (retorno)="atualizaProdutoSelecionado($event)"
+    ></app-produto-quantidade-card>
+    <nav>
+      <button
+        id="btnVoltar"
+        class="voltar"
+        mat-button
+        color="primary"
+        (click)="voltarParaBusca()"
+      >
+        Voltar
+      </button>
+      <button
+        id="btnAddMaisItens"
+        mat-stroked-button
+        color="primary"
+        (click)="adicionarMais(selectedProduct!)"
+        >Adicionar mais itens
+      </button>
+      <button
+        id="btnSolicitar"
+        mat-flat-button
+        color="primary"
+        (click)="atualizaListaProdutos(selectedProduct!, true)"
+        [disabled]="isBuscandoNotas || isSubmittingWarranty"
+        >Solicitar garantia
+      </button>
+    </nav>
+  </mat-card>
+  <mat-progress-bar
+    *ngIf="isSubmittingWarranty"
+    color="primary"
+    mode="indeterminate"
+    aria-label="Carregando"
+  ></mat-progress-bar>
+</div>
+
+<ng-container *ngIf="isItensSelecionados">
+  <div
+    class="itens_selecionados"
+    #itensSelecionados
+  >
+    <ng-template #loadingSolicitacao>
+      <mat-progress-bar
+        color="primary"
+        mode="indeterminate"
+        aria-label="Carregando"
+      >
+      </mat-progress-bar>
+    </ng-template>
+
+    <ng-container *ngIf="!isBuscandoNotas; else loadingSolicitacao">
+      <mat-card>
+        <h2>Itens Selecionados</h2>
+        <app-produtos-selecionados-card
+          [produtosSelecionados]="listSelectedProduct"
+          (adicionar)="atualizaListaProdutos($event, false)"
+          (remover)="removeProdutoLista($event)"
+        ></app-produtos-selecionados-card>
+        <nav>
+          <button
+            id="btnSolicitarContinua"
+            mat-flat-button
+            color="primary"
+            (click)="atualizaListaProdutos(selectedProduct!, true)"
+            [disabled]="isBuscandoNotas"
+            >Continuar com a Garantia
+          </button>
+        </nav>
+      </mat-card>
+    </ng-container>
+  </div>
+</ng-container>
+
+<div
+  class="itens_selecionados_revisao"
+  #itensSelecionadosRevisao
+  *ngIf="isRevisaoGarantia"
+>
+  <mat-card>
+    <h2>Itens Selecionados</h2>
+    <mat-card-content>
+      <mat-divider></mat-divider>
+      <div class="titulos">
+        <span class="mat-h4">Produto</span>
+        <span class="mat-h4">Quantidade</span>
+      </div>
+    </mat-card-content>
+
+    <ng-container *ngFor="let produto of listProductNotes">
+      <app-notas-produto-selecionado-card
+        [produtoNota]="produto"
+        (editarProduto)="selecionarProduto($event, false)"
+      ></app-notas-produto-selecionado-card>
+    </ng-container>
+
+    <mat-progress-bar
+      *ngIf="isSubmittingRequest"
+      color="primary"
+      mode="indeterminate"
+      aria-label="Carregando"
+    ></mat-progress-bar>
+  </mat-card>
+
+  <nav>
+    <button
+      id="btnContinuar"
+      mat-flat-button
+      color="primary"
+      (click)="confirmarGarantia()"
+      [disabled]="isBuscandoNotas || isSubmittingRequest"
+      >Continuar
+    </button>
+  </nav>
+</div>

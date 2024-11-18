@@ -1,0 +1,158 @@
+<mat-card class="kdp-form">
+  <form [formGroup]="formGroup">
+    <ng-template #cartListLoading>
+      <mat-progress-spinner
+        color="primary"
+        mode="indeterminate"
+        diameter="32"
+      >
+      </mat-progress-spinner>
+    </ng-template>
+    <mat-form-field
+      appearance="outline"
+      *ngIf="
+        cartList && cartList.length && warehouseList && warehouseList.length;
+        else cartListLoading
+      "
+    >
+      <mat-label> Selecione o carrinho por CD </mat-label>
+      <mat-select
+        [(value)]="selectedWarehouse"
+        formControlName="cart"
+        required
+        (selectionChange)="onDescriptionChange()"
+      >
+        <mat-option
+          *ngFor="let warehouseWithCart of warehouseListWithCart"
+          [value]="warehouseWithCart.cart"
+        >
+          {{ warehouseWithCart.description }}
+        </mat-option>
+      </mat-select>
+      <mat-icon matPrefix>villa</mat-icon>
+      <mat-hint>
+        O processo de pagamento é separado por depósito, selecione um CD por vez
+        para concluir.
+      </mat-hint>
+    </mat-form-field>
+    <ng-template #paymentTypeListLoading>
+      <mat-progress-spinner
+        color="primary"
+        mode="indeterminate"
+        diameter="32"
+      >
+      </mat-progress-spinner>
+    </ng-template>
+    <mat-form-field
+      appearance="outline"
+      *ngIf="
+        paymentTypeList && paymentTypeList.length;
+        else paymentTypeListLoading
+      "
+    >
+      <mat-label>Forma de pagamento</mat-label>
+      <mat-select
+        formControlName="paymentType"
+        required
+      >
+        <mat-option></mat-option>
+        <mat-option
+          *ngFor="let paymentType of paymentTypeList"
+          [value]="paymentType"
+        >
+          {{ paymentType.description }}
+        </mat-option>
+      </mat-select>
+      <mat-icon matPrefix>money</mat-icon>
+      <mat-hint
+        >Escolha ao menos uma forma de pagamento para continuar</mat-hint
+      >
+    </mat-form-field>
+    <ng-template #paymentListLoading>
+      <mat-progress-spinner
+        color="primary"
+        mode="indeterminate"
+        diameter="32"
+      >
+      </mat-progress-spinner>
+    </ng-template>
+    <div *ngIf="showPayments">
+      <mat-form-field
+        appearance="outline"
+        *ngIf="isLoadedPayments; else paymentListLoading"
+      >
+        <mat-label>Plano de pagamento</mat-label>
+        <mat-select
+          formControlName="payment"
+          required
+        >
+          <mat-option
+            *ngIf="paymentList && paymentList.length > 1"
+          ></mat-option>
+          <mat-option
+            *ngFor="let payment of paymentList"
+            [value]="payment"
+            [disabled]="!(checkMinValue(payment.minimumValue!) > 0)"
+          >
+            {{ payment.description }}
+            <span
+              class="mat-caption"
+              *ngIf="!(checkMinValue(payment.minimumValue) > 0)"
+            >
+              Faltam {{ -checkMinValue(payment.minimumValue) | currency }} para
+              liberar esse plano de pagamento
+            </span>
+          </mat-option>
+        </mat-select>
+
+        <mat-icon matPrefix>currency_exchange</mat-icon>
+        <mat-hint
+          >{{ detalhePlanoPagamento }}Escolha ao menos um plano de pagamento
+          para continuar</mat-hint
+        >
+      </mat-form-field>
+    </div>
+  </form>
+</mat-card>
+
+<ng-template #loading>
+  <mat-progress-bar
+    color="primary"
+    mode="indeterminate"
+    aria-label="Carregando carrinho"
+  >
+  </mat-progress-bar>
+</ng-template>
+
+<ng-container
+  *ngIf="
+    cartList &&
+      cartList.length &&
+      warehouseList &&
+      warehouseList.length &&
+      paymentTypeList &&
+      paymentTypeList.length;
+    else loading
+  "
+>
+  <ng-container
+    *ngFor="
+      let cartItem of formGroup.get('cart')?.value?.cartItems;
+      let cartItemindex = index
+    "
+  >
+    <app-card-cart-item
+      [customerWarehouse]="
+        formGroup.get('cart')?.value
+          ? getCustomerWarehouseByHubId(formGroup.get('cart')?.value?.hubId)
+          : undefined
+      "
+      [cartItemIndex]="cartItemindex"
+      [productDetail]="getProductDetail(cartItem.productId)"
+      [cartItem]="cartItem"
+      [price]="getPriceById(cartItem.productRetailerId)"
+      [isLoadingPrice]="isLoadingPrice"
+      (carrinhoVazio)="atualizaCarrinhos($event)"
+    ></app-card-cart-item>
+  </ng-container>
+</ng-container>

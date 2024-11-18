@@ -1,0 +1,52 @@
+<h1
+  mat-dialog-title
+  [align]="'center'"
+>
+  <mat-icon
+    svgIcon="logo"
+    aria-hidden="true"
+  ></mat-icon>
+</h1>
+<p class="mat-hint">Selecione para continuar</p>
+<section
+  mat-dialog-content
+  *ngIf="CNPJList.length > 0; else loadingBlock"
+>
+  <mat-selection-list
+    [(ngModel)]="value"
+    (ngModelChange)="onNgModelChange($event)"
+    [multiple]="false"
+  >
+    <mat-list-option
+      multiLineOption
+      *ngFor="let CNPJ of CNPJList"
+      [value]="CNPJ"
+    >
+      {{ CNPJ | cnpj }}
+    </mat-list-option>
+  </mat-selection-list>
+</section>
+<ng-template #loadingBlock>
+  <mat-progress-bar
+    color="primary"
+    mode="indeterminate"
+    aria-label="Carregando CNPJ"
+  >
+  </mat-progress-bar>
+</ng-template>
+<ng-template #contentBlock>
+  <section mat-dialog-content>
+    <mat-selection-list
+      [(ngModel)]="value"
+      (ngModelChange)="onNgModelChange($event)"
+      [multiple]="false"
+    >
+      <mat-list-option
+        *ngFor="let CNPJ of CNPJList"
+        [value]="CNPJ"
+      >
+        {{ CNPJ }}
+      </mat-list-option>
+    </mat-selection-list>
+  </section>
+</ng-template>

@@ -1,0 +1,76 @@
+<mat-accordion>
+  <mat-expansion-panel
+    [id]="'panelProdNota' + produtoNota.produto.codigo"
+    (opened)="panelOpenState = true"
+    (closed)="panelOpenState = false"
+  >
+    <mat-expansion-panel-header>
+      <div class="item_produto">
+        <figure>
+          <img
+            app-img
+            loading="lazy"
+            width="90"
+            height="90"
+            [src]="
+              environment.superkImageUrlPrefix +
+              produtoNota.produto.fabricante +
+              '_' +
+              produtoNota.produto.codigo +
+              '.JPG'
+            "
+            alt="Sem Imagem"
+          />
+        </figure>
+
+        <header>
+          <h2 class="mat-h4">
+            {{ produtoNota.produto.descricao | uppercase }}
+          </h2>
+        </header>
+
+        <div class="quantidade">
+          <input
+            type="text"
+            mat-input
+            [value]="produtoNota.produto.quantidadeSelecionada"
+            readonly="“true”"
+          />
+          <button
+            id="btnEditarProdutoNota"
+            mat-button
+            color="primary"
+            (click)="editarProduto.emit(produtoNota.produto)"
+          >
+            Editar
+          </button>
+        </div>
+      </div>
+    </mat-expansion-panel-header>
+    <mat-divider></mat-divider>
+
+    <span class="titulo_nota">Nota fiscal - Origem de compra</span>
+    <div
+      class="nota"
+      *ngFor="let nota of produtoNota.notas"
+    >
+      <div class="detalhe_nota">
+        <span><b>NFe:</b> Nº {{ nota.referenceInvoice }}</span> |
+        <span
+          ><b>Data:</b> {{ nota.docDataNf | date : 'shortDate' : 'GMT' }}</span
+        >
+        | <span><b>Quantidade:</b> {{ nota.quantity }}</span> |
+        <span><b>Valor:</b> {{ nota.unityValue | currency }} unitário</span>
+      </div>
+      <!-- <div class="acao_nota">
+        <button
+          id="btnVerDetalheNota"
+          mat-stroked-button
+          color="primary"
+        >
+          Ver detalhes
+        </button>
+      </div> -->
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

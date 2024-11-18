@@ -1,0 +1,20 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mat-form-field {
+  width: 35px;
+  text-align: center;
+}
+
+.flex-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.mat-hint {
+  text-align: center;
+}

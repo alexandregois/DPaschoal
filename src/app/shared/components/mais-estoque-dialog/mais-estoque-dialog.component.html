@@ -1,0 +1,99 @@
+<button
+  mat-icon-button
+  mat-dialog-close
+  aria-label="Fechar"
+>
+  <mat-icon>close</mat-icon>
+</button>
+<h1 mat-dialog-title>Mais estoque</h1>
+<section mat-dialog-content>
+  <table>
+    <thead>
+      <tr>
+        <th scope="column">CD</th>
+        <th scope="column">Valor unitário</th>
+        <th scope="column">Quantidade</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let cd of cds">
+        <tr>
+          <th scope="row">
+            <dl>
+              <dt>{{ cd.store.description }}</dt>
+              <dd class="mat-caption">
+                <ng-container *ngIf="cd.loading; else estoqueSection">
+                  <mat-progress-spinner
+                    color="primary"
+                    mode="indeterminate"
+                    diameter="24"
+                  >
+                  </mat-progress-spinner>
+                </ng-container>
+                <ng-template #estoqueSection>
+                  <p
+                    class="disabled"
+                    *ngIf="cd.estoque === 0"
+                    >Produto indisponível</p
+                  >
+                  <p
+                    class="accent"
+                    *ngIf="cd.estoque && cd.estoque > 0"
+                    >{{ cd.estoque + ' un. em estoque' }}</p
+                  >
+                </ng-template>
+              </dd>
+            </dl>
+          </th>
+          <td class="mat-h3">
+            <ng-container *ngIf="cd.loading; else valorSection">
+              <mat-progress-spinner
+                color="primary"
+                mode="indeterminate"
+                diameter="24"
+              >
+              </mat-progress-spinner>
+            </ng-container>
+            <ng-template #valorSection>
+              <div *ngIf="cd.estoque && cd.estoque > 0"
+                >{{ cd.item.valor | currency }}
+              </div>
+            </ng-template>
+          </td>
+          <td>
+            <ng-container *ngIf="cd.loading; else quantidadeSection">
+              <mat-progress-spinner
+                color="primary"
+                mode="indeterminate"
+                diameter="24"
+              >
+              </mat-progress-spinner>
+            </ng-container>
+            <ng-template #quantidadeSection>
+              <app-quantidade-form-field
+                [value]="cd.item.quantidade"
+                [allowZero]="true"
+                [limit]="cd.estoque"
+                [minimum]="cd.item.quantidadeMin"
+                (update)="updateItemQuantidade(cd.item, $event)"
+              ></app-quantidade-form-field>
+            </ng-template>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</section>
+<mat-dialog-actions align="end">
+  <button
+    [disabled]="isLoadingPrices"
+    (click)="addToItemsToCart()"
+    mat-raised-button
+    color="accent"
+    [mat-dialog-close]="true"
+    cdkFocusInitial
+  >
+    <mat-icon> shopping_cart </mat-icon>
+    Adicionar ao carrinho
+  </button>
+</mat-dialog-actions>

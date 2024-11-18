@@ -1,0 +1,12 @@
+:host {
+  max-width: 768px;
+  display: block;
+}
+mat-icon {
+  margin-right: 0.5rem;
+}
+
+section {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+}

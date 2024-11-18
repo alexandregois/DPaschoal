@@ -1,0 +1,104 @@
+@use '/src/scss/colors';
+:host {
+  margin-top: 1em;
+  display: block;
+}
+
+mat-card {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-areas: 'tags favoritos favoritos' 'imagem titulo excluir' 'imagem descricao excluir' 'imagem status status' 'qtd valor valor' 'qtd total total';
+  @media (min-width: 768px) {
+    grid-template-columns: 3fr 7fr 2fr 2fr;
+    grid-template-areas: 'tags favoritos . excluir' 'imagem titulo . .' 'imagem valor qtd total' 'imagem descricao status status';
+  }
+}
+
+.mat-h2 {
+  color: colors.$primary;
+  font-weight: bold;
+  line-height: 1em;
+  margin: 0;
+}
+
+.mat-h3 {
+  margin: 0;
+}
+
+small {
+  display: block;
+}
+
+.tags {
+  grid-area: tags;
+}
+
+.favoritos {
+  grid-area: favoritos;
+  display: flex;
+  justify-content: space-between;
+}
+
+.imagem {
+  grid-area: imagem;
+}
+
+.titulo {
+  grid-area: titulo;
+  font-weight: bold;
+}
+
+.excluir {
+  grid-area: excluir;
+  color: colors.$warn;
+}
+
+.descricao {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  grid-area: descricao;
+}
+
+.status {
+  grid-area: status;
+  color: colors.$status-accent;
+}
+
+.qtd {
+  grid-area: qtd;
+  align-self: center;
+}
+
+.valor {
+  grid-area: valor;
+  align-self: center;
+}
+
+.total {
+  grid-area: total;
+  align-self: center;
+}
+
+mat-card > mat-divider {
+  position: static;
+  margin: 0rem 0 1rem 0;
+}
+
+.kdp-form {
+  padding-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  .excluir {
+    text-align: right;
+  }
+}
+
+.valor {
+  display: none;
+  @media (min-width: 768px) {
+    display: block;
+    text-align: left;
+  }
+}

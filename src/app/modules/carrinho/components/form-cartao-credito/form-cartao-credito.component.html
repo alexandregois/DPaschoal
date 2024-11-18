@@ -1,0 +1,213 @@
+<form
+  [formGroup]="cardForm"
+  (ngSubmit)="onSubmit()"
+  class="card-form"
+>
+  <h2 class="mat-h4">
+    <mat-icon>credit_card</mat-icon>
+    Pagamento
+  </h2>
+  <mat-form-field
+    appearance="outline"
+    class="card-form__field"
+  >
+    <mat-label>Número do cartão</mat-label>
+    <input
+      matInput
+      type="text"
+      formControlName="cardNumber"
+      mask="0000 0000 0000 0000"
+    />
+    <mat-hint *ngIf="cardType">{{ cardType }}</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field
+    appearance="outline"
+    class="card-form__field"
+  >
+    <mat-label>Nome impresso no cartão</mat-label>
+    <input
+      matInput
+      formControlName="cardName"
+      (keydown)="preventNumber($event)"
+    />
+  </mat-form-field>
+
+  <div class="card-form__expiry">
+    <mat-form-field
+      appearance="outline"
+      class="card-form__expiry-field"
+    >
+      <mat-label>Ano de vencimento</mat-label>
+      <mat-select formControlName="expiryYear">
+        <mat-option
+          *ngFor="let year of years"
+          [value]="year"
+          >{{ year }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field
+      appearance="outline"
+      class="card-form__expiry-field"
+    >
+      <mat-label>Mês de expiração</mat-label>
+      <mat-select formControlName="expiryMonth">
+        <mat-option
+          *ngFor="let month of [01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12]"
+          [value]="month"
+          >{{ month }}</mat-option
+        ></mat-select
+      >
+    </mat-form-field>
+
+    <mat-form-field
+      appearance="outline"
+      class="card-form__expiry-field"
+    >
+      <mat-label>{{ cardSecurityCodeName || 'CVV' }}</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="cvv"
+        mask="000"
+      />
+    </mat-form-field>
+  </div>
+
+  <div
+    class="expiry-error"
+    *ngIf="cardForm.get('expiryMonth')?.hasError('expired')"
+  >
+    A data de expiração não pode ser anterior à data atual.
+  </div>
+  <mat-form-field
+    appearance="outline"
+    class="card-form__field"
+  >
+    <mat-label>CPF/CNPJ Titular</mat-label>
+    <input
+      matInput
+      formControlName="cpfcnpj"
+      autocomplete="off"
+      mask="000.000.000-00 || 00.000.000/0000-00"
+      maxlength="20"
+    />
+  </mat-form-field>
+  <mat-divider></mat-divider>
+  <br />
+  <h2 class="mat-h4">
+    <mat-icon>place</mat-icon>
+    Endereço de cobrança
+  </h2>
+  <mat-radio-group
+    [(ngModel)]="opcaoSelecionada"
+    color="primary"
+    aria-label="Select an option"
+    class="radio-groud-class"
+  >
+    <mat-radio-button
+      (change)="radioButtonChanged($event.value)"
+      class="custom-radio-button"
+      [checked]="true"
+      value="1"
+      >Usar endereço de entrega</mat-radio-button
+    >
+    <mat-radio-button
+      (change)="radioButtonChanged($event.value)"
+      class="custom-radio-button"
+      value="2"
+      >Usar outro endereço</mat-radio-button
+    >
+  </mat-radio-group>
+  <br />
+  <div *ngIf="ishidden">
+    <div class="card-form__expiry">
+      <mat-form-field
+        appearance="outline"
+        class="card-form__field_with01"
+      >
+        <mat-label>CEP*</mat-label>
+        <input
+          (change)="buscarEndereco()"
+          matInput
+          formControlName="cep"
+        />
+        <mat-hint> Digite o CEP para pesquisar o endereço. </mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div class="card-form__expiry">
+      <mat-form-field
+        appearance="outline"
+        class="card-form__field_with04"
+      >
+        <mat-label>Endereço</mat-label>
+        <input
+          matInput
+          formControlName="endereco"
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="card-form__expiry">
+      <mat-form-field
+        appearance="outline"
+        class="card-form__field_with05"
+      >
+        <mat-label>Número*</mat-label>
+        <input
+          matInput
+          formControlName="numero"
+        />
+      </mat-form-field>
+      <mat-form-field
+        appearance="outline"
+        class="card-form__field_with02"
+      >
+        <mat-label>Complemento</mat-label>
+        <input
+          matInput
+          formControlName="complemento"
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="card-form__expiry">
+      <mat-form-field
+        appearance="outline"
+        appearance="outline"
+        class="card-form__field"
+      >
+        <mat-label>Bairro*</mat-label>
+        <input
+          matInput
+          formControlName="bairro"
+        />
+      </mat-form-field>
+
+      <mat-form-field
+        appearance="outline"
+        class="card-form__field"
+      >
+        <mat-label>Cidade*</mat-label>
+        <input
+          matInput
+          formControlName="cidade"
+        />
+      </mat-form-field>
+
+      <mat-form-field
+        appearance="outline"
+        class="card-form__field"
+      >
+        <mat-label>Estado*</mat-label>
+        <input
+          matInput
+          formControlName="estado"
+        />
+      </mat-form-field>
+    </div>
+  </div>
+</form>

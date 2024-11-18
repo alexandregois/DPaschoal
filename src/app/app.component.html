@@ -1,0 +1,51 @@
+<ng-container *ngIf="template !== undefined">
+  <ng-container
+    *ngIf="template === pageTemplates.FULLSCREEN; else completeView"
+  >
+    <router-outlet></router-outlet>
+  </ng-container>
+  <ng-template #completeView>
+    <mat-drawer-container [hasBackdrop]="true">
+      <mat-drawer
+        #drawer
+        mode="over"
+        position="end"
+        fixedInViewport="true"
+      >
+        <app-sidenav></app-sidenav>
+      </mat-drawer>
+      <mat-drawer-content>
+        <app-header></app-header>
+        <main
+          [ngClass]="{
+            wrapper:
+              template !== pageTemplates.NO_WRAPPER &&
+              (template === pageTemplates.DEFAULT ||
+                template === pageTemplates.NO_CONTAINER)
+          }"
+        >
+          <header *ngIf="title">
+            <h1>{{ title }}</h1>
+            <small
+              *ngIf="subtitle"
+              class="mat-subheading-1"
+            >
+              {{ subtitle }}
+            </small>
+          </header>
+          <section
+            [ngClass]="{
+              'mat-card':
+                template !== pageTemplates.NO_CONTAINER &&
+                template === pageTemplates.DEFAULT
+            }"
+          >
+            <router-outlet></router-outlet>
+          </section>
+          <app-cookies></app-cookies>
+        </main>
+        <app-footer></app-footer>
+      </mat-drawer-content>
+    </mat-drawer-container>
+  </ng-template>
+</ng-container>

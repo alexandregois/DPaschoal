@@ -1,0 +1,22 @@
+@use '/src/scss/colors';
+
+mat-card {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  margin: 10px;
+}
+
+mat-card-subtitle {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+mat-card-content {
+  margin-top: 0.5rem;
+  color: colors.$accent;
+}
+
+.btnVoltar {
+  font-size: 14px;
+  line-height: 0px !important;
+}

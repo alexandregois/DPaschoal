@@ -1,0 +1,45 @@
+<content *ngIf="produtosSelecionados">
+  <div
+    class="item_produto"
+    *ngFor="let produto of produtosSelecionados"
+  >
+    <figure>
+      <img
+        app-img
+        loading="lazy"
+        width="120"
+        height="120"
+        [src]="
+          environment.superkImageUrlPrefix +
+          produto.fabricante +
+          '_' +
+          produto.codigo +
+          '.jpg'
+        "
+        alt="Sem imagem"
+      />
+    </figure>
+
+    <header>
+      <h2 class="mat-h4">
+        {{ produto.descricao | uppercase }}
+      </h2>
+    </header>
+
+    <div class="quantidade">
+      <app-quantidade-form-field
+        [value]="produto.quantidadeSelecionada"
+        [limit]="1000"
+        [minimum]="1"
+        (update)="atualizarProduto($event, produto)"
+      ></app-quantidade-form-field>
+      <button
+        id="btnReomverProdSelecionado"
+        mat-button
+        (click)="removerProduto(produto)"
+      >
+        Remover
+      </button>
+    </div>
+  </div>
+</content>

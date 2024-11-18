@@ -1,0 +1,127 @@
+.card-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  margin: auto;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-form__field,
+.card-form__expiry-field {
+  margin-left: 10px;
+  @media (max-width: 400px) {
+    margin-left: 1px;
+    width: -webkit-fill-available;
+  }
+}
+
+.card-form__field_with01,
+.card-form__expiry-field {
+  margin-left: 10px;
+  width: 45%;
+  @media (max-width: 400px) {
+    margin-left: 1px;
+    width: -webkit-fill-available;
+  }
+}
+
+.radio-groud-class {
+  margin-left: 10px;
+  @media (max-width: 400px) {
+    margin-left: 1px;
+  }
+}
+
+.card-form__field_with02,
+.card-form__expiry-field {
+  margin-left: 10px;
+  width: 70%;
+  @media (max-width: 400px) {
+    margin-left: 1px;
+    width: -webkit-fill-available;
+  }
+}
+
+.card-form__field_with03,
+.card-form__expiry-field {
+  margin-left: 10px;
+  width: 30%;
+  @media (max-width: 400px) {
+    margin-left: 1px;
+    width: -webkit-fill-available;
+  }
+}
+
+.card-form__field_with04,
+.card-form__expiry-field {
+  margin-left: 10px;
+  width: 100%;
+  @media (max-width: 400px) {
+    margin-left: 1px;
+    width: -webkit-fill-available;
+  }
+}
+
+.card-form__field_with05,
+.card-form__expiry-field {
+  margin-left: 10px;
+  @media (max-width: 400px) {
+    margin-left: 1px;
+    width: -webkit-fill-available;
+  }
+}
+
+.card-form__expiry {
+  display: flex;
+  justify-content: space-between;
+  @media (max-width: 400px) {
+    display: block;
+  }
+}
+
+.card-form__expiry-field {
+  width: 48%;
+  @media (max-width: 400px) {
+    width: -webkit-fill-available;
+  }
+}
+
+.expiry-error {
+  width: 95%;
+  color: red;
+  font-size: 12px;
+  position: relative;
+  bottom: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.kdp-frete {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  display: inline-grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  width: 100%;
+  max-width: 500px;
+  gap: 0.5rem;
+}
+.custom-radio-button {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.custom-inline {
+  margin-right: 10px;
+  display: inherit !important;
+}
+.custom-notline {
+  margin-right: 10px;
+}
+.endereco-class {
+  display: grid !important;
+}
+.mat-h4 {
+  color: #0060a8;
+}

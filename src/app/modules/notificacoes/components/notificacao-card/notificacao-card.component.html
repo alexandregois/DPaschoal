@@ -1,0 +1,21 @@
+<content
+  *ngIf="notificacao"
+  [routerLink]="
+    notificacao.descriptionType === 'Limite de Crédito' ? '/credito' : null
+  "
+  [class]="{ clickable: notificacao.descriptionType === 'Limite de Crédito' }"
+>
+  <div class="icone">
+    <mat-icon
+      color="primary"
+      [appNotificacaoTipoIcone]="notificacao.descriptionType || ''"
+    ></mat-icon>
+  </div>
+  <div class="descricao">
+    <h2 align="start">{{ notificacao.title }}</h2>
+    <span class="mat-h3">{{ notificacao.description }}</span>
+  </div>
+  <span class="data_hora">{{
+    notificacao.createdDate | date : 'd/M/y HH:mm '
+  }}</span>
+</content>

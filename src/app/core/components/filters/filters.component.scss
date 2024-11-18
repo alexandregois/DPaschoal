@@ -1,0 +1,20 @@
+:host {
+  display: block;
+  padding: 0.5rem 1rem;
+  &[hidden] {
+    display: none;
+  }
+}
+
+mat-form-field {
+  & + & {
+    margin-left: 0.5rem;
+  }
+  ::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+}
+
+:host:empty {
+  padding: 0;
+}

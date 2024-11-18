@@ -1,0 +1,52 @@
+$light-text: #ffffff !default;
+$light-primary-text: $light-text !default;
+$light-accent-text: rgba($light-primary-text, 0.7) !default;
+$light-disabled-text: rgba($light-primary-text, 0.5) !default;
+$light-dividers: rgba($light-primary-text, 0.12) !default;
+$light-focused: rgba($light-primary-text, 0.12) !default;
+
+$dark-text: #000000 !default;
+$dark-primary-text: rgba($dark-text, 0.87) !default;
+$dark-accent-text: rgba($dark-primary-text, 0.54) !default;
+$dark-disabled-text: rgba($dark-primary-text, 0.38) !default;
+$dark-dividers: rgba($dark-primary-text, 0.12) !default;
+$dark-focused: rgba($dark-primary-text, 0.12) !default;
+
+body {
+  --primary-color: #0060a8;
+  --primary-lighter-color: #b3cfe5;
+  --primary-darker-color: #00448d;
+  --text-primary-color: #{$light-primary-text};
+  --text-primary-lighter-color: #{$dark-primary-text};
+  --text-primary-darker-color: #{$light-primary-text};
+}
+
+body {
+  --accent-color: #4caf50;
+  --accent-lighter-color: #c9e7cb;
+  --accent-darker-color: #339637;
+  --text-accent-color: #{$dark-primary-text};
+  --text-accent-lighter-color: #{$dark-primary-text};
+  --text-accent-darker-color: #{$light-primary-text};
+}
+
+body {
+  --warn-color: #7e0f0f;
+  --warn-lighter-color: #d8b7b7;
+  --warn-darker-color: #610808;
+  --text-warn-color: #{$light-primary-text};
+  --text-warn-lighter-color: #{$dark-primary-text};
+  --text-warn-darker-color: #{$light-primary-text};
+}
+@import '../../scss/styles';
+
+.material-icons .mat-badge-content {
+  background: #f8bc1b;
+}
+
+.mat-progress-spinner#header,
+.mat-spinner#header {
+  circle {
+    stroke: #f8bc1b;
+  }
+}

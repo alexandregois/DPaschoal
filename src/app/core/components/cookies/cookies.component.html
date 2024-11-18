@@ -1,0 +1,20 @@
+<footer *ngIf="!cookiesAceito">
+  <div>
+    <span>
+      Cookies: a gente guarda estatísticas de visitas para melhorar sua
+      experiência de navegação, saiba mais em nossa
+      <a
+        target="_blank"
+        href=" https://www.grupodpaschoal.com.br/wp-content/uploads/2021/09/Politica-Privacidade-e-Protecao-de-Dados-Pessoais-Externa_vFinal.pdf"
+        >Política de Privacidade</a
+      ></span
+    >
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="aceiteCookies()"
+    >
+      ENTENDI E FECHAR
+    </button>
+  </div>
+</footer>

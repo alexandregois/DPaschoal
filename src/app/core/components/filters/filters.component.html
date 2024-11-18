@@ -1,0 +1,43 @@
+<ng-container *ngIf="isLoadingWarehouse$ | async; else combosWarehouseSection">
+  <mat-progress-bar
+    color="primary"
+    mode="indeterminate"
+  ></mat-progress-bar>
+</ng-container>
+
+<ng-template #combosWarehouseSection>
+  <mat-form-field
+    appearance="outline"
+    *ngIf="showCategory"
+  >
+    <mat-label>Categorias</mat-label>
+    <mat-select
+      [(value)]="selectedCategory"
+      (selectionChange)="getWarehousesByCategory($event.value)"
+    >
+      <mat-option
+        *ngFor="let recipient of warehousesByCategory | keyvalue"
+        [value]="recipient.key"
+      >
+        {{ recipient.key }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field
+    appearance="outline"
+    *ngIf="isLogged"
+  >
+    <mat-label>Depósito</mat-label>
+    <mat-select
+      [value]="selectedWarehouse"
+      (selectionChange)="setWarehouse($event.value)"
+    >
+      <mat-option
+        *ngFor="let dep of warehouses"
+        [value]="dep"
+      >
+        {{ dep.description }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-template>

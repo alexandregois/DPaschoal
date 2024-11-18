@@ -1,0 +1,23 @@
+<mat-card>
+  <h2 class="mat-h4">
+    <mat-icon>home</mat-icon>
+    Endereço de entrega
+  </h2>
+  <ng-container *ngIf="isLoading$ | async; else addressBlock">
+    <mat-progress-bar
+      color="primary"
+      mode="indeterminate"
+    ></mat-progress-bar>
+  </ng-container>
+  <ng-template #addressBlock>
+    <address>
+      {{ address?.street }} - {{ address?.number }} - {{ address?.complement }}
+      <br />
+      {{ address?.neighborhood }}
+      <br />
+      {{ address?.city }} - {{ address?.uf }}
+      <br />
+      CEP: {{ address?.zipcode }}
+    </address>
+  </ng-template>
+</mat-card>

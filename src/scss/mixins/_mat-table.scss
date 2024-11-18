@@ -1,0 +1,88 @@
+@use '/src/scss/angular-material-theme' as theme;
+@use '/src/scss/helpers';
+@use '/src/scss/colors';
+
+@mixin mat-table() {
+  & {
+    width: 100%;
+  }
+
+  @media #{helpers.$mat-lt-md} {
+    ::ng-deep {
+      thead {
+        display: none;
+      }
+
+      tbody {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      }
+    }
+  }
+
+  @media #{helpers.$mat-lt-md} {
+    tr {
+      height: auto;
+      display: block;
+      padding: 16px;
+      border: 1px solid theme.$dark-dividers;
+      border-radius: 8px;
+    }
+  }
+
+  .mat-header-cell {
+    background-color: colors.$primary;
+    color: white;
+  }
+
+  .mat-header-cell,
+  .mat-cell,
+  .mat-footer-cell {
+    @media #{helpers.$mat-lt-md} {
+      display: block;
+      width: 100%;
+      padding: 0;
+    }
+
+    &:first-of-type {
+      padding-right: 6px;
+      @media #{helpers.$mat-lt-md} {
+        border-width: 0;
+        padding: 0;
+      }
+    }
+
+    &:last-of-type {
+      padding-left: 6px;
+      @media #{helpers.$mat-lt-md} {
+        border-width: 0;
+        padding: 0;
+      }
+    }
+
+    &:not(:first-of-type):not(:last-of-type) {
+      padding-left: 6px;
+      padding-right: 6px;
+      @media #{helpers.$mat-lt-md} {
+        border-width: 0;
+        padding: 0;
+      }
+    }
+
+    @media #{helpers.$mat-lt-md} {
+      &:before {
+        display: block;
+        margin-bottom: 2px;
+        content: attr(data-title);
+        font-weight: bold;
+        margin-top: 8px;
+        margin-bottom: 2px;
+      }
+
+      &:first-of-type:before {
+        margin-top: 0;
+      }
+    }
+  }
+}

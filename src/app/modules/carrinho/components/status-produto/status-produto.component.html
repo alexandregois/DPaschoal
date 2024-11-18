@@ -1,0 +1,14 @@
+<mat-chip-list
+  role="listbox"
+  aria-label="status do produto"
+>
+  <mat-chip
+    *ngIf="status"
+    role="option"
+    [aria-label]="status"
+    color="warn"
+    selected
+  >
+    {{ status }}
+  </mat-chip>
+</mat-chip-list>

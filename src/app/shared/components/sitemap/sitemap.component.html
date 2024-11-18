@@ -1,0 +1,14 @@
+<mat-nav-list role="navigation">
+  <h2 mat-subheader>Mapa do site</h2>
+  <section>
+    <a
+      mat-list-item
+      [attr.href]="link.path"
+      [attr.target]="link.external ? '_blank' : null"
+      *ngFor="let link of links"
+    >
+      <mat-icon>{{ link.icon }}</mat-icon>
+      {{ link.title }}
+    </a>
+  </section>
+</mat-nav-list>

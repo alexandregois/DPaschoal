@@ -1,0 +1,18 @@
+@use '/src/scss/angular-material-theme' as theme;
+@use '/src/scss/colors';
+
+mat-card {
+  box-sizing: border-box;
+  background-color: theme.$dark-focused;
+  height: 100%;
+  padding: 10px;
+}
+
+h2 {
+  color: colors.$primary;
+}
+
+address {
+  font-style: normal;
+  padding-left: 1rem;
+}

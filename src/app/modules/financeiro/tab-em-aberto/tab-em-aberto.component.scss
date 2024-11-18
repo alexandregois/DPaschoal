@@ -1,0 +1,48 @@
+@use '/src/scss/mixins';
+
+[mat-table] {
+  @include mixins.mat-table();
+}
+
+.filtro {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-content: flex-start;
+  align-items: flex-start;
+  gap: 1rem;
+
+  .mat-form-field {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+  }
+
+  button {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+    margin: 0.25em 0;
+    padding: 0.5rem 2rem;
+  }
+}
+
+a {
+  color: black;
+}
+
+mat-progress-bar {
+  margin-top: 1rem;
+}
+
+.showMsgNoData {
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-align: center;
+  padding-top: 4rem;
+}
+
+::ng-deep .mat-paginator-range-label {
+  display: none !important;
+}

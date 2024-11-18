@@ -1,0 +1,28 @@
+<mat-card *ngIf="portal === 'DPK'">
+  <mat-card-subtitle>Limite de crédito atual</mat-card-subtitle>
+  <mat-divider inset></mat-divider>
+  <ng-template #content>
+    <mat-card-content>{{ creditLimitValue | currency }}</mat-card-content>
+  </ng-template>
+  <mat-card-footer *ngIf="isLoading; else content">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>
+<mat-card>
+  <mat-card-subtitle>AutoCred</mat-card-subtitle>
+  <mat-divider inset></mat-divider>
+  <ng-template #content>
+    <mat-card-content>
+      <button
+        class="btnVoltar"
+        mat-button
+        color="primary"
+        (click)="consultarAutoCred()"
+        >Consulte aqui
+      </button>
+    </mat-card-content>
+  </ng-template>
+  <mat-card-footer *ngIf="isLoading; else content">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>

@@ -1,0 +1,24 @@
+.corpo {
+  display: grid;
+  gap: 1rem;
+
+  button {
+    margin-bottom: 1.5rem;
+    width: 280px;
+  }
+}
+
+mat-divider {
+  margin-bottom: 1rem;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.centro {
+  display: grid;
+  gap: 1rem;
+}

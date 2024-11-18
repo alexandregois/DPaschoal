@@ -1,0 +1,25 @@
+[mat-dialog-close] {
+  grid-area: close;
+  float: right;
+  margin-top: -0.25rem;
+}
+
+content {
+  display: grid;
+  grid-template-columns: auto min-content;
+  grid-template-areas: 'info close' 'texto texto';
+  text-align: center;
+  justify-items: center;
+}
+[info_icon] {
+  grid-area: info;
+
+  height: 45px;
+  width: 45px;
+  font-size: xxx-large;
+  margin-left: 2rem;
+}
+
+[texto] {
+  grid-area: texto;
+}

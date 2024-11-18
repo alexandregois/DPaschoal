@@ -1,0 +1,87 @@
+@use '/src/scss/colors';
+[mat-dialog-close] {
+  float: right;
+  margin-top: -0.25rem;
+  margin-left: 1rem;
+}
+
+p.accent {
+  color: colors.$accent;
+}
+
+p.disabled {
+  color: rgba(black, 0.38);
+}
+
+table {
+  width: 100%;
+}
+
+thead {
+  visibility: hidden;
+  pointer-events: none;
+  position: absolute;
+}
+
+th {
+  width: 100%;
+}
+
+td,
+th {
+  text-align: left;
+  padding: 1rem 0.5rem;
+  &:first-child {
+    padding-left: 0;
+  }
+  &:last-child {
+    padding-right: 0;
+  }
+}
+
+dl {
+  margin: 0;
+}
+
+dd {
+  margin-left: 0;
+  font-weight: normal;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.mat-h3 {
+  color: colors.$primary;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (max-width: 600px) {
+  dl {
+    margin: 0;
+  }
+  tr {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    align-items: center;
+    grid-template-areas: 'heading heading' 'price qty';
+  }
+  th {
+    grid-area: heading;
+  }
+  td {
+    grid-area: qty;
+  }
+  .mat-h3 {
+    grid-area: price;
+  }
+  td,
+  th {
+    padding: 0;
+  }
+}

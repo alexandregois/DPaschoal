@@ -1,0 +1,22 @@
+<button
+  mat-icon-button
+  mat-dialog-close
+  aria-label="Fechar"
+>
+  <mat-icon>close</mat-icon>
+</button>
+<h2 mat-dialog-title>Não é possível carregar este arquivo</h2>
+<mat-divider></mat-divider>
+<section mat-dialog-content>
+  <h4>Anexe um arquivo com extensão *PDF ou *JPG</h4>
+</section>
+<mat-dialog-actions align="center">
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="anexarNovamente()"
+    cdkFocusInitial
+  >
+    Anexar Novamente
+  </button>
+</mat-dialog-actions>

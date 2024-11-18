@@ -1,0 +1,42 @@
+section {
+  display: grid;
+  grid-template-columns: 2fr auto 2fr;
+  grid-template-areas: 'btn_anterior slide btn_proxima';
+  align-items: center;
+}
+
+button[aria-label='Produto anterior'] {
+  grid-area: btn_anterior;
+}
+
+button[aria-label='Próximo produto'] {
+  grid-area: btn_proxima;
+}
+
+.slides-list {
+  grid-area: slide;
+  overflow: hidden;
+
+  list-style-type: none;
+  margin: 5px 0;
+  padding: 3px;
+  gap: 2rem;
+
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(3, 28vw);
+
+  @media (min-width: 1360px) {
+    grid-template-columns: repeat(4, 16.27vw);
+  }
+
+  app-produto-card {
+    display: grid;
+    grid-template-columns: 28vw;
+    margin-bottom: 2px;
+
+    @media (min-width: 1360px) {
+      grid-template-columns: 16.27vw;
+    }
+  }
+}

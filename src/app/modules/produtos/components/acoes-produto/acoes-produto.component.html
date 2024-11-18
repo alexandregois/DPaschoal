@@ -1,0 +1,92 @@
+<section>
+  <ng-container *ngIf="isLoading; else contentSection">
+    <mat-progress-bar
+      color="primary"
+      mode="indeterminate"
+    ></mat-progress-bar>
+  </ng-container>
+  <ng-template #contentSection>
+    <ng-container
+      id="off"
+      *ngIf="!isLogged; else blockLogado"
+    >
+      <div class="acoes_preco">
+        <button
+          mat-raised-button
+          color="primary"
+          arial-label="Botão ver preço"
+          (click)="verPreco()"
+        >
+          Ver preço
+        </button>
+      </div>
+    </ng-container>
+    <ng-template
+      id="on"
+      #blockLogado
+    >
+      <ng-container *ngIf="isLoadingPrice; else mostraAcoes">
+        <mat-progress-spinner
+          color="primary"
+          mode="indeterminate"
+          diameter="30"
+        >
+        </mat-progress-spinner>
+      </ng-container>
+      <ng-template #mostraAcoes>
+        <ng-container *ngIf="estoque?.stock; else blockAviseMe">
+          <div class="acoes_qtd_carrinho">
+            <app-quantidade-form-field
+              *ngIf="estoque?.stock"
+              [value]="qtd"
+              [limit]="maxQtd"
+              [minimum]="minQtd"
+              (update)="atualizarValorProduto($event)"
+            ></app-quantidade-form-field>
+            <button
+              mat-raised-button
+              color="accent"
+              arial-label="Botão adicionar ao carrinho"
+              [disabled]="!valorTotal || isAddingCart"
+              (click)="adicionarCarrinho()"
+            >
+              <mat-icon>shopping_cart</mat-icon>
+              {{ isAddingCart ? 'Adicionando...' : 'Adicionar ao carrinho' }}
+            </button>
+          </div>
+        </ng-container>
+        <ng-template #blockAviseMe>
+          <div class="acoes_aviseme">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="aviseMe()"
+            >
+              Avise-me quando chegar
+            </button>
+          </div>
+        </ng-template>
+      </ng-template>
+    </ng-template>
+    <div class="acoes_similares_estoque">
+      <button
+        [ngStyle]="{ 'border-color': portal === 'DPK' ? '#0060a8' : '#7e0f0f' }"
+        mat-stroked-button
+        color="primary"
+        arial-label="Botão produtos similares"
+        (click)="verSimilares()"
+      >
+        Produtos similares
+      </button>
+      <button
+        *ngIf="isLogged"
+        mat-button
+        color="primary"
+        arial-label="Botão ver mais estoques"
+        (click)="maisEstoques()"
+      >
+        Ver + estoques
+      </button>
+    </div>
+  </ng-template>
+</section>

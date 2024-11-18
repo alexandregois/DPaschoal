@@ -1,0 +1,41 @@
+<ng-container *ngIf="isLoading; else favoritosSection">
+  <mat-progress-bar
+    color="primary"
+    mode="indeterminate"
+  ></mat-progress-bar>
+</ng-container>
+<ng-template #favoritosSection>
+  <ng-template #favoritoVazio>
+    <div class="kdp-favorito-vazio">
+      <h1>Nenhum produto em favoritos!</h1>
+      <a
+        mat-flat-button
+        color="primary"
+        routerLink="/"
+      >
+        Ir para as compras
+      </a>
+    </div>
+  </ng-template>
+
+  <ng-container *ngIf="favoritosPorPagina && length > 0; else favoritoVazio">
+    <section>
+      <app-produto-card
+        *ngFor="let prodFavorito of favoritosPorPagina"
+        [idProduct]="prodFavorito.idProduct"
+        [isVisibleFavorite]="false"
+      ></app-produto-card>
+    </section>
+
+    <mat-paginator
+      (page)="mudarPagina($event)"
+      [length]="length"
+      [pageSize]="pageSize"
+      pageSizeLabel="Itens por página:"
+      [showFirstLastButtons]="true"
+      [pageIndex]="pageIndex"
+      aria-label="Selecionar página"
+    >
+    </mat-paginator>
+  </ng-container>
+</ng-template>

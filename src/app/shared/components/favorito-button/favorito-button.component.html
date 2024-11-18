@@ -1,0 +1,28 @@
+<ng-container *ngIf="isLoading; else blockFavorito">
+  <mat-progress-spinner
+    color="primary"
+    mode="indeterminate"
+    diameter="24"
+  >
+  </mat-progress-spinner>
+</ng-container>
+<ng-template #blockFavorito>
+  <ng-container *ngIf="isFavorito; else showNotFav">
+    <button
+      mat-icon-button
+      aria-label="Botão favorito"
+      (click)="removerFavorito()"
+    >
+      <mat-icon color="primary">favorite</mat-icon>
+    </button>
+  </ng-container>
+  <ng-template #showNotFav>
+    <button
+      mat-icon-button
+      aria-label="Botão favorito"
+      (click)="addFavorito()"
+    >
+      <mat-icon color="default">favorite_border</mat-icon>
+    </button>
+  </ng-template>
+</ng-template>

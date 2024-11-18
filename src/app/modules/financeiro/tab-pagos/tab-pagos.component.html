@@ -1,0 +1,266 @@
+<ng-template #loading>
+  <mat-progress-bar
+    color="primary"
+    mode="indeterminate"
+    aria-label="Carregando dados de titulo pagos"
+  >
+  </mat-progress-bar>
+</ng-template>
+
+<ng-container *ngIf="!isLoading; else loading">
+  <ng-template #showMsgNoData>
+    <p class="showMsgNoData">Você não possui documentos pagos</p>
+  </ng-template>
+
+  <ng-container *ngIf="dataSource.data.length; else showMsgNoData">
+    <form
+      [formGroup]="filtro"
+      (ngSubmit)="applyFilter()"
+      class="filtro"
+    >
+      <mat-form-field appearance="outline">
+        <mat-label>Número da nota</mat-label>
+        <input
+          matInput
+          formControlName="filtroNota"
+          #input
+        />
+      </mat-form-field>
+      <button
+        type="submit"
+        mat-raised-button
+        color="primary"
+        >Procurar</button
+      >
+    </form>
+
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+    >
+      <ng-container matColumnDef="invoiceNumber">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          >NOTA FISCAL</th
+        >
+        <td
+          mat-cell
+          data-title="NOTA"
+          *matCellDef="let row"
+        >
+          {{ row.invoiceNumber }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="number">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          >TÍTULO</th
+        >
+        <td
+          mat-cell
+          data-title="TÍTULO"
+          *matCellDef="let row"
+        >
+          {{ row.number }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="parcel">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          >PARCELA</th
+        >
+        <td
+          mat-cell
+          data-title="PARCELA"
+          *matCellDef="let row"
+        >
+          {{ row.parcel }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="issueDate">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          >EMISSÃO</th
+        >
+        <td
+          mat-cell
+          data-title="EMISSÃO"
+          *matCellDef="let row"
+        >
+          {{ row.issueDate | date : 'shortDate' : 'GMT' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dueDate">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          >VENCIMENTO</th
+        >
+        <td
+          mat-cell
+          data-title="VENCIMENTO"
+          *matCellDef="let row"
+        >
+          {{ row.dueDate | date : 'shortDate' : 'GMT' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="parcelValue">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          >VALOR PARCELA</th
+        >
+        <td
+          mat-cell
+          data-title="VALOR PARCELA"
+          *matCellDef="let row"
+        >
+          {{ row.parcelValue | currency }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          >STATUS</th
+        >
+        <td
+          mat-cell
+          data-title="STATUS"
+          *matCellDef="let row"
+        >
+          {{ row.status === 6 ? 'Pago' : row.status }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="xml">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          >XML</th
+        >
+        <td
+          mat-cell
+          data-title="XML"
+          *matCellDef="let row; let i = index"
+        >
+          <mat-spinner
+            [diameter]="24"
+            *ngIf="
+              pendingDownload[paginator.pageIndex] &&
+                pendingDownload[paginator.pageIndex][i] &&
+                pendingDownload[paginator.pageIndex][i][row.xmlType];
+              else showBtnXml
+            "
+          ></mat-spinner>
+          <ng-template #showBtnXml>
+            <button
+              mat-icon-button
+              aria-label="Baixar XML"
+              (click)="
+                getInvoiceDocument(
+                  row.documentNumber,
+                  row.xmlType,
+                  paginator.pageIndex,
+                  i
+                )
+              "
+            >
+              <mat-icon>download</mat-icon>
+            </button>
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="danfe">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          >DANFE</th
+        >
+        <td
+          mat-cell
+          data-title="DANFE"
+          *matCellDef="let row; let i = index"
+        >
+          <mat-spinner
+            [diameter]="24"
+            *ngIf="
+              pendingDownload[paginator.pageIndex] &&
+                pendingDownload[paginator.pageIndex][i] &&
+                pendingDownload[paginator.pageIndex][i][row.danfeType];
+              else showBtnDanfe
+            "
+          ></mat-spinner>
+
+          <ng-template #showBtnDanfe>
+            <button
+              mat-icon-button
+              aria-label="Baixar danfe"
+              (click)="
+                getInvoiceDocument(
+                  row.documentNumber,
+                  row.danfeType,
+                  paginator.pageIndex,
+                  i
+                )
+              "
+            >
+              <mat-icon>description</mat-icon>
+            </button>
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <tr
+        mat-header-row
+        *matHeaderRowDef="displayedColumns"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+      ></tr>
+
+      <tr
+        mat-row
+        *matNoDataRow
+      >
+        <td
+          mat-cell
+          [attr.colspan]="displayedColumns.length"
+        >
+          Nenhum dado correspondente ao filtro "{{ input.value }}"
+        </td>
+      </tr>
+    </table>
+    <br />
+    <button
+      *ngIf="!isLoadingMore; else loading"
+      style="align-items: center"
+      type="button"
+      mat-raised-button
+      (click)="loadDataMore()"
+      color="primary"
+      >Carregar mais...</button
+    >
+  </ng-container>
+</ng-container>
+
+<nav [hidden]="isLoading || !dataSource.data.length">
+  <mat-paginator
+    [ngStyle]="{ display: isShowPagination ? 'block' : 'none' }"
+    aria-label="Selecione a página"
+  >
+  </mat-paginator>
+</nav>

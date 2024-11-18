@@ -1,0 +1,82 @@
+<ng-container *ngIf="isLoading; else pedidoSection">
+  <mat-progress-bar
+    color="primary"
+    mode="indeterminate"
+  ></mat-progress-bar>
+</ng-container>
+<ng-template #pedidoSection>
+  <section>
+    <app-card-pedido
+      [pedido]="pedido"
+      [listaStatus]="statusList"
+    ></app-card-pedido>
+    <app-botoes
+      [pedido]="pedido"
+      [detalhe]="true"
+    ></app-botoes>
+    <app-informacoes-pedido [pedido]="pedido"></app-informacoes-pedido>
+    <section>
+      <app-item-pedido
+        *ngFor="let item of pedido?.orderItems"
+        [item]="item"
+      ></app-item-pedido>
+    </section>
+    <footer>
+      <table *ngIf="pedido">
+        <tfoot>
+          <tr class="mat-h2">
+            <th scope="row">Total:</th>
+            <td>{{ pedido.total | currency }}</td>
+          </tr>
+        </tfoot>
+        <tbody>
+          <tr>
+            <th scope="row">Impostos:</th>
+            <td>{{ pedido.totalTax | currency }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Frete:</th>
+            <td>{{
+              pedido.orderShipmentAddresses?.orderShipments?.freightCost
+                | currency
+            }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Despesas acessórias:</th>
+            <td>{{ pedido.additionalTax | currency }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <mat-divider></mat-divider>
+      <mat-progress-bar
+        *ngIf="isCreatingOrder"
+        color="primary"
+        mode="indeterminate"
+        aria-label="Carregando carrinho"
+      >
+      </mat-progress-bar>
+      <div class="botoes">
+        <a
+          class="voltar"
+          mat-button
+          color="primary"
+          routerLink="/pedidos"
+        >
+          Voltar para meus pedidos
+        </a>
+        <button
+          class="carrinho"
+          [disabled]="isLoading || isCreatingOrder"
+          (click)="addToItemsToCart()"
+          mat-raised-button
+          color="accent"
+          [mat-dialog-close]="true"
+          cdkFocusInitial
+        >
+          <mat-icon> shopping_cart </mat-icon>
+          {{ isCreatingOrder ? 'Adicionando...' : 'Adicionar ao carrinho' }}
+        </button>
+      </div>
+    </footer>
+  </section>
+</ng-template>

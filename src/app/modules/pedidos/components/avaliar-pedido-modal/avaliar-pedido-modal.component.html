@@ -1,0 +1,82 @@
+<button
+  mat-icon-button
+  mat-dialog-close
+  aria-label="Fechar"
+>
+  <mat-icon>close</mat-icon>
+</button>
+<h1 mat-dialog-title>Avaliar pedido</h1>
+<section mat-dialog-content>
+  <h2 class="mat-h4">Experiência de compra</h2>
+  <mat-button-toggle-group [(ngModel)]="nota">
+    <mat-button-toggle
+      value="1"
+      aria-label="Nota 1"
+    >
+      <mat-icon>
+        {{ nota >= 1 ? 'star' : 'star_border' }}
+      </mat-icon>
+    </mat-button-toggle>
+    <mat-button-toggle
+      value="2"
+      aria-label="Nota 2"
+    >
+      <mat-icon>
+        {{ nota >= 2 ? 'star' : 'star_border' }}
+      </mat-icon>
+    </mat-button-toggle>
+    <mat-button-toggle
+      value="3"
+      aria-label="Nota 3"
+    >
+      <mat-icon>
+        {{ nota >= 3 ? 'star' : 'star_border' }}
+      </mat-icon>
+    </mat-button-toggle>
+    <mat-button-toggle
+      value="4"
+      aria-label="Nota 4"
+    >
+      <mat-icon>
+        {{ nota >= 4 ? 'star' : 'star_border' }}
+      </mat-icon>
+    </mat-button-toggle>
+    <mat-button-toggle
+      value="5"
+      aria-label="Nota 5"
+    >
+      <mat-icon>
+        {{ nota >= 5 ? 'star' : 'star_border' }}
+      </mat-icon>
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+  <mat-form-field
+    appearance="outline"
+    floatLabel="always"
+  >
+    <mat-label>Comentários (opcional)</mat-label>
+    <textarea
+      matInput
+      #comentario
+      [ngModel]="avaliacao.comentario"
+      maxlength="2000"
+    ></textarea>
+    <mat-hint align="end">{{ comentario.value.length || 0 }}/2000</mat-hint>
+  </mat-form-field>
+</section>
+<mat-dialog-actions align="end">
+  <button
+    mat-button
+    color="primary"
+    mat-dialog-close
+    >Cancelar</button
+  >
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="enviar()"
+    cdkFocusInitial
+  >
+    Avaliar
+  </button>
+</mat-dialog-actions>

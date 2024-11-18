@@ -1,0 +1,32 @@
+@use '/src/scss/colors';
+
+table {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+
+  th {
+    text-align: left;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+  }
+
+  td {
+    text-align: right;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+  }
+
+  tfoot tr th,
+  tfoot tr td {
+    color: colors.$primary;
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+  }
+}

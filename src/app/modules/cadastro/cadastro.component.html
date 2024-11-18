@@ -1,0 +1,392 @@
+<mat-card class="mat-elevation-z6">
+  <mat-toolbar
+    role="banner"
+    color="primary"
+  >
+    Cadastro
+  </mat-toolbar>
+  <ng-container *ngIf="isSignInCompleted; else signInForm">
+    <fieldset>
+      <h1>Cadastro realizado com sucesso!</h1>
+      <a
+        mat-raised-button
+        color="primary"
+        href="/"
+      >
+        <mat-icon>check</mat-icon>
+        Ir para página inicial
+      </a>
+    </fieldset>
+  </ng-container>
+  <ng-template #signInForm>
+    <mat-stepper
+      [linear]="true"
+      #stepper
+      animationDuration="0"
+    >
+      <mat-step
+        [stepControl]="dadosDaEmpresa"
+        label="Etapa 1"
+      >
+        <form [formGroup]="dadosDaEmpresa">
+          <fieldset>
+            <legend class="mat-title">Dados da empresa</legend>
+            <mat-form-field appearance="standard">
+              <mat-label>CNPJ</mat-label>
+              <input
+                matInput
+                formControlName="cnpj"
+                (change)="getDataFromCnpj()"
+                autocomplete="off"
+                mask="00.000.000/0000-00"
+                minlength="14"
+                required
+              />
+              <mat-error>
+                <span *ngIf="dadosDaEmpresa.get('cnpj')?.hasError('required')">
+                  Inserir um CNPJ
+                </span>
+              </mat-error>
+            </mat-form-field>
+            <mat-progress-bar
+              color="primary"
+              mode="indeterminate"
+              *ngIf="isLoading"
+            ></mat-progress-bar>
+            <mat-form-field appearance="standard">
+              <mat-label>Razão Social</mat-label>
+              <input
+                matInput
+                formControlName="corporateName"
+                readonly
+              />
+              <mat-error>Inserir uma razão social</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+              <mat-label>Nome Fantasia</mat-label>
+              <input
+                matInput
+                formControlName="fantasyName"
+                [readonly]="isFantasyNameReadonly"
+                required
+              />
+              <mat-error>Inserir um nome fantasia</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+              <mat-label>Proprietário</mat-label>
+              <input
+                matInput
+                formControlName="owner"
+                [attr.readonly]="!hasNoOwnerData || null"
+                [attr.required]="hasNoOwnerData"
+                pattern="^[a-zA-Z ]*$"
+              />
+              <mat-error>Inserir um proprietário apenas com letras</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+              <mat-label>Data de Fundação</mat-label>
+              <input
+                matInput
+                formControlName="dateFoundation"
+                [matDatepicker]="dateFoundationPicker"
+                readonly
+              />
+              <mat-datepicker #dateFoundationPicker></mat-datepicker>
+              <mat-hint>DD/MM/AAAA</mat-hint>
+              <mat-error>Inserir uma data de fundação</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+              <mat-label>Inscrição Estadual</mat-label>
+              <input
+                matInput
+                formControlName="ie"
+                readonly
+              />
+              <mat-error>Inserir uma inscrição estadual</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+              <mat-label>Segmento</mat-label>
+              <mat-select
+                multiple
+                formControlName="customerSegments"
+                required
+              >
+                <mat-option
+                  *ngFor="let segment of segmentsList"
+                  [value]="segment.id"
+                >
+                  {{ segment.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error>Escolha ao menos um segmento para continuar</mat-error>
+            </mat-form-field>
+          </fieldset>
+          <mat-toolbar color="primary">
+            <button
+              mat-button
+              matStepperPrevious
+              (click)="backLastPage()"
+            >
+              <mat-icon>arrow_back</mat-icon> Voltar
+            </button>
+            <span>1/3</span>
+            <button
+              mat-button
+              matStepperNext
+            >
+              Próximo <mat-icon>arrow_forward</mat-icon>
+            </button>
+          </mat-toolbar>
+        </form>
+      </mat-step>
+      <mat-step
+        [stepControl]="enderecoDaEmpresa"
+        label="Etapa 2"
+      >
+        <form [formGroup]="enderecoDaEmpresa">
+          <fieldset>
+            <legend class="mat-title">Endereço da empresa</legend>
+            <mat-form-field appearance="standard">
+              <mat-label>CEP</mat-label>
+              <input
+                matInput
+                formControlName="zipCode"
+                mask="00000-000"
+                readonly
+              />
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+              <mat-label>Logradouro</mat-label>
+              <input
+                matInput
+                formControlName="street"
+                readonly
+              />
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+              <mat-label>Número</mat-label>
+              <input
+                matInput
+                formControlName="number"
+                readonly
+              />
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+              <mat-label>Complemento</mat-label>
+              <input
+                matInput
+                formControlName="complement"
+                pattern="^[a-zA-Z0-9 ]*$"
+              />
+              <mat-error
+                >Inserir um complemento apenas com letras e números</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+              <mat-label>Bairro</mat-label>
+              <input
+                matInput
+                formControlName="neighborhood"
+                readonly
+              />
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+              <mat-label>UF</mat-label>
+              <input
+                matInput
+                formControlName="uf"
+                readonly
+              />
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+              <mat-label>Cidade</mat-label>
+              <input
+                matInput
+                formControlName="city"
+                readonly
+              />
+            </mat-form-field>
+          </fieldset>
+          <mat-toolbar color="primary">
+            <button
+              mat-button
+              matStepperPrevious
+            >
+              <mat-icon>arrow_back</mat-icon> Voltar
+            </button>
+            <span>2/3</span>
+            <button
+              mat-button
+              matStepperNext
+            >
+              Próximo <mat-icon>arrow_forward</mat-icon>
+            </button>
+          </mat-toolbar>
+        </form>
+      </mat-step>
+      <mat-step
+        [stepControl]="contatoDaEmpresa"
+        label="Etapa 3"
+      >
+        <mat-spinner
+          class="load-submit"
+          [diameter]="80"
+          *ngIf="isSubmiting"
+        >
+        </mat-spinner>
+        <form
+          [formGroup]="contatoDaEmpresa"
+          (ngSubmit)="onSubmit()"
+        >
+          <fieldset
+            [ngClass]="{
+              borrado: isSubmiting
+            }"
+          >
+            <legend class="mat-title">Contato da empresa</legend>
+            <mat-form-field appearance="standard">
+              <mat-label>Telefone fixo</mat-label>
+              <input
+                matInput
+                formControlName="landlinePhone"
+                mask="(00) 0000-0000"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+              <mat-label>Celular</mat-label>
+              <input
+                matInput
+                formControlName="cellPhone"
+                mask="(00) 00000-0000"
+                required
+              />
+              <mat-error>Inserir um número de celular</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+              <mat-label>E-mail financeiro</mat-label>
+              <input
+                matInput
+                formControlName="corporateEmail"
+                required
+              />
+              <mat-error>Inserir um e-mail válido</mat-error>
+            </mat-form-field>
+            <mat-form-field
+              appearance="standard"
+              *ngIf="typeRegister"
+            >
+              <mat-label>E-mail acesso</mat-label>
+              <input
+                matInput
+                formControlName="email"
+                required
+              />
+              <mat-error>Inserir um e-mail válido</mat-error>
+            </mat-form-field>
+            <mat-form-field
+              appearance="standard"
+              *ngIf="typeRegister"
+            >
+              <mat-label>Senha</mat-label>
+              <input
+                matInput
+                formControlName="password"
+                class="form-control"
+                [type]="isPasswordVisible ? 'text' : 'password'"
+                autocomplete="off"
+                minlength="8"
+                required
+              />
+              <button
+                mat-icon-button
+                matSuffix
+                type="button"
+                (click)="isPasswordVisible = !isPasswordVisible"
+                [attr.aria-label]="
+                  isPasswordVisible ? 'Ocultar senha' : 'Mostrar senha'
+                "
+                [attr.aria-pressed]="isPasswordVisible"
+              >
+                <mat-icon>
+                  {{ isPasswordVisible ? 'visibility' : 'visibility_off' }}
+                </mat-icon>
+              </button>
+              <mat-error *ngIf="typeRegister"
+                >A senha deve seguir os requisitos mínimos exigidos.</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field
+              appearance="standard"
+              *ngIf="typeRegister"
+            >
+              <mat-label>Confirmação de Senha</mat-label>
+              <input
+                matInput
+                formControlName="confirmPassword"
+                [type]="isPasswordVisible ? 'text' : 'password'"
+                autocomplete="off"
+                minlength="8"
+                required
+              />
+              <mat-error>
+                A confirmação de senha deve ser igual a senha.
+              </mat-error>
+            </mat-form-field>
+            <p
+              class="mat-small"
+              *ngIf="typeRegister"
+            >
+              <strong> A senha deve conter no mínimo: </strong><br />
+              8 caracteres, 1 letra maiúscula, 1 letra minúscula, 1 número e 1
+              caractere especial.
+            </p>
+            <mat-divider></mat-divider>
+            <p>
+              <mat-checkbox
+                color="primary"
+                formControlName="allowShareData"
+                ngDefaultControl
+              >
+                Compartilhamento de dados com parceiros para ofertas de produtos
+                e benefícios financeiros.
+              </mat-checkbox>
+            </p>
+            <mat-divider></mat-divider>
+            <footer>
+              Ao clicar em cadastrar você está aceitando nossos
+              <a
+                href="javascript:void(0)"
+                (click)="openPoliticaDeUso()"
+              >
+                Termos de Uso
+              </a>
+              e
+              <a
+                href="https://www.grupodpaschoal.com.br/politicas-e-protecao-de-dados"
+                target="_blank"
+              >
+                Política de Privacidade
+              </a>
+            </footer>
+          </fieldset>
+          <mat-toolbar color="primary">
+            <button
+              mat-button
+              matStepperPrevious
+              [disabled]="isSubmiting"
+            >
+              <mat-icon>arrow_back</mat-icon> Voltar
+            </button>
+            <span>3/3</span>
+            <button
+              mat-button
+              [disabled]="isSubmiting"
+            >
+              Finalizar cadastro
+            </button>
+          </mat-toolbar>
+        </form>
+      </mat-step>
+    </mat-stepper>
+  </ng-template>
+</mat-card>

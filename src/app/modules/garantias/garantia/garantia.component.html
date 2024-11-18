@@ -1,0 +1,69 @@
+<ng-template #loading>
+  <mat-progress-bar
+    color="primary"
+    mode="indeterminate"
+    aria-label="Carregando garantia"
+  >
+  </mat-progress-bar>
+</ng-template>
+
+<ng-container *ngIf="!isLoading; else loading">
+  <mat-stepper
+    [linear]="true"
+    labelPosition="bottom"
+    [selectedIndex]="etapaAtual"
+    id="stepperGarantia"
+    #stepperGarantia
+  >
+    <mat-step
+      label="Solicitação"
+      id="Solicitacao"
+      #Solicitacao
+      [completed]="etapaAtual > 0"
+      [editable]="false"
+    >
+      <app-etapa-solicitacao
+        [customerSapCode]="customerSapCode"
+        [customerIsento]="isIsentoEtapaNota"
+        [centros]="centros"
+      ></app-etapa-solicitacao>
+    </mat-step>
+    <mat-step
+      label="Nota Fiscal"
+      id="NotaFiscal"
+      #NotaFiscal
+      [completed]="etapaAtual > 1"
+      [editable]="false"
+    >
+      <app-etapa-nota-fiscal
+        *ngIf="garantia"
+        [garantia]="garantia"
+      ></app-etapa-nota-fiscal>
+    </mat-step>
+    <mat-step
+      label="Entrega"
+      id="Entrega"
+      #Entrega
+      [completed]="etapaAtual > 2"
+      [editable]="false"
+    >
+      <app-etapa-entrega
+        *ngIf="garantia"
+        [garantia]="garantia"
+        [centros]="centros"
+      ></app-etapa-entrega>
+    </mat-step>
+    <mat-step
+      label="Crédito"
+      id="Credito"
+      #Credito
+      [completed]="etapaAtual === 3"
+      [editable]="false"
+    >
+      <app-etapa-credito
+        *ngIf="garantia"
+        [valorAprovado]="approvedValue"
+      ></app-etapa-credito>
+    </mat-step>
+  </mat-stepper>
+</ng-container>

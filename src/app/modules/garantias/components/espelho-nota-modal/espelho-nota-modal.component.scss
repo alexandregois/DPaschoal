@@ -1,0 +1,29 @@
+[mat-dialog-close] {
+  float: right;
+  margin-top: -0.25rem;
+  margin-left: 1rem;
+}
+
+h2 {
+  margin: 0 0 6px;
+}
+
+.subtitulo {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr;
+  grid-template-rows: 50px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+mat-dialog-content {
+  max-height: 85%;
+
+  mat-divider {
+    margin-bottom: 5px;
+  }
+}
+
+mat-dialog-actions {
+  align-content: flex-end;
+}

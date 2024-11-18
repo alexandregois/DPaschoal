@@ -1,0 +1,15 @@
+.angular
+.gitignore
+.ignore
+.commit
+.husky
+.prettierignore
+.vscode
+coverage
+dist
+node_modules
+generated
+*.png
+*.ico
+*.xml
+*.svg

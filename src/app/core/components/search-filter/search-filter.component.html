@@ -1,0 +1,46 @@
+<div class="search-filter">
+  <form [formGroup]="searchForm">
+    <div class="input-container">
+      <input
+        class="filter"
+        formControlName="searchTerm"
+        role="search"
+        type="text"
+        placeholder="Busque por código ou descrição."
+        (keyup.enter)="filterSearch()"
+      />
+      <mat-icon
+        style="color: black"
+        class="search-icon"
+        (click)="clearSearch()"
+        *ngIf="showClearSearchIcon"
+        >close</mat-icon
+      >
+      <!-- <mat-icon
+        class="search-icon"
+        (click)="filterSearch()"
+        >search</mat-icon
+      > -->
+      <input
+        formControlName="placeFilter"
+        (keyup.enter)="filterSearch()"
+        maxlength="7"
+        class="input-placa"
+        placeholder="Pesquisa por placa."
+      />
+      <mat-icon
+        style="color: black"
+        class="clear-icon"
+        (click)="clearPlace()"
+        *ngIf="showClearPlaceIcon"
+        >close</mat-icon
+      >
+      <mat-icon
+        (click)="filterSearch()"
+        class="icon-placa"
+        id="search-placa"
+        >search</mat-icon
+      >
+    </div>
+  </form>
+</div>

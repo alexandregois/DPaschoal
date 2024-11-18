@@ -1,0 +1,294 @@
+<ng-template #loading>
+  <mat-progress-bar
+    color="primary"
+    mode="indeterminate"
+    aria-label="Carregando dados do Produto"
+  >
+  </mat-progress-bar>
+</ng-template>
+
+<ng-container *ngIf="!isLoadingProduct; else loading">
+  <div class="row">
+    <div class="right">
+      <button
+        class="btnVoltar"
+        mat-button
+        color="primary"
+        (click)="backLastPage()"
+        >Voltar
+      </button>
+    </div>
+  </div>
+  <section *ngIf="dados">
+    <mat-card class="detalhe">
+      <img
+        app-img
+        loading="lazy"
+        width="500"
+        height="500"
+        [src]="environment.superkImageUrlPrefix + imgSelecionada?.largeImage"
+        [alt]="imgSelecionada?.name"
+      />
+      <div class="rolo_imagens">
+        <app-galeria-fotos-produto
+          *ngIf="dados && dados.image && dados.image.length > 0"
+          [fotos]="dados.image"
+          (fotoSelecionada)="atualizarFoto($event)"
+        ></app-galeria-fotos-produto>
+      </div>
+      <div class="tag_favorito">
+        <ng-container *ngIf="isLogged">
+          <ng-container
+            *ngIf="isLoadingWarehouse$ | async; else isLoadedWarehouse"
+          >
+            <mat-progress-spinner
+              color="primary"
+              mode="indeterminate"
+              diameter="24"
+            >
+            </mat-progress-spinner>
+          </ng-container>
+          <ng-template #isLoadedWarehouse>
+            <mat-chip
+              color="primary"
+              class="mat-chip-selected"
+              role="term"
+            >
+              {{ deposito?.description }}
+            </mat-chip>
+          </ng-template>
+
+          <app-favorito-button
+            *ngIf="produtoId"
+            [sapCode]="dados.product?.sapCodeNumber"
+            [idProduct]="produtoId"
+          ></app-favorito-button>
+        </ng-container>
+      </div>
+      <mat-spinner
+        class="load-add-cart"
+        [diameter]="80"
+        *ngIf="isAddingCart"
+      >
+      </mat-spinner>
+      <div
+        class="conteudo"
+        [ngClass]="{
+          borrado: isAddingCart
+        }"
+      >
+        <h2 class="mat-h4">{{ dados.product?.description | uppercase }}</h2>
+        <mat-spinner
+          [diameter]="50"
+          *ngIf="isLoadingPrice; else preco"
+        >
+        </mat-spinner>
+        <ng-template #preco>
+          <h2 class="cor_primary font-size-34">
+            <span *ngIf="isLogged && this.valorTotal > 0">
+              {{ valorTotal | currency }}
+            </span>
+          </h2>
+        </ng-template>
+        <span>Fabricante: {{ dados.product?.manufacturer }}</span>
+        <span>Cód. de Fábrica: {{ dados.product?.code }}</span>
+        <span>Cód. do Produto: {{ dados.product?.sapCode }} </span>
+        <span
+          class="mat-small"
+          *ngIf="isLogged"
+        >
+          {{
+            isDisponivel && estoque
+              ? estoque.stock + 'un. no estoque'
+              : 'Produto Indisponível'
+          }}
+        </span>
+      </div>
+      <div class="acoes">
+        <app-acoes-produto
+          [produtoId]="dados.product?.id"
+          [sapCode]="dados.product?.sapCodeNumber"
+          [estoque]="estoque"
+          [isLogged]="isLogged"
+          [isAddingCart]="isAddingCart"
+          (valorTotal)="atualizarValor($event)"
+          (similares)="verSimilares()"
+          (addCarrinho)="adicionarAoCarrinho($event)"
+          [isSimilares]="dados.equivalent && dados.equivalent.length > 0"
+        ></app-acoes-produto>
+      </div>
+      <div class="informacoes">
+        <h2>Mais Informações</h2>
+        <mat-accordion>
+          <mat-expansion-panel
+            (opened)="painelAplicacaoState = true"
+            (closed)="painelAplicacaoState = false"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title> Aplicação </mat-panel-title>
+            </mat-expansion-panel-header>
+            <h2 class="mat-h4">Aplicação resumida</h2>
+            <p>{{ dados.shortApplication }}</p>
+            <h2 class="mat-h4">Aplicação completa</h2>
+            <table *ngIf="dados?.application">
+              <tbody>
+                <tr *ngFor="let apply of dados.application">
+                  <td>{{ apply.application }}</td>
+                  <td>
+                    {{ apply.startDate | date : 'yyyy' }} -
+                    {{ apply.endDate | date : 'yyyy' }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <span *ngIf="!dados || !dados.application"
+              >Sem informação de aplicação completa do produto.</span
+            >
+          </mat-expansion-panel>
+          <mat-expansion-panel
+            (opened)="painelSomenteParaState = true"
+            (closed)="painelSomenteParaState = false"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title> Somente para </mat-panel-title>
+            </mat-expansion-panel-header>
+            <table *ngIf="dados && dados.restriction">
+              <tbody>
+                <tr *ngFor="let restrict of dados.restriction">
+                  <td>{{ restrict.vehicle }}</td>
+                  <td>
+                    {{ restrict.restriction }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <span
+              *ngIf="
+                !dados || !dados.restriction || dados.restriction?.length === 0
+              "
+              >Sem especificação de uso do produto.</span
+            >
+          </mat-expansion-panel>
+          <mat-expansion-panel
+            (opened)="panelFichaState = true"
+            (closed)="panelFichaState = false"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title> Ficha técnica </mat-panel-title>
+            </mat-expansion-panel-header>
+            <table *ngIf="dados?.technicalInformation || dados?.specification">
+              <tbody>
+                <ng-container *ngIf="dados?.technicalInformation">
+                  <tr>
+                    <th>Código de fábrica</th>
+                    <td>{{ dados.technicalInformation?.code }}</td>
+                  </tr>
+                  <tr>
+                    <th>Código DPK</th>
+                    <td>{{ dados.technicalInformation?.sapCode }}</td>
+                  </tr>
+                  <tr>
+                    <th>Descrição</th>
+                    <td>{{ dados.technicalInformation?.description }}</td>
+                  </tr>
+                  <tr>
+                    <th>Fabricante</th>
+                    <td>{{ dados.technicalInformation?.manufacturer }}</td>
+                  </tr>
+                  <tr>
+                    <th>Peso líquido</th>
+                    <td>{{ dados.technicalInformation?.productWeight }}</td>
+                  </tr>
+                  <tr>
+                    <th>Peso bruto</th>
+                    <td>{{ dados.technicalInformation?.totalWeight }}</td>
+                  </tr>
+                  <tr>
+                    <th>Unidade de medida</th>
+                    <td>{{ dados.technicalInformation?.measurementUnit }}</td>
+                  </tr>
+                  <tr>
+                    <th>Código NCM</th>
+                    <td>{{ dados.technicalInformation?.ncmCode }}</td>
+                  </tr>
+                  <tr>
+                    <th>Código de barras</th>
+                    <td>{{ dados.technicalInformation?.eanCode }}</td>
+                  </tr>
+                  <tr>
+                    <th>Altura</th>
+                    <td>{{ dados.technicalInformation?.height }}</td>
+                  </tr>
+                  <tr>
+                    <th>Largura</th>
+                    <td>{{ dados.technicalInformation?.width }}</td>
+                  </tr>
+                  <tr>
+                    <th>Comprimento</th>
+                    <td>{{ dados.technicalInformation?.length }}</td>
+                  </tr>
+                </ng-container>
+                <tr *ngFor="let spec of dados?.specification">
+                  <th>{{ spec.name }}</th>
+                  <td>{{ spec.description }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <span
+              *ngIf="
+                !dados || !dados.technicalInformation || !dados.specification
+              "
+              >Sem informação de ficha técnica do produto.</span
+            >
+          </mat-expansion-panel>
+        </mat-accordion>
+        <br />
+        <button
+          mat-button
+          color="primary"
+          (click)="openModalInconsistencia()"
+        >
+          Informar inconsistência
+        </button>
+      </div>
+    </mat-card>
+    <div
+      class="similares"
+      id="produtos-similares"
+      *ngIf="dados.equivalent && dados.equivalent.length > 0"
+    >
+      <h2 class="cor_primary">Produtos similares</h2>
+      <div class="conteudo_similares_mobile">
+        <ng-container *ngFor="let produtoSimilar of dados.equivalent">
+          <app-produto-card
+            *ngIf="isMobile"
+            [idProduct]="produtoSimilar.productId"
+            [isLogged]="isLogged"
+            [isVisibleFavorite]="false"
+          ></app-produto-card>
+        </ng-container>
+      </div>
+      <div class="conteudo_similares">
+        <app-galeria-similares-produto
+          *ngIf="!isMobile"
+          [similares]="dados.equivalent"
+          [isLogged]="isLogged"
+          [isVisibleFavorite]="true"
+        ></app-galeria-similares-produto>
+      </div>
+    </div>
+    <div class="video_ofertas">
+      <div class="video">
+        <h2 class="cor_primary">Vídeo</h2>
+        <app-galeria-videos-produto
+          *ngIf="dados.video && dados.video.length > 0"
+          [videos]="dados.video"
+        ></app-galeria-videos-produto>
+      </div>
+      <div class="ofertas">
+        <!-- <h2 class="cor_primary">Ofertas</h2> -->
+        <div id="product-offer-beon-placeholder"></div>
+      </div>
+    </div>
+  </section>
+</ng-container>

@@ -1,0 +1,36 @@
+<button
+  mat-icon-button
+  mat-dialog-close
+  aria-label="Fechar"
+>
+  <mat-icon>close</mat-icon>
+</button>
+<h1 mat-dialog-title>Boleto</h1>
+<section mat-dialog-content>
+  <ng-container *ngIf="isLoading; else pagamentoBoletoSection">
+    <mat-progress-bar
+      color="primary"
+      mode="indeterminate"
+    ></mat-progress-bar>
+  </ng-container>
+  <ng-template #pagamentoBoletoSection>
+    <legend class="mat-h2">Boleto à vista</legend>
+    <div>
+      <img
+        [src]="imageQrCode"
+        alt="Código de barras"
+      />
+      <p>{{ paymentCode }}</p>
+    </div>
+  </ng-template>
+</section>
+<mat-dialog-actions align="center">
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="copiar()"
+    cdkFocusInitial
+  >
+    Copiar
+  </button>
+</mat-dialog-actions>

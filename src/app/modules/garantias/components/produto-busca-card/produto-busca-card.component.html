@@ -1,0 +1,41 @@
+<mat-card *ngIf="produto">
+  <figure>
+    <img
+      id="imgProdutoBusca"
+      (click)="selecionado.emit(produto)"
+      aria-hidden="true"
+      app-img
+      loading="lazy"
+      width="120"
+      height="120"
+      [src]="
+        environment.superkImageUrlPrefix +
+        produto.fabricante +
+        '_' +
+        produto.codigo +
+        '.JPG'
+      "
+      alt="Sem Imagem"
+    />
+  </figure>
+
+  <header>
+    <h2 class="mat-h4">
+      <a
+        id="clickProdutoBusca"
+        (click)="selecionado.emit(produto)"
+        aria-hidden="true"
+      >
+        {{ produto.descricao | uppercase }}
+      </a>
+    </h2>
+  </header>
+
+  <ul class="conteudo">
+    <li>Fabricante: {{ produto.fabricante }}</li>
+    <li>Cód. de Fábrica: {{ produto.codigo }}</li>
+    <li>
+      Distribuído pela {{ distribuidoPor }} - Cód: {{ produto.codigoSap }}
+    </li>
+  </ul>
+</mat-card>

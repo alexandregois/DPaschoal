@@ -1,0 +1,63 @@
+<section *ngIf="pedido">
+  <mat-card class="mat-elevation-z0 endereco">
+    <mat-card-title class="mat-h4">
+      <mat-icon>home</mat-icon>
+      Endereço de entrega
+    </mat-card-title>
+    <dl>
+      <dt>{{ pedido.customerName }}</dt>
+      <dd>
+        CNPJ: {{ pedido.customerCode }}
+        <dl>
+          <dt>Endereço</dt>
+          <dd>{{ pedido.orderShipmentAddresses?.street }}</dd>
+          <dd>{{ pedido.orderShipmentAddresses?.zipCode }}</dd>
+          <dt>Complemento</dt>
+          <dd>{{ pedido.orderShipmentAddresses?.complement }}</dd>
+          <dt>Destinatário</dt>
+          <dd>{{ pedido.customerName }}</dd>
+        </dl>
+      </dd>
+    </dl>
+  </mat-card>
+  <mat-card class="mat-elevation-z0 transporte">
+    <mat-card-title class="mat-h4">
+      <mat-icon>local_shipping</mat-icon>
+      Transportadora
+    </mat-card-title>
+    <p>
+      Depósito:&nbsp;
+      <mat-chip
+        color="primary"
+        class="mat-chip-selected"
+        role="term"
+      >
+        <mat-icon>villa</mat-icon>
+        {{ pedido.hub }}</mat-chip
+      >
+    </p>
+    <div class="transporte_conteudo">
+      <div class="flex_column">
+        {{ pedido.orderShipmentAddresses?.orderShipments?.shippingCompany }}
+        <b>{{
+          pedido.orderShipmentAddresses?.orderShipments?.deliveryDate
+            | date : 'shortDate'
+        }}</b>
+      </div>
+      <b>
+        {{
+          pedido.orderShipmentAddresses?.orderShipments?.freightCost | currency
+        }}
+      </b>
+    </div>
+  </mat-card>
+  <mat-card class="mat-elevation-z0 forma_pagamento">
+    <mat-card-title class="mat-h4">
+      <mat-icon>payments</mat-icon>
+      Plano de pagamento
+    </mat-card-title>
+    <dl>
+      <dd>{{ pedido.orderPayments?.paymentDescription }}</dd>
+    </dl>
+  </mat-card>
+</section>

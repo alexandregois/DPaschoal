@@ -1,0 +1,95 @@
+<mat-vertical-stepper
+  [linear]="true"
+  #stepperEntrega
+  animationDuration="500"
+  [selectedIndex]="stepAtual"
+  *ngIf="garantia"
+>
+  <ng-template
+    matStepperIcon="edit"
+    let-index="index"
+  >
+    <mat-icon *ngIf="index === 0">local_shipping</mat-icon>
+    <mat-icon *ngIf="index === 1">history</mat-icon>
+  </ng-template>
+  <ng-template
+    matStepperIcon="done"
+    let-index="index"
+  >
+    <mat-icon *ngIf="index === 0">local_shipping</mat-icon>
+    <mat-icon *ngIf="index === 1">history</mat-icon>
+  </ng-template>
+  <ng-template
+    matStepperIcon="number"
+    let-index="index"
+  >
+    <mat-icon *ngIf="index === 0">local_shipping</mat-icon>
+    <mat-icon *ngIf="index === 1">history</mat-icon>
+  </ng-template>
+  <mat-step
+    #Documentacao
+    [color]="colorStepOne"
+    [editable]="false"
+    [completed]="false"
+  >
+    <ng-template matStepLabel>
+      <label mat-h3>{{ labelStepOne }}</label
+      ><br />
+      <span><b>Status:</b> {{ statusStepOne }}</span>
+    </ng-template>
+    <mat-divider></mat-divider>
+    <h2>Protocolo gerado - {{ garantia.number }}</h2>
+    <div class="corpo">
+      <b>
+        <mat-icon> report </mat-icon>
+        Atenção aos documentos exigidos pelo fabricante
+      </b>
+      <span>Veja os documentos exigidos para recebimento do produto</span>
+      <button
+        mat-flat-button
+        color="primary"
+        [disabled]="isLoadingDoc"
+        (click)="openModalDocumentos()"
+      >
+        Visualizar Documentos
+      </button>
+    </div>
+    <mat-divider></mat-divider>
+    <ul
+      class="conteudo"
+      *ngIf="centro"
+    >
+      <li><b>Endereço do Centro de Distribuição:</b></li>
+      <li>{{ centro.cdName }}</li>
+      <li>{{
+        centro.streetAndNumber +
+          ' - ' +
+          centro.neighborhood +
+          ', ' +
+          centro.local +
+          ', ' +
+          centro.zipCode
+      }}</li>
+    </ul>
+  </mat-step>
+  <mat-step
+    #Avaliacao
+    [color]="colorStepTwo"
+    [editable]="false"
+  >
+    <ng-template matStepLabel>
+      <label mat-h3>Avaliação do Centro de Distribuição</label><br />
+      <span *ngIf="statusSteptwo !== ''">
+        <b>Status:</b> {{ statusSteptwo }}
+      </span>
+    </ng-template>
+    <mat-divider></mat-divider>
+    <ul class="centro">
+      <li
+        ><b>DPK</b> - Recebido
+        {{ garantia.requestDate | date : 'shortDate' : 'GMT' }}</li
+      >
+      <li>{{ stepDescription }} - {{ stepDescriptionDetail }}</li>
+    </ul>
+  </mat-step>
+</mat-vertical-stepper>

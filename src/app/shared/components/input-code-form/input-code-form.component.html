@@ -1,0 +1,43 @@
+<ng-container *ngIf="isLoading; else recuperarSenhaCodSection">
+  <mat-progress-bar
+    color="primary"
+    mode="indeterminate"
+  ></mat-progress-bar>
+</ng-container>
+
+<ng-template #recuperarSenhaCodSection>
+  <form
+    [formGroup]="recuperarSenhaCodForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <div
+      formArrayName="digits"
+      class="flex-container"
+    >
+      <mat-form-field *ngFor="let field of getControls(); let i = index">
+        <input
+          matInput
+          required
+          autocomplete="off"
+          [minlength]="1"
+          #inputs
+          [maxLength]="1"
+          [formControlName]="i"
+          (input)="check(i, field, $event)"
+          (keydown)="checkBackspace(i, field, $event)"
+        />
+      </mat-form-field>
+    </div>
+    <div class="mat-hint">DIGITE O CÓDIGO COM 4 DÍGITOS</div>
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="enviarNovoCodigo()"
+      [disabled]="isDisabled"
+      type="submit"
+    >
+      Reenviar o código
+    </button>
+    <div class="mat-hint">REENVIAR NOVO CÓDIGO: {{ counter | formatTime }}</div>
+  </form>
+</ng-template>

@@ -1,0 +1,40 @@
+<content *ngIf="produto">
+  <figure>
+    <img
+      app-img
+      loading="lazy"
+      width="170"
+      [src]="
+        environment.superkImageUrlPrefix +
+        produto.fabricante +
+        '_' +
+        produto.codigo +
+        '.JPG'
+      "
+      alt="Sem imagem"
+    />
+  </figure>
+
+  <header>
+    <h4>
+      {{ produto.descricao | uppercase }}
+    </h4>
+  </header>
+
+  <ul class="conteudo">
+    <li>Fabricante: {{ produto.fabricante }}</li>
+    <li>Cód. de Fábrica: {{ produto.codigo }}</li>
+    <li
+      >Distribuído pela {{ distribuidoPor }} - Cód: {{ produto.codigoSap }}</li
+    >
+  </ul>
+
+  <div class="quantidade">
+    <app-quantidade-form-field
+      [value]="quantidade"
+      [limit]="1000"
+      [minimum]="1"
+      (update)="atualizarProduto($event)"
+    ></app-quantidade-form-field>
+  </div>
+</content>

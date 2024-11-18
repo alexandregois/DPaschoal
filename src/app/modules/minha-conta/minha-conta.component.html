@@ -1,0 +1,211 @@
+<ng-container *ngIf="isLoadingCustomer; else minhaContaSection">
+  <mat-progress-bar
+    color="primary"
+    mode="indeterminate"
+  ></mat-progress-bar>
+</ng-container>
+
+<ng-template #minhaContaSection>
+  <form
+    [formGroup]="empresaForm"
+    (submit)="atualizarDadosPessoais()"
+  >
+    <fieldset class="dadosDaEmpresa">
+      <legend class="mat-h2">Dados da empresa</legend>
+      <mat-form-field appearance="outline">
+        <mat-label>CNPJ</mat-label>
+        <input
+          matInput
+          formControlName="cnpj"
+          autocomplete="off"
+          mask="00.000.000/0000-00"
+          minlength="14"
+          readonly
+        />
+        <mat-error>
+          <span *ngIf="empresaForm.get('cnpj')?.hasError('required')">
+            Insira um CNPJ
+          </span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Razão Social</mat-label>
+        <input
+          matInput
+          formControlName="corporateName"
+          readonly
+        />
+        <mat-error>Insira uma razão social</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Nome Fantasia</mat-label>
+        <input
+          matInput
+          formControlName="fantasyName"
+        />
+        <mat-error>Insira um nome fantasia</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Proprietário</mat-label>
+        <input
+          matInput
+          formControlName="owner"
+          pattern="^[a-zA-Z ]*$"
+          [attr.readonly]="!hasNoOwnerData || null"
+          [attr.required]="hasNoOwnerData"
+        />
+        <mat-error>Insira um nome apenas com letras</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Data de Fundação</mat-label>
+        <input
+          matInput
+          formControlName="dateFoundation"
+          [matDatepicker]="dateFoundationPicker"
+          readonly
+        />
+        <mat-datepicker #dateFoundationPicker></mat-datepicker>
+        <mat-error>Insira uma data de fundação</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Inscrição Estadual</mat-label>
+        <input
+          matInput
+          formControlName="ie"
+          readonly
+        />
+        <mat-error>Insira uma inscrição estadual</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Segmento</mat-label>
+        <mat-select
+          multiple
+          formControlName="customerSegments"
+          required
+        >
+          <mat-option
+            *ngFor="let segment of segmentsList"
+            [value]="segment.id"
+          >
+            {{ segment.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error>Escolha ao menos um segmento para continuar</mat-error>
+      </mat-form-field>
+    </fieldset>
+    <fieldset class="dadosDaEmpresa">
+      <legend class="mat-h2">Endereço</legend>
+      <mat-form-field appearance="outline">
+        <mat-label>CEP</mat-label>
+        <input
+          matInput
+          formControlName="zipCode"
+          mask="00000-000"
+          readonly
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Logradouro</mat-label>
+        <input
+          matInput
+          formControlName="street"
+          readonly
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Número</mat-label>
+        <input
+          matInput
+          formControlName="number"
+          readonly
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Complemento</mat-label>
+        <input
+          matInput
+          formControlName="complement"
+          pattern="^[a-zA-Z0-9 ]*$"
+        />
+        <mat-error>Insira um complemento apenas com letras e números</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Bairro</mat-label>
+        <input
+          matInput
+          formControlName="neighborhood"
+          readonly
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>UF</mat-label>
+        <input
+          matInput
+          formControlName="uf"
+          readonly
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Cidade</mat-label>
+        <input
+          matInput
+          formControlName="city"
+          readonly
+        />
+      </mat-form-field>
+    </fieldset>
+    <fieldset class="dadosDaEmpresa">
+      <legend class="mat-h2">Contato</legend>
+      <mat-form-field appearance="outline">
+        <mat-label>Telefone fixo</mat-label>
+        <input
+          matInput
+          formControlName="landlinePhone"
+          mask="(00) 0000-0000"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Celular</mat-label>
+        <input
+          matInput
+          formControlName="cellPhone"
+          mask="(00) 00000-0000"
+          required
+        />
+        <mat-error>Insira um número de celular</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>E-mail financeiro</mat-label>
+        <input
+          matInput
+          formControlName="corporateEmail"
+        />
+        <mat-error>Insira um e-mail válido</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>E-mail de acesso</mat-label>
+        <input
+          matInput
+          formControlName="email"
+          readonly
+        />
+      </mat-form-field>
+    </fieldset>
+    <p>
+      <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        >Salvar</button
+      >
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="getDataFromCnpj()"
+        type="button"
+      >
+        Atualizar informações da empresa
+      </button>
+    </p>
+  </form>
+</ng-template>

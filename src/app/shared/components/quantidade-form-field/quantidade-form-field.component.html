@@ -1,0 +1,41 @@
+<div
+  [matTooltip]="
+    isDisabledForm ? 'Produto indisponível para seleção de quantidade' : ''
+  "
+  matTooltipPosition="below"
+>
+  <mat-form-field
+    appearance="outline"
+    floatLabel="always"
+  >
+    <mat-label>Qtd.</mat-label>
+    <input
+      type="number"
+      matInput
+      autocomplete="off"
+      [(ngModel)]="value"
+      [disabled]="isDisabledForm"
+      (ngModelChange)="changeValue()"
+    />
+  </mat-form-field>
+  <button
+    type="button"
+    mat-icon-button
+    color="primary"
+    (click)="subtract()"
+    aria-label="Reduzir quantidade"
+    [disabled]="isDisabledForm || isDisabledSubtract"
+  >
+    <mat-icon> remove_circle </mat-icon>
+  </button>
+  <button
+    type="button"
+    mat-icon-button
+    color="primary"
+    (click)="add()"
+    aria-label="Aumentar quantidade"
+    [disabled]="isDisabledForm || isDisabledAdd"
+  >
+    <mat-icon> add_circle </mat-icon>
+  </button>
+</div>

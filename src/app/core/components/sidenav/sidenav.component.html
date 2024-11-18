@@ -1,0 +1,106 @@
+<mat-nav-list>
+  <header mat-list-item>
+    <mat-chip-list>
+      <ng-container *ngIf="isAuth; else authLink">
+        <mat-chip
+          color="primary"
+          selected
+          routerLinkActive="active"
+          (click)="minhaConta()"
+        >
+          <mat-icon>{{ MINHA_CONTA.icon }}</mat-icon>
+          {{ MINHA_CONTA.title }}
+        </mat-chip>
+      </ng-container>
+      <ng-template #authLink>
+        <mat-chip
+          color="primary"
+          selected
+          routerLink="/login"
+        >
+          <mat-icon>login</mat-icon>
+          Entrar
+        </mat-chip>
+      </ng-template>
+    </mat-chip-list>
+    <button
+      mat-icon-button
+      aria-label="Fechar menu"
+      (click)="closeDrawer()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+  <ng-container *ngIf="isAuth">
+    <mat-divider></mat-divider>
+    <mat-list-item>
+      <mat-icon matListIcon>assignment</mat-icon>
+      <div>
+        <h4 mat-list-item-title>
+          {{ cnpj$ | async }}
+        </h4>
+        <p mat-list-item-line>
+          <button
+            mat-button
+            color="primary"
+            (click)="changeCnpj()"
+            *ngIf="cnpjs$"
+          >
+            Trocar conta
+          </button>
+          <button
+            mat-button
+            color="primary"
+            (click)="addCnpj()"
+          >
+            Adicionar
+          </button>
+        </p>
+      </div>
+    </mat-list-item>
+  </ng-container>
+  <mat-divider></mat-divider>
+  <ng-container *ngFor="let link of links">
+    <ng-container *ngIf="link.external; else internalLink">
+      <a
+        mat-list-item
+        target="_blank"
+        [href]="link.path"
+      >
+        <mat-icon [svgIcon]="link.svgIcon || ''">{{ link.icon }}</mat-icon>
+        {{ link.title }}
+      </a>
+    </ng-container>
+    <ng-template #internalLink>
+      <ng-container *ngIf="link.click; else noClick">
+        <button
+          mat-list-item
+          (click)="linkClick(link.click); closeDrawer()"
+        >
+          <mat-icon [svgIcon]="link.svgIcon || ''">{{ link.icon }}</mat-icon>
+          {{ link.title }}
+        </button>
+      </ng-container>
+      <ng-template #noClick>
+        <a
+          mat-list-item
+          routerLinkActive="active"
+          [routerLink]="link.path"
+        >
+          <mat-icon [svgIcon]="link.svgIcon || ''">{{ link.icon }}</mat-icon>
+          {{ link.title }}
+        </a>
+      </ng-template>
+    </ng-template>
+  </ng-container>
+  <mat-divider></mat-divider>
+  <ng-container *ngIf="isAuth">
+    <button
+      mat-list-item
+      (click)="logout()"
+    >
+      <mat-icon>logout</mat-icon>
+      Sair
+    </button>
+  </ng-container>
+</mat-nav-list>

@@ -1,0 +1,30 @@
+mat-card {
+  & + & {
+    margin-top: 1rem;
+  }
+}
+
+app-botoes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  @media (min-width: 768px) {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+mat-card {
+  gap: 1rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  @media (min-width: 768px) {
+    grid-template-columns: 5fr 1fr;
+  }
+}
+
+.sem-pedidos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

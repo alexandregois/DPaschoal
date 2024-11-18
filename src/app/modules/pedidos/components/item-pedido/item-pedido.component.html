@@ -1,0 +1,32 @@
+<mat-card *ngIf="item">
+  <dl>
+    <div class="contador">
+      {{ item.position }}
+    </div>
+    <div class="imagem">
+      <img
+        app-img
+        loading="lazy"
+        loading="lazy"
+        width="125"
+        height="125"
+        alt="imagem produto"
+        [src]="getImagem()"
+      />
+    </div>
+    <div class="descricao">
+      <dt class="mat-h4">{{ item.description | uppercase }}</dt>
+      <dd>Fabricante: {{ item.manufacturer }}</dd>
+      <dd>Cód. de Fábrica: {{ item.code }}</dd>
+      <dd>Cód. do Produto: {{ item.productRetailerId }} </dd>
+    </div>
+    <div class="estoque">
+      <dd>Quantidade: {{ item.quantity }}</dd>
+    </div>
+    <div class="valor_item">
+      <dd class="mat-h2">{{
+        (item.price || 0) * (item.quantity || 0) | currency
+      }}</dd>
+    </div>
+  </dl>
+</mat-card>

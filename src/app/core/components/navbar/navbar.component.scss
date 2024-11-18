@@ -1,0 +1,48 @@
+@use '/src/scss/helpers';
+@use '/src/scss/colors';
+
+:host {
+  border-top: 12px solid colors.$header-accent;
+  border-bottom: 1px solid colors.$header-accent;
+  background-color: #fff;
+  display: block;
+}
+
+[mat-tab-link] {
+  @media #{helpers.$mat-lt-md} {
+    flex-direction: column;
+  }
+}
+
+nav {
+  @media #{helpers.$mat-lt-md} {
+    z-index: 2;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+button[mat-tab-link] {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+[mat-tab-link] {
+  font-weight: normal;
+  @media #{helpers.$mat-lt-md} {
+    font-size: 12px;
+    padding: 0;
+  }
+}
+
+:host ::ng-deep {
+  @media #{helpers.$mat-lt-md} {
+    .mat-tab-link {
+      min-width: 0;
+      flex: 1 1 auto;
+      height: 50px;
+    }
+  }
+}

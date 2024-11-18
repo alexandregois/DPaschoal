@@ -1,0 +1,59 @@
+<button
+  mat-icon-button
+  mat-dialog-close
+  aria-label="Fechar"
+>
+  <mat-icon>close</mat-icon>
+</button>
+<h1 mat-dialog-title>Informar inconsistência</h1>
+<section mat-dialog-content>
+  <mat-form-field appearance="outline">
+    <mat-label>Tipo de Inconsistência</mat-label>
+    <mat-select [(value)]="inconsistencia.codigoTipo">
+      <mat-option
+        [value]="0"
+        selected
+        disabled
+        >Selecione...</mat-option
+      >
+      <mat-option [value]="1">Aplicação</mat-option>
+      <mat-option [value]="2">Somente para</mat-option>
+      <mat-option [value]="3">Ficha técnica</mat-option>
+      <mat-option [value]="4">Produtos similares</mat-option>
+      <mat-option [value]="5">Outros</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field
+    appearance="outline"
+    floatLabel="always"
+  >
+    <mat-label>Informe detalhes da inconsistência:</mat-label>
+    <textarea
+      matInput
+      #descricao
+      [formControl]="inconsistencia.descricao"
+      required
+      maxlength="2000"
+    ></textarea>
+    <mat-hint align="end">{{ descricao?.value?.length || 0 }}/2000</mat-hint>
+    <mat-error *ngIf="inconsistencia.descricao.hasError('required')">
+      Campo obrigatório
+    </mat-error>
+  </mat-form-field>
+</section>
+<mat-dialog-actions align="end">
+  <button
+    mat-button
+    color="primary"
+    mat-dialog-close
+    >Cancelar</button
+  >
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="enviar()"
+    cdkFocusInitial
+  >
+    Enviar
+  </button>
+</mat-dialog-actions>

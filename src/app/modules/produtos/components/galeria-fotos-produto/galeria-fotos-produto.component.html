@@ -1,0 +1,35 @@
+<section>
+  <ul
+    class="slides-list"
+    *ngIf="fotos"
+  >
+    <li *ngFor="let foto of fotos">
+      <img
+        app-img
+        loading="lazy"
+        width="200"
+        height="200"
+        [src]="environment.superkImageUrlPrefix + foto.thumbnailImage"
+        [alt]="foto.name"
+        (click)="selecionarFoto(foto)"
+        role="none"
+      />
+    </li>
+  </ul>
+  <button
+    *ngIf="fotos && fotos.length > 1"
+    mat-icon-button
+    aria-label="Foto anterior"
+    (click)="anterior()"
+  >
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  <button
+    *ngIf="fotos && fotos.length > 1"
+    mat-icon-button
+    aria-label="Próxima foto"
+    (click)="proxima()"
+  >
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+</section>

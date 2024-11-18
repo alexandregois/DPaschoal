@@ -1,0 +1,105 @@
+@use '/src/scss/helpers';
+@use '/src/scss/mixins';
+@use '/src/scss/colors';
+
+mat-toolbar {
+  box-sizing: border-box;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  min-height: 148px;
+
+  @media #{helpers.$mat-lt-md} {
+    flex-wrap: wrap;
+    &:before {
+      content: '';
+      display: block;
+      width: 100%;
+      background-color: colors.$background;
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      height: 66px;
+    }
+  }
+  @media #{helpers.$mat-gt-sm} {
+    min-height: 124px;
+  }
+}
+
+#beon-search {
+  width: 40vw;
+  @media #{helpers.$mat-lt-md} {
+    padding-bottom: 1rem;
+    order: 3;
+    align-content: stretch;
+    width: 100%;
+    ::ng-deep form {
+      width: 100%;
+    }
+  }
+}
+.app-search {
+  width: 55vw;
+  @media #{helpers.$mat-lt-md} {
+    padding-bottom: 1rem;
+    order: 3;
+    align-content: stretch;
+    width: 100%;
+    ::ng-deep form {
+      width: 100%;
+    }
+  }
+}
+
+h1 {
+  box-sizing: border-box;
+  background-image: url('/assets/svg/logo-backdrop.svg');
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-size: auto 100%;
+  align-items: center;
+  display: flex;
+  padding-right: 1rem;
+  padding-left: 0.5rem;
+  position: relative;
+  left: -1rem;
+  min-height: 64px;
+
+  @media #{helpers.$mat-gt-sm} {
+    min-height: 100%;
+    padding-right: 2rem;
+    padding-left: 1.5rem;
+  }
+}
+
+nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.mat-icon-button {
+  $icon-size: 36px;
+  @include mixins.mat-icon-button-size($icon-size);
+}
+
+mat-icon[svgicon='logo'] {
+  vertical-align: middle;
+  width: 75px;
+  height: 60px;
+  @media #{helpers.$mat-gt-sm} {
+    width: 100px;
+    height: 78px;
+  }
+}
+
+.mat-button,
+.mat-icon-button,
+.mat-stroked-button {
+  background: transparent;
+  @media #{helpers.$mat-gt-sm} {
+    color: inherit;
+    background: transparent;
+  }
+}

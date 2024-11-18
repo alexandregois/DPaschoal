@@ -1,0 +1,53 @@
+<app-card-payment
+  *ngIf="paymentType !== 'Cartão de crédito'"
+></app-card-payment>
+<app-card-address
+  *ngIf="paymentType !== 'Cartão de crédito'"
+></app-card-address>
+<app-card-shipping
+  *ngIf="paymentType !== 'Cartão de crédito'"
+></app-card-shipping>
+<div
+  *ngIf="paymentType === 'Cartão de crédito' && !isGridView"
+  fxLayout="row wrap"
+  fxLayout.xs="column"
+>
+  <!-- Primeira coluna -->
+  <div
+    fxFlex="calc(33.33% - 16px)"
+    fxFlex.xs="100%"
+  >
+    <app-card-payment></app-card-payment>
+  </div>
+  <div
+    fxFlex="calc(33.33% - 16px)"
+    fxFlex.xs="100%"
+    style="margin-top: 10px"
+  >
+    <app-card-address></app-card-address>
+  </div>
+  <div
+    fxFlex="calc(33.33% - 16px)"
+    fxFlex.xs="100%"
+    style="margin-top: 10px"
+  >
+    <app-card-shipping></app-card-shipping>
+  </div>
+</div>
+<div *ngIf="paymentType === 'Cartão de crédito' && isGridView">
+  <!-- Primeira coluna -->
+  <app-card-payment></app-card-payment>
+  <div style="margin-top: 10px">
+    <app-card-address></app-card-address>
+  </div>
+  <div style="margin-top: 10px; margin-bottom: 10px">
+    <app-card-shipping></app-card-shipping>
+  </div>
+</div>
+<div
+  fxFlex="100%"
+  fxFlex.xs="100%"
+  *ngIf="paymentType === 'Cartão de crédito' && priceList.length"
+>
+  <app-form-cartao-credito class="form-position"></app-form-cartao-credito>
+</div>

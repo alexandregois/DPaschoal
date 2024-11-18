@@ -1,0 +1,66 @@
+@use '/src/scss/colors';
+@use '/src/scss/angular-material-theme' as theme;
+section {
+  display: grid;
+  gap: 1rem;
+}
+
+app-botoes {
+  gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+  }
+  ::ng-deep {
+    a,
+    button {
+      flex: 1 0 auto;
+    }
+  }
+}
+
+.botoes {
+  display: grid;
+  grid-template-areas: 'voltar carrinho';
+  margin-top: 1rem;
+  @media (max-width: 768px) {
+    grid-template-areas: 'voltar' 'carrinho';
+  }
+}
+
+.voltar {
+  grid-area: voltar;
+  @media (min-width: 768px) {
+    justify-self: start;
+  }
+}
+
+.carrinho {
+  grid-area: carrinho;
+  @media (min-width: 768px) {
+    justify-self: end;
+  }
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  text-align: justify;
+  tfoot {
+    color: colors.$primary;
+    font-weight: bold;
+    tr {
+      border-top: 1px solid theme.$dark-focused;
+    }
+  }
+  td {
+    text-align: end;
+  }
+}
+
+mat-divider {
+  margin: 1rem 0;
+}

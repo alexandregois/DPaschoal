@@ -1,0 +1,58 @@
+dl {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-areas:
+    'status status status status'
+    'numero numero numero numero'
+    'data data qtd qtd'
+    'deposito deposito valor valor'
+    'pagamento pagamento notafiscal notafiscal  ';
+  margin: 0;
+  @media (min-width: 768px) {
+    grid-template-areas:
+      'status status status status'
+      'numero data qtd deposito'
+      'numero valor pagamento notafiscal';
+  }
+}
+
+.mat-h4,
+.mat-headline {
+  margin-bottom: 0;
+}
+
+dd {
+  margin: 0;
+}
+
+.numero {
+  grid-area: numero;
+}
+
+.data {
+  grid-area: data;
+}
+
+.qtd {
+  grid-area: qtd;
+}
+
+.deposito {
+  grid-area: deposito;
+}
+
+.notafiscal {
+  grid-area: notafiscal;
+}
+
+.status {
+  grid-area: status;
+}
+
+.valor {
+  grid-area: valor;
+}
+
+.pagamento {
+  grid-area: pagamento;
+}

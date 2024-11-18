@@ -1,0 +1,36 @@
+{
+  "$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+  "spaces": 2,
+  "generator-cli": {
+    "version": "6.2.1",
+    "generators": {
+      "dev": {
+        "generatorName": "typescript-angular",
+        "output": "#{cwd}/generated/api/#{name}",
+        "glob": "./generated/*.{json,yaml}",
+        "additionalProperties": {
+          "ngVersion": "14.1.3",
+          "supportsES6": "true"
+        }
+      },
+      "qas": {
+        "generatorName": "typescript-angular",
+        "output": "#{cwd}/generated/api/#{name}",
+        "glob": "./generated/*.{json,yaml}",
+        "additionalProperties": {
+          "ngVersion": "14.1.3",
+          "supportsES6": "true"
+        }
+      },
+      "prd": {
+        "generatorName": "typescript-angular",
+        "output": "#{cwd}/generated/api/#{name}",
+        "glob": "./generated/*.{json,yaml}",
+        "additionalProperties": {
+          "ngVersion": "14.1.3",
+          "supportsES6": "true"
+        }
+      }
+    }
+  }
+}

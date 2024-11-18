@@ -1,0 +1,17 @@
+<mat-card>
+  <content>
+    <h1>Crédito liberado!</h1>
+    <span mat-h3>
+      Foi disponibilizado o valor de {{ valorAprovado | currency }} para ser
+      utilizados em produtos da DPK.
+    </span>
+    <span mat-h3> Aproveite e confira os produtos: </span>
+    <button
+      mat-flat-button
+      color="primary"
+      routerLink="/"
+    >
+      Ir para as compras
+    </button>
+  </content>
+</mat-card>

@@ -1,0 +1,13 @@
+@use '/src/scss/mixins';
+
+:host {
+  overflow: hidden;
+}
+
+:host:empty {
+  min-height: 30vh;
+  display: block;
+  &:before {
+    @include mixins.mat-spinner();
+  }
+}

@@ -1,0 +1,99 @@
+<mat-card>
+  <h2 class="mat-h4">
+    <mat-icon>local_shipping</mat-icon>
+    Transportadora
+  </h2>
+
+  <ng-container *ngIf="isLoading; else shippingBlock">
+    <mat-progress-bar
+      color="primary"
+      mode="indeterminate"
+    ></mat-progress-bar>
+  </ng-container>
+
+  <ng-template #shippingBlock>
+    <ng-container *ngIf="shippingList?.length! > 0; else noShippingBlock">
+      <table>
+        <tbody>
+          <tr>
+            <th scope="row">Centro de distribuição:</th>
+            <td>
+              <mat-chip-list
+                role="listbox"
+                aria-label="Lista de centros de distribuição"
+              >
+                <mat-chip
+                  color="primary"
+                  role="option"
+                  aria-label="Centro de distribuição"
+                  selected
+                >
+                  <mat-icon matPrefix>villa</mat-icon>
+                  {{ getCustomerWarehouseByHubId(cart?.hubId)?.description }}
+                </mat-chip>
+              </mat-chip-list>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <mat-radio-group aria-label="Selecione uma Transportadora">
+        <ng-container *ngFor="let shipping of shippingList">
+          <mat-divider></mat-divider>
+
+          <div class="kdp-frete">
+            <div class="kdp-radio">
+              <mat-radio-button
+                color="primary"
+                [value]="shipping"
+                (change)="changeShipping(shipping)"
+              ></mat-radio-button>
+            </div>
+            <div class="kdp-descricao">{{ shipping.name }}</div>
+            <div
+              class="kdp-frete-prazo"
+              *ngIf="shipping.deliveryType !== 'R'"
+            >
+              até {{ shipping.deliveryTime }} dias úteis
+            </div>
+
+            <ng-template #noShippingCost>
+              <div class="kdp-frete-valor green"> Grátis </div>
+            </ng-template>
+            <ng-container
+              *ngIf="
+                shipping.shippingCost && shipping.shippingCost > 0;
+                else noShippingCost
+              "
+            >
+              <div class="kdp-frete-valor">
+                {{ shipping.shippingCost | currency }}
+              </div>
+            </ng-container>
+            <div
+              class="kdp-frete-valorminimo"
+              *ngIf="shipping.deliveryType !== 'R'"
+            >
+              <mat-chip-list
+                role="listbox"
+                aria-label="Sobre o frete"
+              >
+                <mat-chip
+                  role="option"
+                  aria-label="Valor minimo para frete gratis"
+                >
+                  *Para frete grátis, mínimo
+                  {{ shipping.minimumInvoicing | currency }}.
+                </mat-chip>
+              </mat-chip-list>
+            </div>
+          </div>
+        </ng-container>
+      </mat-radio-group>
+    </ng-container>
+
+    <ng-template #noShippingBlock>
+      Nenhuma forma de entrega disponivel
+    </ng-template>
+  </ng-template>
+</mat-card>

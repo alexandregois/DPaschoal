@@ -1,0 +1,91 @@
+@use '/src/scss/helpers';
+@use '/src/scss/colors';
+
+:host {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 0.5rem;
+}
+
+h1 {
+  background: url('/assets/png/race-car.png') no-repeat;
+  background-size: contain;
+  padding-top: 90%;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+img {
+  max-width: 100%;
+}
+
+button[hidden] {
+  pointer-events: none;
+  opacity: 0;
+}
+
+form,
+fieldset {
+  display: flex;
+  flex-direction: column;
+}
+
+fieldset {
+  border: 0;
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  margin-top: 1.5rem;
+  @media #{helpers.$mat-gt-xs} {
+    padding: 0 3rem 3rem 3rem;
+    margin-top: 3rem;
+  }
+}
+
+mat-toolbar {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  &[role='banner'] {
+    justify-content: center;
+  }
+}
+
+mat-card {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 25rem;
+  padding: 0;
+  overflow: hidden;
+}
+
+mat-divider {
+  margin: 1rem 0;
+}
+
+footer a {
+  color: colors.$primary;
+}
+
+:host ::ng-deep {
+  .mat-checkbox-layout {
+    white-space: normal;
+  }
+  .mat-horizontal-content-container {
+    padding: 0;
+  }
+  .mat-horizontal-stepper-header-container {
+    display: none;
+  }
+}
+
+.borrado {
+  filter: opacity(0.5);
+}
+
+.load-submit {
+  position: absolute;
+  margin: 18rem 10rem;
+}

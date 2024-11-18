@@ -1,0 +1,32 @@
+<mat-card class="mat-elevation-z6">
+  <ng-container *ngIf="isRecuperarSenhaSucesso; else recuperarSenhaEmailStep">
+    <app-recuperar-senha-sucesso></app-recuperar-senha-sucesso>
+  </ng-container>
+
+  <ng-template #recuperarSenhaEmailStep>
+    <ng-container *ngIf="isRecuperarSenhaEmail; else recuperarSenhaCodStep">
+      <app-recuperar-senha-email
+        (newItemEvent)="updateStepForm($event)"
+      ></app-recuperar-senha-email>
+    </ng-container>
+  </ng-template>
+
+  <ng-template #recuperarSenhaCodStep>
+    <ng-container *ngIf="isRecuperarSenhaCod; else recuperarSenhaAlteracaoStep">
+      <app-recuperar-senha-cod
+        [email]="email"
+        (newItemEvent)="updateStepForm($event)"
+      ></app-recuperar-senha-cod>
+    </ng-container>
+  </ng-template>
+
+  <ng-template #recuperarSenhaAlteracaoStep>
+    <ng-container *ngIf="isRecuperarSenhaAlteracao">
+      <app-recuperar-senha-alteracao
+        [code]="code"
+        [email]="email"
+        (newItemEvent)="updateStepForm($event)"
+      ></app-recuperar-senha-alteracao>
+    </ng-container>
+  </ng-template>
+</mat-card>

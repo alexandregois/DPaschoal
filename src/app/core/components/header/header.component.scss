@@ -1,0 +1,6 @@
+@use '/src/scss/colors';
+
+:host {
+  background-color: colors.$background;
+  display: block;
+}

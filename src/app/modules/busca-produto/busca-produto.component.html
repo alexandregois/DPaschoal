@@ -1,0 +1,486 @@
+<ng-container
+  *ngIf="isLoading; else buscaSection"
+  style="padding: 5vw 10vw"
+>
+  <mat-progress-bar
+    color="primary"
+    mode="indeterminate"
+  ></mat-progress-bar>
+</ng-container>
+<ng-template #buscaSection>
+  <ng-template #buscarVazio>
+    <div class="kdp-favorito-vazio">
+      <h1>Não encontramos resultados para sua pesquisa</h1>
+    </div>
+  </ng-template>
+  <ng-container *ngIf="totalCount > 0; else buscarVazio">
+    <div class="div-titulo">
+      <h1 class="titulo">Pesquisa por: {{ pesquisaSearch }}</h1>
+      <small class="small"
+        >Encontramos <strong>{{ totalProducts }}</strong>
+        {{ totalCount > 1 ? ' resultados' : ' resultado' }} para sua
+        busca.</small
+      >
+      <hr />
+      <div class="escolha-opcao">
+        <div
+          class="view-toggle"
+          style="margin-right: 6rem"
+        >
+          <button
+            id="groupBtn"
+            mat-icon-button
+            (click)="isGridView = true"
+            [class.active]="isGridView"
+          >
+            <mat-icon>grid_view</mat-icon>
+          </button>
+          <button
+            id="listBtn"
+            mat-icon-button
+            (click)="isGridView = false"
+            [class.active]="!isGridView"
+          >
+            <mat-icon>view_agenda</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <section>
+      <mat-grid-list
+        class="mat-grid"
+        *ngIf="isGridView"
+        cols="4"
+        rowHeight="2:1"
+        gutterSize="10px"
+      >
+        <mat-grid-tile *ngFor="let produto of produtosDisplay">
+          <div class="cardsAlinhamento">
+            <mat-card class="produto-card">
+              <figure>
+                <a
+                  [routerLink]="[
+                    '/produtos',
+                    produto.id,
+                    convertUrl(produto.description)
+                  ]"
+                >
+                  <img
+                    app-img
+                    loading="lazy"
+                    width="500"
+                    height="500"
+                    [src]="environment.superkImageUrlPrefix + produto.image"
+                    [alt]="produto.image"
+                  />
+                </a>
+              </figure>
+              <div
+                class="tag_favorito"
+                *ngIf="isAuth$ | async"
+              >
+                <ng-container *ngIf="isLogged">
+                  <ng-container
+                    *ngIf="isLoadingWarehouse$ | async; else isLoadedWarehouse"
+                  >
+                    <mat-progress-spinner
+                      color="primary"
+                      mode="indeterminate"
+                      diameter="24"
+                    >
+                    </mat-progress-spinner>
+                  </ng-container>
+                  <ng-template #isLoadedWarehouse>
+                    <mat-chip
+                      color="primary"
+                      class="mat-chip-selected"
+                      role="term"
+                    >
+                      {{ (warehouse$ | async)?.description }}
+                    </mat-chip>
+                  </ng-template>
+
+                  <app-favorito-button
+                    [sapCode]="sapCodeAsNumber(produto.sapCode)"
+                    [idProduct]="produto.id"
+                  >
+                  </app-favorito-button>
+                </ng-container>
+              </div>
+              <mat-spinner
+                class="load-add-cart"
+                [diameter]="80"
+                *ngIf="isAddingCart"
+              >
+              </mat-spinner>
+              <h2 class="mat-h4">
+                <a
+                  class="limited-text"
+                  [routerLink]="[
+                    '/produtos',
+                    produto.id,
+                    convertUrl(produto.description)
+                  ]"
+                >
+                  {{ produto.description }}
+                </a>
+              </h2>
+
+              <ng-container *ngIf="produto.total === 0; else produtoPrice">
+                <mat-progress-spinner
+                  *ngIf="produto.price !== -1"
+                  color="primary"
+                  mode="indeterminate"
+                  diameter="32"
+                >
+                </mat-progress-spinner>
+              </ng-container>
+
+              <ng-template #produtoPrice>
+                <div class="preco">
+                  <span class="cor-preco">
+                    {{
+                      produto.total !== 0 ? (produto.total | currency) : ''
+                    }}</span
+                  >
+                  <ng-container *ngIf="produto?.stock !== 0">
+                    <app-quantidade-form-field
+                      [value]="produto.quantity"
+                      [limit]="produto.maximumQuantity"
+                      [minimum]="produto.minimumQuantity"
+                      (update)="atualizarValorProduto($event, produto)"
+                    ></app-quantidade-form-field>
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <div>
+                <small class="cor-similar">
+                  {{
+                    produto?.stock !== 0
+                      ? produto?.stock + 'un. no estoque'
+                      : 'Produto Indisponível'
+                  }}
+                </small>
+              </div>
+
+              <div class="estoque"> </div>
+
+              <div class="informacoes">
+                <div>
+                  <p
+                    >Fabricante:
+                    <strong>
+                      {{ produto.manufacturer }}
+                    </strong>
+                  </p>
+                  <div class="fab">
+                    <p>Cód. de Fábrica: </p>
+                    <strong> {{ produto.code }} </strong>
+                  </div>
+                </div>
+
+                <p
+                  >Cód. do Produto: <strong>{{ produto.sapCode }}</strong>
+                </p>
+              </div>
+
+              <footer>
+                <ng-container *ngIf="isAuth$ | async">
+                  <ng-container
+                    *ngIf="produto?.stock && produto?.total; else blockAviseMe"
+                  >
+                    <button
+                      id="adicionarCarrinhoBtn"
+                      mat-raised-button
+                      color="accent"
+                      [disabled]="!produto.total || produto.isAddingToCart"
+                      (click)="adicionarAoCarrinho(produto)"
+                    >
+                      <mat-icon>shopping_cart</mat-icon>
+                      <b>{{
+                        produto.isAddingToCart
+                          ? 'Adicionando...'
+                          : 'Adicionar ao carrinho'
+                      }}</b>
+                    </button>
+                  </ng-container>
+                  <ng-template #blockAviseMe>
+                    <button
+                      id="avisemeBtn"
+                      mat-raised-button
+                      color="primary"
+                      (click)="aviseMe(produto.id)"
+                    >
+                      Avise-me quando chegar
+                    </button>
+                  </ng-template>
+                </ng-container>
+                <button
+                  id="similaresBtn"
+                  [ngStyle]="{
+                    'border-color': portal === 'DPK' ? '#0060a8' : '#7e0f0f'
+                  }"
+                  mat-stroked-button
+                  color="primary"
+                  (click)="verSimilares(produto.id, produto.description)"
+                >
+                  Produtos similares
+                </button>
+                <ng-container *ngIf="isAuth$ | async; else verPrecoButton">
+                  <button
+                    id="verEstoqueBtn"
+                    mat-button
+                    color="primary"
+                    (click)="maisEstoques(produto.id, produto.sapCode)"
+                  >
+                    Ver + estoques
+                  </button>
+                </ng-container>
+                <ng-template #verPrecoButton>
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="verPreco(produto.id)"
+                  >
+                    VER PREÇO
+                  </button>
+                </ng-template>
+              </footer>
+            </mat-card>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <div
+        *ngIf="!isGridView"
+        class="column-view"
+      >
+        <div
+          *ngFor="let produto of produtosDisplay"
+          class="column-view-card"
+        >
+          <div style="width: 35%">
+            <figure>
+              <a
+                [routerLink]="[
+                  '/produtos',
+                  produto.id,
+                  convertUrl(produto.description)
+                ]"
+              >
+                <img
+                  app-img
+                  loading="lazy"
+                  width="500"
+                  height="500"
+                  [src]="environment.superkImageUrlPrefix + produto.image"
+                  [alt]="produto.image"
+                />
+              </a>
+            </figure>
+          </div>
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              width: 100%;
+              padding: 10px;
+              margin-left: 2rem;
+            "
+          >
+            <div
+              class="tag_favorito"
+              *ngIf="isAuth$ | async"
+            >
+              <span>
+                <ng-container
+                  *ngIf="isLoadingWarehouse$ | async; else isLoadedWarehouse"
+                >
+                  <mat-progress-spinner
+                    color="primary"
+                    mode="indeterminate"
+                    diameter="24"
+                  >
+                  </mat-progress-spinner>
+                </ng-container>
+                <ng-template #isLoadedWarehouse>
+                  <mat-chip
+                    color="primary"
+                    class="mat-chip-selected"
+                    role="term"
+                  >
+                    {{ (warehouse$ | async)?.description }}
+                  </mat-chip>
+                </ng-template>
+              </span>
+              <app-favorito-button
+                [sapCode]="sapCodeAsNumber(produto.sapCode)"
+                [idProduct]="produto.id"
+              ></app-favorito-button>
+            </div>
+            <h2 class="mat-h4">
+              <a
+                [routerLink]="[
+                  '/produtos',
+                  produto.id,
+                  convertUrl(produto.description)
+                ]"
+              >
+                {{ produto.description }}
+              </a>
+            </h2>
+
+            <div class="colum-card">
+              <p>Fabricante:</p>
+              <strong> {{ produto.manufacturer }}</strong>
+              <p>Cód de Fábrica:</p>
+              <strong> {{ produto.code }} </strong>
+              <p>Cód do produto:</p>
+              <strong> {{ produto.sapCode }}</strong>
+            </div>
+
+            <div
+              style="
+                width: 17rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <button
+                id="similaresBtn"
+                [ngStyle]="{
+                  'border-color': portal === 'DPK' ? '#0060a8' : '#7e0f0f'
+                }"
+                (click)="verSimilares(produto.id, produto.description)"
+                class="mat-stroked-button cor-similar"
+              >
+                Produtos Similares</button
+              >
+              <ng-container *ngIf="isAuth$ | async; else verPrecoButton">
+                <button
+                  id="verEstoqueBtn"
+                  mat-button
+                  color="primary"
+                  (click)="maisEstoques(produto.id, produto.sapCode)"
+                >
+                  Ver + estoques
+                </button>
+              </ng-container>
+              <ng-template #verPrecoButton>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="verPreco(produto.id)"
+                >
+                  VER PREÇO
+                </button>
+              </ng-template>
+            </div>
+          </div>
+          <ng-container *ngIf="produto.total === 0; else produtoPrice">
+            <div class="preco-colum">
+              <mat-progress-spinner
+                *ngIf="produto.price !== -1"
+                color="primary"
+                mode="indeterminate"
+                diameter="32"
+              >
+              </mat-progress-spinner>
+            </div>
+          </ng-container>
+          <ng-template #produtoPrice>
+            <div class="preco-colum">
+              <span *ngIf="produto?.total !== 0"><strong>PREÇO</strong></span>
+              <span class="cor-preco">
+                {{ produto.total !== 0 ? (produto.total | currency) : '' }}
+              </span>
+            </div>
+          </ng-template>
+
+          <div class="informacoes"> </div>
+          <div class="alinhamento-div-estoque-carrinho">
+            <ng-container *ngIf="produto?.stock !== 0">
+              <app-quantidade-form-field
+                [value]="produto.quantity"
+                [limit]="produto.maximumQuantity"
+                [minimum]="produto.minimumQuantity"
+                (update)="atualizarValorProduto($event, produto)"
+              ></app-quantidade-form-field>
+            </ng-container>
+            <br />
+
+            <div style="position: relative; bottom: 3%">
+              <small class="cor-similar">
+                {{
+                  produto.stock !== 0
+                    ? produto?.stock + 'un. no estoque'
+                    : 'Produto Indisponível'
+                }}
+              </small>
+            </div>
+            <ng-container *ngIf="isAuth$ | async">
+              <ng-container
+                *ngIf="produto?.stock && produto?.total; else blockAviseMe"
+              >
+                <button
+                  id="adicionarCarrinhoBtn"
+                  mat-raised-button
+                  color="accent"
+                  [disabled]="!produto.total || produto.isAddingToCart"
+                  (click)="adicionarAoCarrinho(produto)"
+                >
+                  <mat-icon>shopping_cart</mat-icon>
+                  <b>{{
+                    produto.isAddingToCart
+                      ? 'Adicionando...'
+                      : 'Adicionar ao carrinho'
+                  }}</b>
+                </button>
+              </ng-container>
+              <ng-template #blockAviseMe>
+                <button
+                  id="avisemeBtn"
+                  mat-raised-button
+                  color="primary"
+                  (click)="aviseMe(produto.id)"
+                >
+                  Avise-me quando chegar
+                </button>
+              </ng-template>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <br />
+      <div class="right-align-paginator div-class-paginator">
+        <button
+          mat-button
+          (click)="previousPage()"
+          [disabled]="currentPage === 1"
+          >Anterior</button
+        >
+        <ng-container *ngFor="let page of pageNumbers">
+          <button
+            mat-button
+            (click)="goToPage(page)"
+            [disabled]="currentPage === page"
+            *ngIf="page >= startPage && page <= endPage"
+          >
+            {{ page }}
+          </button>
+        </ng-container>
+        <button
+          mat-button
+          (click)="nextPage()"
+          [disabled]="currentPage === totalPages"
+          >Próximo</button
+        >
+      </div>
+      <div class="div-class-paginator-label">
+        Página {{ currentPage }} de {{ totalPages }}
+      </div>
+    </section>
+    <br />
+  </ng-container>
+</ng-template>

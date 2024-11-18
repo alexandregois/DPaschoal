@@ -1,0 +1,81 @@
+.conteudo-step-one {
+  display: grid;
+  gap: 1rem;
+  grid-template-areas: 'anexo' 'chave';
+}
+
+.anexo {
+  grid-area: anexo;
+}
+
+.numero_nota {
+  grid-area: chave;
+  display: flex;
+  gap: 1rem;
+
+  .numero {
+    width: 20rem;
+  }
+  .serie {
+    width: 5rem;
+  }
+}
+
+.corpo {
+  display: grid;
+}
+.arquivo {
+  display: grid;
+  grid-template-columns: max-content min-content;
+}
+
+.info_arquivo {
+  display: grid;
+}
+
+.upload-btn {
+  width: 190px;
+}
+
+.file-input {
+  display: none;
+}
+
+mat-divider {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.enviar {
+  text-align: right;
+
+  button {
+    width: 200px;
+  }
+}
+
+.ajuda {
+  display: grid;
+
+  button {
+    width: 240px;
+  }
+}
+
+.mat-dialog-container {
+  padding: 14px 24px;
+}
+
+.duvidas {
+  display: grid;
+
+  mat-accordion {
+    margin-top: 1rem;
+  }
+}
+
+.icone {
+  font-size: 30px;
+  width: 32px;
+  height: 32px;
+}

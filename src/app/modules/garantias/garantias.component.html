@@ -1,0 +1,211 @@
+<ng-container *ngIf="isLoading; else garantiasSection">
+  <mat-progress-bar
+    color="primary"
+    mode="indeterminate"
+  ></mat-progress-bar>
+</ng-container>
+<ng-template #garantiasSection>
+  <ng-template #semGarantias>
+    <div class="sem-garantia">
+      <h1>Você não possui nenhuma solicitação de garantia</h1>
+      <button
+        mat-flat-button
+        color="primary"
+        routerLink="/garantia/nova"
+      >
+        Solicitar Garantia
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-container *ngIf="garantias; else semGarantias">
+    <form
+      [formGroup]="formBusca"
+      id="formBusca"
+      class="filtros"
+    >
+      <mat-form-field
+        class="busca"
+        appearance="outline"
+      >
+        <mat-label>Busca</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="filterNumber"
+        />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field
+        class="filtro"
+        appearance="outline"
+      >
+        <mat-label>Filtrar</mat-label>
+        <mat-select
+          formControlName="filterStatus"
+          (selectionChange)="filtrarPorStatus($event)"
+          value="0"
+        >
+          <mat-option value="0">Todos</mat-option>
+          <mat-option
+            *ngFor="let status of statusList"
+            [value]="status.name"
+          >
+            {{ status.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+
+    <mat-card>
+      <table
+        mat-table
+        [dataSource]="listaGarantias"
+        matSort
+      >
+        <ng-container matColumnDef="statusColor">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+          >
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let row"
+          >
+            <div
+              matBadge="0"
+              matBadgeColor="warn"
+              [class]="'bg-' + getStatusColor(row)"
+            >
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="warrantyStatus">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            ><b>Status</b></th
+          >
+          <td
+            mat-cell
+            *matCellDef="let row"
+          >
+            {{ row.statusDescription }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="requestDate">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            ><b>Data</b></th
+          >
+          <td
+            mat-cell
+            *matCellDef="let row"
+          >
+            {{ row.requestDate | date : 'shortDate' : 'GMT' }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="number">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            ><b>Nº do Protocolo</b></th
+          >
+          <td
+            mat-cell
+            *matCellDef="let row"
+          >
+            <span
+              *ngIf="
+                !(
+                  row.stepDescription === 'Aguardando envio' ||
+                  row.stepDescription === 'Em análise' ||
+                  row.stepDescription === 'Recusada'
+                )
+              "
+              >{{ row.number }}</span
+            >
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="warrantyStep">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            ><b>Etapa</b></th
+          >
+          <td
+            mat-cell
+            *matCellDef="let row"
+          >
+            {{ row.stepDescription }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="detalhar">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+          ></th>
+          <td
+            mat-cell
+            *matCellDef="let row"
+          >
+            <a
+              mat-stroked-button
+              color="primary"
+              [routerLink]="['/garantia', row.number]"
+            >
+              Ver detalhes
+            </a>
+          </td>
+        </ng-container>
+
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns"
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+        ></tr>
+
+        <tr
+          mat-row
+          *matNoDataRow
+        >
+          <td
+            mat-cell
+            [attr.colspan]="displayedColumns.length"
+          >
+            Nenhum dado correspondente à busca
+          </td>
+        </tr>
+      </table>
+      <br />
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="loadMoreData()"
+        [disabled]="mostrouTodos"
+      >
+        Carregar mais...
+      </button>
+    </mat-card>
+    <div class="acao">
+      <button
+        mat-flat-button
+        color="primary"
+        routerLink="/garantia/nova"
+      >
+        Solicitar Garantia
+      </button>
+    </div>
+  </ng-container>
+</ng-template>

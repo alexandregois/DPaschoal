@@ -1,0 +1,32 @@
+@use '/src/scss/angular-material-theme' as theme;
+@use '/src/scss/colors';
+
+mat-card {
+  box-sizing: border-box;
+  background-color: theme.$dark-focused;
+  height: 100%;
+  padding: 10px;
+  > mat-divider {
+    position: static;
+  }
+}
+
+h2 {
+  color: colors.$primary;
+}
+
+strong {
+  display: block;
+}
+
+mat-chip-list {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  margin-bottom: 0;
+  align-items: center;
+}

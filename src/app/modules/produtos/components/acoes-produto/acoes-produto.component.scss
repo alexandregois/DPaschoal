@@ -1,0 +1,70 @@
+@use '/src/scss/colors';
+
+section {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+#on {
+  display: grid;
+  gap: 1rem;
+  grid-template-areas:
+    'acoes_qtd_carrinho'
+    'acoes_similares_estoque';
+  @media (min-width: 960px) {
+    display: flex;
+    justify-content: space-around;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'acoes_qtd_carrinho'
+      'acoes_similares_estoque';
+  }
+}
+#off {
+  display: grid;
+  gap: 1rem;
+  grid-template-areas:
+    'acoes_preco'
+    'acoes_similares_estoque';
+  @media (min-width: 960px) {
+    display: flex;
+    justify-content: space-around;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'acoes_preco'
+      'acoes_similares_estoque acoes_similares_estoque';
+  }
+}
+
+.acoes_qtd_carrinho {
+  grid-area: acoes_qtd_carrinho;
+  gap: 0.5rem;
+  display: flex;
+  justify-content: space-around;
+  @media (min-width: 960px) {
+    align-items: center;
+  }
+}
+
+.acoes_aviseme {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  button {
+    grid-area: 1 / 2;
+  }
+}
+
+.acoes_preco {
+  grid-area: acoes_preco;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.acoes_similares_estoque {
+  grid-area: acoes_similares_estoque;
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(2, 1fr);
+}

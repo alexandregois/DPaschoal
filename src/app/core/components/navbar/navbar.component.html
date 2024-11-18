@@ -1,0 +1,44 @@
+<nav
+  *ngIf="links !== undefined && (isSmallScreen$ | async) !== undefined"
+  mat-tab-nav-bar
+  mat-align-tabs="center"
+  [backgroundColor]="(isSmallScreen$ | async) ? 'primary' : undefined"
+>
+  <ng-container *ngFor="let link of links">
+    <ng-container *ngIf="link.external; else internal">
+      <a
+        mat-tab-link
+        id="link_5"
+        target="_blank"
+        [href]="link.path"
+      >
+        <mat-icon [svgIcon]="link.svgIcon || ''">{{ link.icon }}</mat-icon>
+        {{ link.title }}
+      </a>
+    </ng-container>
+    <ng-template #internal>
+      <a
+        mat-tab-link
+        [routerLink]="link.path"
+        routerLinkActive
+        #RouterLinkActive="routerLinkActive"
+        [active]="RouterLinkActive.isActive"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <mat-icon [svgIcon]="link.svgIcon || ''">
+          {{ link.icon || '' }}
+        </mat-icon>
+        {{ link.title }}
+      </a>
+    </ng-template>
+  </ng-container>
+  <button
+    *ngIf="isSmallScreen$ | async"
+    mat-tab-link
+    (click)="openDrawer()"
+    (keyup.enter)="openDrawer()"
+  >
+    <mat-icon>menu</mat-icon>
+    Mais
+  </button>
+</nav>

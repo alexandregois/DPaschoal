@@ -1,0 +1,35 @@
+section {
+  display: grid;
+  grid-template-columns: 1fr 7fr 1fr;
+  grid-template-areas: 'btn_anterior slide btn_proxima';
+  align-items: center;
+}
+
+button[aria-label='Foto anterior'] {
+  grid-area: btn_anterior;
+}
+
+button[aria-label='Próxima foto'] {
+  grid-area: btn_proxima;
+}
+
+.slides-list {
+  grid-area: slide;
+  overflow: hidden;
+
+  list-style-type: none;
+  margin: 5px 0;
+  padding: 0;
+  gap: 1rem;
+
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  width: 100%;
+}
+
+img {
+  width: 110px;
+  box-shadow: 0px 5px 6px -1px rgb(0 0 0 / 20%),
+    0px 6px 8px -1px rgb(0 0 0 / 14%), 0px 4px 8px -1px rgb(0 0 0 / 12%);
+}

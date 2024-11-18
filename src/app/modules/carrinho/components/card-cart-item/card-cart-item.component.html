@@ -1,0 +1,121 @@
+<mat-card
+  class="kdp-produto"
+  *ngIf="cartItem"
+>
+  <div class="tags">
+    <mat-chip-list>
+      <mat-chip>{{ cartItem.position }}</mat-chip>
+    </mat-chip-list>
+  </div>
+  <div class="imagem">
+    <img
+      app-img
+      loading="lazy"
+      width="200"
+      height="200"
+      alt="Imagem produto"
+      [src]="productImageUrl"
+    />
+  </div>
+  <h2 class="titulo mat-h3">
+    {{ productDetail?.product?.description! }}
+  </h2>
+  <ul class="descricao mat-small">
+    <li>Fabricante: {{ productDetail?.product?.manufacturer! }}</li>
+    <li>Cód. de Fábrica: {{ productDetail?.product?.code! }}</li>
+    <li>Cód. do Produto: {{ cartItem.productRetailerId }}</li>
+    <li>({{ price?.stock }} un. em estoque)</li>
+  </ul>
+  <div class="valor">
+    <ng-container *ngIf="isLoadingPrice; else loadedPrice">
+      <mat-progress-spinner
+        color="primary"
+        mode="indeterminate"
+        diameter="32"
+      >
+      </mat-progress-spinner>
+    </ng-container>
+    <ng-template #loadedPrice>
+      <small class="mat-small">Valor unitário</small>
+      <span class="mat-h2">
+        {{ getUnitPrice() | currency }}
+      </span>
+    </ng-template>
+  </div>
+  <div class="status mat-small">
+    <ng-container *ngIf="isLoadingPrice; else loadedStatus">
+      <mat-progress-spinner
+        color="primary"
+        mode="indeterminate"
+        diameter="32"
+      >
+      </mat-progress-spinner>
+    </ng-container>
+    <ng-template #loadedStatus>
+      <div *ngFor="let status of statusList">
+        {{ status }}
+      </div>
+    </ng-template>
+  </div>
+  <div class="qtd">
+    <app-quantidade-form-field
+      [value]="cartItem.quantity"
+      [limit]="price?.stock"
+      [minimum]="price?.minimumBuy"
+      (update)="updateCartItemQuantity(cartItem, $event)"
+    >
+    </app-quantidade-form-field>
+  </div>
+  <div class="favoritos">
+    <mat-chip-list>
+      <mat-chip
+        color="primary"
+        selected
+        *ngIf="customerWarehouse"
+      >
+        {{ customerWarehouse.description }}
+      </mat-chip>
+    </mat-chip-list>
+    <app-favorito-button
+      *ngIf="isVisibleFavorite"
+      [sapCode]="productDetail?.product?.sapCodeNumber"
+      [idProduct]="cartItem.productId"
+    ></app-favorito-button>
+  </div>
+  <div class="total">
+    <ng-container *ngIf="isLoadingPrice; else loadedTotalPrice">
+      <mat-progress-spinner
+        color="primary"
+        mode="indeterminate"
+        diameter="32"
+      >
+      </mat-progress-spinner>
+    </ng-container>
+    <ng-template #loadedTotalPrice>
+      <small class="mat-small">Valor total</small>
+      <span class="mat-h2">
+        {{ calculateTotal() | currency }}
+      </span>
+    </ng-template>
+  </div>
+  <div class="excluir">
+    <ng-container *ngIf="isLoadingRemove; else loadedRemove">
+      <mat-progress-spinner
+        color="primary"
+        mode="indeterminate"
+        diameter="32"
+      >
+      </mat-progress-spinner>
+    </ng-container>
+    <ng-template #loadedRemove>
+      <button
+        type="button"
+        mat-icon-button
+        aria-label="Remover produto"
+        (click)="removeProduct(cartItem)"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </ng-template>
+  </div>
+</mat-card>

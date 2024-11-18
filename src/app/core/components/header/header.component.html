@@ -1,0 +1,15 @@
+<app-toolbar></app-toolbar>
+<app-navbar></app-navbar>
+<app-filters [hidden]="hideFilters()"></app-filters>
+
+<ng-template #loading>
+  <mat-progress-bar
+    color="primary"
+    mode="indeterminate"
+    aria-label="Carregando carrinho"
+  >
+  </mat-progress-bar>
+  <ng-container>
+    <router-outlet></router-outlet>
+  </ng-container>
+</ng-template>

@@ -1,0 +1,26 @@
+{
+  "files.eol": "\n",
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "editor.formatOnSave": true
+  },
+  "cSpell.words": [
+    "beon",
+    "Cnae",
+    "endereco",
+    "pageview",
+    "signin"
+  ],
+  "compile-hero.disable-compile-files-on-did-save-code": false,
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+}

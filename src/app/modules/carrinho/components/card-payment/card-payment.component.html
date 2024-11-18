@@ -1,0 +1,29 @@
+<mat-card>
+  <h2 class="mat-h4">
+    <mat-icon>payments</mat-icon>
+    Plano de pagamento
+  </h2>
+  <ng-container *ngIf="isLoading; else paymentBlock">
+    <mat-progress-bar
+      color="primary"
+      mode="indeterminate"
+    ></mat-progress-bar>
+  </ng-container>
+  <ng-template #paymentBlock>
+    <dl>
+      <ng-container *ngIf="payment; else noPaymentSelectedBlock">
+        <dd>{{ payment.description }}</dd>
+        <dd>
+          Acima de
+          {{ payment.minimumValue | currency }}
+          / Prazo médio
+          {{ payment.delivery }}
+          dias
+        </dd>
+      </ng-container>
+      <ng-template #noPaymentSelectedBlock>
+        <dd>Nenhum plano de pagamento selecionado</dd>
+      </ng-template>
+    </dl>
+  </ng-template>
+</mat-card>

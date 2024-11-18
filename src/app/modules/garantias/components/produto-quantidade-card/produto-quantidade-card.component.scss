@@ -1,0 +1,35 @@
+content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 0.5fr 1fr 1fr;
+  grid-template-areas: 'img titulo' 'img conteudo' 'img quantidade';
+  gap: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #d9d9d9;
+  padding: 18px;
+}
+
+figure {
+  grid-area: img;
+  margin: auto;
+}
+
+header {
+  grid-area: titulo;
+  h4 {
+    margin: 0;
+  }
+}
+
+.conteudo {
+  grid-area: conteudo;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.quantidade {
+  grid-area: quantidade;
+  display: grid;
+  align-items: center;
+}

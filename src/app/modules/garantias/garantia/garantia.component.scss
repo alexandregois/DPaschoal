@@ -1,0 +1,14 @@
+:host ::ng-deep {
+  .mat-checkbox-layout {
+    white-space: normal;
+  }
+  .mat-horizontal-content-container {
+    padding: 1px;
+  }
+  @media (min-width: 768px) {
+    .mat-horizontal-stepper-header-container {
+      width: fit-content;
+      margin: 0 auto;
+    }
+  }
+}

@@ -1,0 +1,32 @@
+# FROM node:lts-alpine as angular
+# WORKDIR /app
+# # ADD jdk-11.0.6_linux-x64_bin.tar.gz /usr/java
+# # ENV JAVA_HOME=/usr/java/jdk-11.0.6
+# # ENV PATH=$JAVA_HOME/bin:$PATH
+
+# ENV LANG C.UTF-8
+# RUN { \
+#         echo '#!/bin/sh'; \
+#         echo 'set -e'; \
+#         echo; \
+#         echo 'dirname "$(dirname "$(readlink -f "$(which javac || which java)")")"'; \
+#     } > /usr/local/bin/docker-java-home \
+#     && chmod +x /usr/local/bin/docker-java-home
+# ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk
+# ENV PATH $PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin
+# ENV JAVA_VERSION 8u111
+# ENV JAVA_ALPINE_VERSION 8.111.14-r0
+# RUN set -x && apk add --no-cache openjdk8 && [ "$JAVA_HOME" = "$(docker-java-home)" ]
+
+# COPY package.json /app
+# RUN npm install --silent
+# COPY . .
+# #RUN npm run-script build-prd
+# RUN npm run build-prd
+
+FROM nginx:alpine
+EXPOSE 80
+EXPOSE 443
+VOLUME /var/cache/nginx
+COPY ./dist/dpk /usr/share/nginx/html
+#COPY ./config/nginx.conf /etc/nginx/conf.d/default.conf

@@ -1,0 +1,87 @@
+.sucesso-analise-enviada {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+
+  & + & {
+    margin-top: 0.5rem;
+  }
+}
+
+mat-divider {
+  position: static;
+  margin: 0rem 0 1rem 0;
+}
+
+.kdp-ref-comerciais {
+  .kdp-ref-comerciais-form {
+    display: grid;
+    gap: 0.5rem;
+  }
+}
+
+.credito {
+  grid-area: credito;
+}
+
+.credito-valor {
+  grid-area: credito-valor;
+}
+
+.kdp-text-right {
+  text-align: right;
+}
+
+.kdp-ref-bancarias .kdp-ref-bancarias-form {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.kdp-documentos {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: 1fr;
+}
+
+.kdp-botoes {
+  margin-top: 3rem;
+}
+
+.kdp-btn-action {
+  align-self: center;
+  margin-bottom: 1.34375em;
+}
+
+button:not(.kdp-btn-action) {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  mat-divider {
+    display: none;
+  }
+
+  .kdp-ref-comerciais {
+    .kdp-ref-comerciais-form {
+      grid-template-columns: 2fr 1fr 1fr min-content;
+    }
+  }
+
+  .kdp-ref-bancarias .kdp-ref-bancarias-form {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .kdp-documentos button {
+    width: 350px;
+  }
+
+  .kdp-botoes button {
+    width: 150px;
+  }
+}

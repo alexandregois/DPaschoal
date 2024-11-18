@@ -1,0 +1,24 @@
+<ng-container *ngIf="isLoading$ | async; else isLoadedTemplate">
+  <mat-progress-spinner
+    id="header"
+    color="warn"
+    mode="indeterminate"
+    diameter="32"
+  >
+  </mat-progress-spinner>
+</ng-container>
+<ng-template #isLoadedTemplate>
+  <a
+    mat-icon-button
+    [color]="(isSmallScreen$ | async) ? 'primary' : undefined"
+    routerLink="/carrinho"
+  >
+    <mat-icon
+      [matBadgeHidden]="!totalCount"
+      [matBadge]="totalCount"
+      matBadgeColor="warn"
+    >
+      shopping_cart
+    </mat-icon>
+  </a>
+</ng-template>

@@ -1,0 +1,36 @@
+<dl *ngIf="pedido">
+  <div
+    class="numero mat-headline"
+    [appPedidoStatusColor]="pedido.statusId"
+  >
+    <dt class="mat-h4">Nº do pedido:</dt>
+    <dd>{{ pedido.number }}</dd>
+  </div>
+  <div class="status">
+    <app-status [status]="getStatusPedido()"></app-status>
+  </div>
+  <div class="data">
+    <dt class="mat-h4">Data do pedido:</dt>
+    <dd>{{ pedido.purchaseDate | date : 'shortDate' }}</dd>
+  </div>
+  <div class="qtd">
+    <dt class="mat-h4">Quantidade de produtos:</dt>
+    <dd>{{ pedido.quantity }}</dd>
+  </div>
+  <div class="deposito">
+    <dt class="mat-h4">Depósito:</dt>
+    <dd>{{ pedido.hub }}</dd>
+  </div>
+  <div class="notafiscal">
+    <dt class="mat-h4">Nota Fiscal:</dt>
+    <dd>{{ pedido.orderPayments?.invoiceNumber }}</dd>
+  </div>
+  <div class="valor">
+    <dt class="mat-h4">Valor:</dt>
+    <dd>{{ pedido.total | currency }}</dd>
+  </div>
+  <div class="pagamento">
+    <dt class="mat-h4">Pagamento:</dt>
+    <dd>{{ pedido.orderPayments?.paymentDescription }}</dd>
+  </div>
+</dl>

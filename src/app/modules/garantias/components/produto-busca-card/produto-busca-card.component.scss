@@ -1,0 +1,56 @@
+@use '/src/scss/colors';
+
+:host {
+  display: flex;
+}
+
+mat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  &:not([class*='mat-elevation-z']) {
+    box-shadow: none;
+  }
+
+  &:hover {
+    box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%),
+      0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+  }
+}
+
+h2 {
+  margin: 0;
+  height: 67px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+  a {
+    color: colors.$foreground;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+  }
+}
+
+figure {
+  margin: 0;
+  align-self: center;
+}
+
+h2,
+img {
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}

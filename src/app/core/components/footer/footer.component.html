@@ -1,0 +1,73 @@
+<footer>
+  <div class="parent">
+    <div>
+      <ul>
+        <li>
+          <a
+            routerLink="/"
+            aria-label="Ir para página inicial"
+          >
+            <mat-icon
+              svgIcon="logo"
+              aria-hidden="true"
+            ></mat-icon>
+          </a>
+        </li>
+        <li> {{ environment.footer.logo.text }} </li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li class="footer-title">Siga a gente nas redes sociais:</li>
+        <li>
+          <ng-container *ngFor="let rede of environment.footer.redesSociais">
+            <a
+              [href]="rede.url"
+              target="_blank"
+            >
+              <mat-icon
+                [svgIcon]="rede.text"
+                aria-hidden="true"
+                class="redesSociais"
+              ></mat-icon>
+            </a>
+          </ng-container>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li class="footer-title"
+          >Fale com nosso Servico de Atendimento ao Cliente:</li
+        >
+        <ng-container *ngFor="let sac of environment.footer.sac">
+          <li>
+            <a
+              [attr.href]="environment.portal === 'DPK' ? sac.url : null"
+              [attr.target]="environment.portal === 'DPK' ? '_blank' : null"
+            >
+              <mat-icon color="primary">{{ sac.icon }}</mat-icon
+              >{{ sac.text }}
+            </a>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <ng-container *ngFor="let link of environment.footer.links">
+          <li>
+            <a
+              [href]="link.url"
+              [attr.target]="link.external ? '_blank' : null"
+              >{{ link.text }}</a
+            >
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+  </div>
+  <div class="imgfooter">
+    <img alt="Logo KD" />
+  </div>
+</footer>

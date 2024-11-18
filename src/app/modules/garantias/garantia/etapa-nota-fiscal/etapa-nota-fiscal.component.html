@@ -1,0 +1,214 @@
+<mat-vertical-stepper
+  [linear]="true"
+  animationDuration="500"
+  id="stepperEntrega"
+  #stepperEntrega
+  [selectedIndex]="stepAtual"
+>
+  <ng-template
+    matStepperIcon="edit"
+    let-index="index"
+  >
+    <mat-icon *ngIf="index === 0">description</mat-icon>
+    <mat-icon *ngIf="index === 1">history</mat-icon>
+  </ng-template>
+  <ng-template
+    matStepperIcon="done"
+    let-index="index"
+  >
+    <mat-icon *ngIf="index === 0">description</mat-icon>
+    <mat-icon *ngIf="index === 1">history</mat-icon>
+  </ng-template>
+  <ng-template
+    matStepperIcon="number"
+    let-index="index"
+  >
+    <mat-icon *ngIf="index === 0">description</mat-icon>
+    <mat-icon *ngIf="index === 1">history</mat-icon>
+  </ng-template>
+  <mat-step
+    id="Emissao"
+    #Emissao
+    [color]="colorStepOne"
+    [completed]="completedStepOne"
+    [editable]="false"
+  >
+    <ng-template matStepLabel>
+      <label mat-h3>Emita uma Nota Fiscal para DPK</label><br />
+      <span><b>Status:</b> {{ statusStepOne }}</span>
+    </ng-template>
+    <mat-divider></mat-divider>
+    <div class="conteudo-step-one">
+      <div class="anexo">
+        <input
+          type="file"
+          class="file-input"
+          accept=".jpg, .pdf"
+          (change)="onFileSelected($event)"
+          #fileUpload
+          id="fileUpload"
+        />
+
+        <div class="file-upload">
+          <div class="corpo">
+            <ng-container *ngIf="file !== null; else selectFile">
+              <div class="arquivo">
+                <div class="info_arquivo">
+                  <strong>{{ file.name }}</strong>
+                  <small>
+                    {{ (file.size / 1024).toFixed(0) }} KB .
+                    {{ file.lastModified | date : 'd MMM, y' }}
+                  </small>
+                </div>
+                <div class="acao_arquivo">
+                  <button
+                    mat-icon-button
+                    (click)="removerArquivo()"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </ng-container>
+
+            <ng-template #selectFile>
+              <span>Anexe sua NFe como arquivo PDF ou JPG</span>
+
+              <button
+                mat-stroked-button
+                color="primary"
+                class="upload-btn"
+                (click)="fileUpload.click()"
+              >
+                <mat-icon>attach_file</mat-icon>
+                Anexar NFe
+              </button>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+      <form
+        [formGroup]="formNotaFiscal"
+        class="numero_nota"
+      >
+        <mat-form-field class="numero">
+          <mat-label>Digite o número da Nota fiscal</mat-label>
+          <input
+            matInput
+            formControlName="numeroNota"
+            class="form-control"
+            autocomplete="off"
+            [maxLength]="9"
+            required
+            pattern="[0-9]*"
+          />
+          <mat-icon
+            matSuffix
+            matTooltip="Encontre este número junto a informação da DANFE"
+            >info</mat-icon
+          >
+          <mat-error>Inserir apenas números</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="serie">
+          <mat-label>Série</mat-label>
+          <input
+            matInput
+            formControlName="numeroSerie"
+            class="form-control"
+            autocomplete="off"
+            [maxLength]="3"
+            required
+            pattern="[0-9]*"
+          />
+          <mat-error>Inserir apenas números</mat-error>
+        </mat-form-field>
+      </form>
+    </div>
+  </mat-step>
+  <mat-step
+    id="Analise"
+    #Analise
+    [color]="colorStepTwo"
+    [editable]="false"
+  >
+    <ng-template matStepLabel>
+      <label mat-h3>{{ labelStepTwo }}</label
+      ><br />
+      <span *ngIf="statusStepTwo !== ''">
+        <b>Status:</b> {{ statusStepTwo }}
+      </span>
+    </ng-template>
+    <mat-divider></mat-divider>
+    <h4 *ngIf="garantia">
+      <mat-icon color="primary">task</mat-icon>
+      {{ garantia.fileName }}
+    </h4>
+    <h4>
+      <mat-icon
+        class="icone"
+        color="primary"
+      >
+        update
+      </mat-icon>
+      Em até 24 horas você receberá orientações, no e-mail cadastrado, para a
+      entrega do produto.
+    </h4>
+  </mat-step>
+</mat-vertical-stepper>
+<div class="enviar">
+  <button
+    *ngIf="!isNotaEnviada"
+    mat-flat-button
+    color="primary"
+    [disabled]="file === null || formNotaFiscal.invalid || enviando"
+    (click)="enviarNota()"
+  >
+    Enviar
+  </button>
+</div>
+
+<mat-divider *ngIf="!isNotaEnviada"></mat-divider>
+
+<div
+  class="ajuda"
+  *ngIf="!isNotaEnviada"
+>
+  <h1>Precisa de Ajuda para emitir a Nota Fiscal?</h1>
+  <span class="mat-h4">Veja o espelho de nota como exemplo</span>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="verEspelhoNota()"
+  >
+    Ver espelho de NFe
+  </button>
+</div>
+
+<mat-divider></mat-divider>
+
+<!-- <div class="duvidas">
+  <h2>Dúvidas frequentes sobre garantia</h2>
+  <span>Encontre as principais informações:</span>
+
+  <mat-accordion>
+    <mat-expansion-panel
+      (opened)="painelDuvUmState = true"
+      (closed)="painelDuvUmState = false"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title
+          >Porque devo emitir a Nota fiscal para a DPK?</mat-panel-title
+        >
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+    <mat-expansion-panel
+      (opened)="painelDuvDoisState = true"
+      (closed)="painelDuvDoisState = false"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>Quanto tempo para receber meu crédito</mat-panel-title>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div> -->

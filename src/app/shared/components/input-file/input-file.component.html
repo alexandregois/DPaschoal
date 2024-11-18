@@ -1,0 +1,32 @@
+<fieldset>
+  <button
+    tabindex="0"
+    mat-raised-button
+    color="primary"
+    type="button"
+    (click)="fileInput.click()"
+  >
+    Selecionar arquivo
+  </button>
+  <label
+    [attr.for]="id"
+    class="mat-hint"
+  >
+    {{ filename || 'Nenhum arquivo selecionado' }}
+  </label>
+  <input
+    type="file"
+    #fileInput
+    [attr.id]="id"
+    tabindex="-1"
+    (change)="onChange($event)"
+    accept="image/png, image/jpeg, application/pdf"
+  />
+  <br />
+  <label
+    [attr.for]="id"
+    class="mat-hint"
+  >
+    Formatos permitidos: PNG, JPEG e PDF
+  </label>
+</fieldset>

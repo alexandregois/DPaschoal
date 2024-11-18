@@ -1,0 +1,19 @@
+@use '/src/scss/colors';
+[mat-dialog-close] {
+  float: right;
+  margin-top: -0.25rem;
+  margin-left: 1rem;
+}
+
+h1 {
+  color: colors.$primary;
+}
+
+section {
+  gap: 1rem;
+  display: grid;
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+}

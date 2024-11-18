@@ -1,0 +1,11 @@
+mat-card {
+  & + & {
+    margin-top: 1rem;
+  }
+}
+
+.sem-notificacao {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
